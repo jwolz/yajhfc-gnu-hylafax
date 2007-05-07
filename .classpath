@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="modules/inet/src/main/java" />
+	<classpathentry kind="src" path="modules/utils/src/main/java" />
+	<classpathentry kind="src" path="modules/pool/src/main/java" />
+	<classpathentry kind="src" path="modules/core/src/main/java" />
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER" />
+	<classpathentry kind="var" path="M2_REPO/javax/activation/activation/1.1/activation-1.1.jar"
+		sourcepath="M2_REPO/javax/activation/activation/1.1/activation-1.1-sources.jar" />
+	<classpathentry kind="var" path="M2_REPO/log4j/log4j/1.2.14/log4j-1.2.14.jar"
+		sourcepath="M2_REPO/log4j/log4j/1.2.14/log4j-1.2.14-sources.jar" />
+	<classpathentry kind="var" path="M2_REPO/commons-logging/commons-logging/1.0/commons-logging-1.0.jar">
+		<attributes>
+			<attribute
+				value="jar:file://home/steve/.m2/repository/commons-logging/commons-logging/1.0/commons-logging-1.0-javadoc.jar!/"
+				name="javadoc_location" />
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="var" path="M2_REPO/junit/junit/3.7/junit-3.7.jar" />
+	<classpathentry kind="var" path="M2_REPO/urbanophile/java-getopt/1.0.9/java-getopt-1.0.9.jar" />
+	<classpathentry kind="var" path="M2_REPO/javax/mail/mail/1.4/mail-1.4.jar"
+		sourcepath="M2_REPO/javax/mail/mail/1.4/mail-1.4-sources.jar" />
+	<classpathentry kind="var" path="M2_REPO/commons-lang/commons-lang/1.0/commons-lang-1.0.jar">
+		<attributes>
+			<attribute
+				value="jar:file://home/steve/.m2/repository/commons-lang/commons-lang/1.0/commons-lang-1.0-javadoc.jar!/"
+				name="javadoc_location" />
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="var" path="M2_REPO/commons-cli/commons-cli/1.0/commons-cli-1.0.jar"
+		sourcepath="M2_REPO/commons-cli/commons-cli/1.0/commons-cli-1.0-sources.jar" />
+	<classpathentry kind="var" path="M2_REPO/concurrent/concurrent/1.3.4/concurrent-1.3.4.jar"
+		sourcepath="M2_REPO/concurrent/concurrent/1.3.4/concurrent-1.3.4-sources.jar" />
+	<classpathentry kind="output" path="target/classes" />
+</classpath>
