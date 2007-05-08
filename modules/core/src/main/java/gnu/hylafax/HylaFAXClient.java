@@ -240,9 +240,9 @@ public class HylaFAXClient extends HylaFAXClientProtocol implements Client {
      * 
      * <b>NOTE:</b> this calls stor() internally.
      * 
+     * @param pathname name of file to store on server (where to put the file on the server)
      * @exception IOException a socket IO error occurred
      * @exception ServerResponseException the server responded with an error
-     * @param pathname name of file to store on server (where to put the file on the server)
      */
     public synchronized void put(InputStream in, String pathname) throws IOException, ServerResponseException {
 

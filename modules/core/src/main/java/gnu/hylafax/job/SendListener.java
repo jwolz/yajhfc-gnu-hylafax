@@ -24,21 +24,18 @@
 package gnu.hylafax.job;
 
 /**
- * This interface defines what a class interested in receiving 
- * send Job related events should implement.  A Listener should 
- * register for events from a Notifier.
+ * This interface defines what a class interested in receiving send Job related events should implement. A
+ * Listener should register for events from a Notifier.
  * @author $Author: sjardine $
  * @version $Id: SendListener.java,v 1.2 2006/02/20 04:52:10 sjardine Exp $
- * @see gnu.hylafax.util.Notifier
  * @see gnu.hylafax.job.Event
- **/
-public interface SendListener
-{
+ */
+public interface SendListener {
 
-	/**
-	 * This method is called when send Job state changes.
-	 */
-	public void onSendEvent(SendEvent details);
+    /**
+     * This method is called when send Job state changes.
+     */
+    public void onSendEvent(SendEvent details);
 
 }// SendListener class
 // SendListener.java

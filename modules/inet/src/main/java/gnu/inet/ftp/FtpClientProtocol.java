@@ -132,11 +132,11 @@ public class FtpClientProtocol extends Object {
     /**
      * open a connection to a given server and port this is an alias for connect()
      * 
+     * @param host the hostname of the HylaFAX server
+     * @param portnumber the port the server is listening on
      * @exception UnknownHostException cannot resolve the given hostname
      * @exception IOException IO error occurred
      * @exception ServerResponseException the server replied with an error code
-     * @param host the hostname of the HylaFAX server
-     * @param portnumber the port the server is listening on
      */
     public synchronized void open(String host, int portnumber) throws UnknownHostException, IOException,
             ServerResponseException {
@@ -146,10 +146,10 @@ public class FtpClientProtocol extends Object {
     /**
      * open a connection to a given server at default port this is an alias for connect()
      * 
+     * @param host the hostname of the HylaFAX server
      * @exception UnknownHostException cannot resolve the given hostname
      * @exception IOException IO error occurred
      * @exception ServerResponseException the server replied with an error code
-     * @param host the hostname of the HylaFAX server
      */
     public synchronized void open(String host) throws UnknownHostException, IOException, ServerResponseException {
         connect(host, DEFAULT_PORT); // connect to default port
@@ -169,9 +169,9 @@ public class FtpClientProtocol extends Object {
     /**
      * send the user name for this session
      * 
+     * @param username name of the user to login as
      * @exception IOException io error occurred
      * @exception ServerResponseException server replied with an error code
-     * @param username name of the user to login as
      * @return true if a password is required, false if no password is required
      */
     public synchronized boolean user(String username) throws IOException, ServerResponseException {
@@ -197,9 +197,9 @@ public class FtpClientProtocol extends Object {
     /**
      * send the password for this username and session
      * 
+     * @param password the password to login with
      * @exception IOException io error occurred
      * @exception ServerResponseException server replied with an error code
-     * @param password the password to login with
      */
     public synchronized void pass(String password) throws IOException, ServerResponseException {
         // send pass command to server
@@ -268,9 +268,9 @@ public class FtpClientProtocol extends Object {
     /**
      * change current working directory
      * 
+     * @param value directory to set to current working directory
      * @exception IOException io error occurred
      * @exception ServerResponseException server replied with an error code
-     * @param value directory to set to current working directory
      */
     public synchronized void cwd(String value) throws IOException, ServerResponseException {
         // send cwd command to server
@@ -342,9 +342,9 @@ public class FtpClientProtocol extends Object {
     /**
      * set the idle timeout value to the given number of seconds
      * 
+     * @param timeout new timeout value in seconds (MAX = 7200)
      * @exception IOException io error occurred
      * @exception ServerResponseException server replied with an error code
-     * @param timeout new timeout value in seconds (MAX = 7200)
      */
     public synchronized void idle(long timeout) throws IOException, ServerResponseException {
         // send idle command to the server
@@ -367,9 +367,9 @@ public class FtpClientProtocol extends Object {
     /**
      * delete the given file.
      * 
+     * @param pathname the name of the file to delete
      * @exception IOException a socket IO error happened
      * @exception ServerResponseException the server replied with an error code
-     * @param pathname the name of the file to delete
      */
     public synchronized void dele(String pathname) throws IOException, ServerResponseException {
         ostream.write("dele " + pathname + "\r\n");
@@ -407,9 +407,9 @@ public class FtpClientProtocol extends Object {
      * This may affect how the client and server interpret file data during transfers. The default type is
      * TYPE_ASCII per RFC 959.
      * 
+     * @param value new type
      * @exception IOException io error occurred
      * @exception ServerResponseException server replied with error code
-     * @param value new type
      */
     public synchronized void type(char value) throws IOException, ServerResponseException {
         ostream.write("type " + value + "\r\n");
@@ -460,9 +460,9 @@ public class FtpClientProtocol extends Object {
      * set the data transfer mode. Valid modes are MODE_STREAM, MODE_BLOCK, MODE_COMPRESSED and MODE_ZLIB.
      * NOTE: only MODE_STREAM (default) has been used to date.
      * 
+     * @param value new data transfer mode
      * @exception IOException io error occurred
      * @exception ServerResponseException server replied with an error code
-     * @param value new data transfer mode
      */
     public synchronized void mode(char value) throws IOException, ServerResponseException {
         ostream.write("mode " + value + "\r\n");
@@ -497,9 +497,9 @@ public class FtpClientProtocol extends Object {
     /**
      * abort the last command on the given modem. experience shows that this requires ADMIN priviledges.
      * 
+     * @param modem the modem to abort the command on
      * @exception IOException a socket IO error occurred
      * @exception ServerResponseException the server responded with an error
-     * @param modem the modem to abort the command on
      */
     public synchronized void abor(String modem) throws IOException, ServerResponseException {
         ostream.write("abor " + modem + "\r\n");
@@ -516,10 +516,10 @@ public class FtpClientProtocol extends Object {
     /**
      * tell the server which address/port we will listen on
      * 
-     * @exception IOException io error occurred
-     * @exception ServerResponseException server replied with an error code
      * @param address address that we'll be listening on
      * @param port port on given address we'll be listening on
+     * @exception IOException io error occurred
+     * @exception ServerResponseException server replied with an error code
      */
     public synchronized void port(InetAddress address, int port) throws IOException, ServerResponseException {
 
@@ -640,9 +640,9 @@ public class FtpClientProtocol extends Object {
     /**
      * store a file.
      * 
+     * @param pathname name of file to store on server (where to put the file on the server)
      * @exception IOException a socket IO error occurred
      * @exception ServerResponseException the server responded with an error
-     * @param pathname name of file to store on server (where to put the file on the server)
      */
     public synchronized void stor(InputStream in, String pathname) throws IOException, ServerResponseException {
 
@@ -718,9 +718,9 @@ public class FtpClientProtocol extends Object {
      * STRU_TIFF. NOTE: only STRU_FILE has been tested to date. I have no idea when you would use the other
      * settings.
      * 
+     * @param value file structure setting
      * @exception IOException io error occurred
      * @exception ServerResponseException server replied with an error code
-     * @param value file structure setting
      */
     public synchronized void stru(char value) throws IOException, ServerResponseException {
         ostream.write("stru " + value + "\r\n");
@@ -744,11 +744,11 @@ public class FtpClientProtocol extends Object {
      * This method relies on a data port (passive or active) to receive the list data. it is recommended that
      * you use the getList() wrapper method rather than this method directly.
      * 
+     * @param path path of file or directory to get listing. A <i>null</i> path will get the listing of the
+     *            current directory.
      * @exception IOException io error occurred
      * @exception ServerResponseException server replied with an error code
      * @exception FileNotFoundException the given path does not exist
-     * @param path path of file or directory to get listing. A <i>null</i> path will get the listing of the
-     *            current directory.
      */
     public synchronized void list(String path) throws IOException, FileNotFoundException, ServerResponseException {
 
@@ -810,11 +810,11 @@ public class FtpClientProtocol extends Object {
      * This method requires a data socket to receive the name list data. It is recommended that you use the
      * getNameList() method instead of this method directly.
      * 
+     * @param path path of the file or directory to list, passing in <i>null</i> will result in listing the
+     *            current directory
      * @exception IOException io error occurred
      * @exception ServerResponseException server replied with an error code
      * @exception FileNotFoundException server could not find the specified file
-     * @param path path of the file or directory to list, passing in <i>null</i> will result in listing the
-     *            current directory
      */
     public synchronized void nlst(String path) throws IOException, ServerResponseException, FileNotFoundException {
 
@@ -917,10 +917,10 @@ public class FtpClientProtocol extends Object {
      * Returns the size (in bytes) of the given regular file. This is the size on the server and may not
      * accurately represent the file size once the file has been transferred (particularly via ASCII mode)
      * 
+     * @param pathname the name of the file to get the size for
      * @exception IOException caused by a socket IO error
      * @exception ServerResponseException caused by a server response indicating an error
      * @exception FileNotFoundException the given path does not exist
-     * @param pathname the name of the file to get the size for
      */
     public synchronized long size(String pathname) throws IOException, FileNotFoundException, ServerResponseException {
         ostream.write("size " + pathname + "\r\n");
@@ -953,11 +953,11 @@ public class FtpClientProtocol extends Object {
      * where <code>.ddd</code> is an optional suffix reporting milliseconds. This method attempts to parse
      * the string returned by the server and present the caller with a java.util.Date instance.
      * 
+     * @param pathname the name of the file to get the last-modified time for
      * @exception IOException caused by a socket IO error
      * @exception ServerResponseException caused by a server response indicating an error
      * @exception FileNotFoundException the given path does not exist
      * @exception ParseException the server returned an unrecognized date format
-     * @param pathname the name of the file to get the last-modified time for
      */
     public synchronized Date mdtm(String pathname) throws IOException, FileNotFoundException, ServerResponseException,
             ParseException {
@@ -996,10 +996,10 @@ public class FtpClientProtocol extends Object {
      * Specifies a file to be renamed. This command must be immediately followed by a RNTO command. It is
      * recommended that you use the rename() convenience method rather than this one directly.
      * 
+     * @param pathname the name of the file to be renamed
      * @exception IOException caused by a socket IO error
      * @exception ServerResponseException caused by a server response indicating an error
      * @exception FileNotFoundException the given path does not exist
-     * @param pathname the name of the file to be renamed
      */
     public synchronized void rnfr(String pathname) throws IOException, FileNotFoundException, ServerResponseException {
         ostream.write("rnfr " + pathname + "\r\n");
@@ -1023,9 +1023,9 @@ public class FtpClientProtocol extends Object {
      * RNFR command. It is recommended that you use the rename() convenience method rather than this one
      * directly.
      * 
+     * @param pathname the name of the file to be renamed
      * @exception IOException caused by a socket IO error
      * @exception ServerResponseException caused by a server response indicating an error
-     * @param pathname the name of the file to be renamed
      */
     public synchronized void rnto(String pathname) throws IOException, ServerResponseException {
         ostream.write("rnto " + pathname + "\r\n");
@@ -1044,11 +1044,11 @@ public class FtpClientProtocol extends Object {
     /**
      * Returns the status of the named file or directory.
      * 
+     * @param path the directory or file to get the status of, using a null path will cause this method to
+     *            return the server status information
      * @exception IOException caused by a socket IO error
      * @exception FileNotFoundException the given path or file does not exist
      * @exception ServerResponseException caused by a server response indicating an error
-     * @param path the directory or file to get the status of, using a null path will cause this method to
-     *            return the server status information
      * @return a Vector of String objects, each String being a single line of the status message from the
      *         server
      */

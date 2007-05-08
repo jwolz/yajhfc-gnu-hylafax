@@ -71,9 +71,9 @@ public class HylaFAXClientProtocol extends FtpClientProtocol implements ClientPr
     /**
      * establish administrator privileges given password
      * 
+     * @param password administrator password
      * @exception IOException io error occurred
      * @exception ServerResponseException server replied with an error code
-     * @param password administrator password
      */
     public synchronized void admin(String password) throws IOException, ServerResponseException {
         // send admin command to the server
@@ -126,9 +126,9 @@ public class HylaFAXClientProtocol extends FtpClientProtocol implements ClientPr
     /**
      * set the idle timeout value to the given number of seconds
      * 
+     * @param timeout new timeout value in seconds (MAX = 7200)
      * @exception IOException io error occurred
      * @exception ServerResponseException server replied with an error code
-     * @param timeout new timeout value in seconds (MAX = 7200)
      */
     public synchronized void idle(long timeout) throws IOException, ServerResponseException {
         // send idle command to the server
@@ -191,9 +191,9 @@ public class HylaFAXClientProtocol extends FtpClientProtocol implements ClientPr
     /**
      * set the current job id
      * 
+     * @param value new current job id
      * @exception IOException io error occurred
      * @exception ServerResponseException server replied with an error code
-     * @param value new current job id
      */
     public synchronized void job(long value) throws IOException, ServerResponseException {
         // send job command to the server
@@ -245,9 +245,9 @@ public class HylaFAXClientProtocol extends FtpClientProtocol implements ClientPr
     /**
      * set the job format string. read the HylaFAX man pages, hfaxd(8c), for format codes.
      * 
+     * @param value new job format string
      * @exception IOException a socket IO error occurred.
      * @exception ServerResponseException the server responded with an error
-     * @param value new job format string
      */
     public synchronized void jobfmt(String value) throws IOException, ServerResponseException {
         // send command
@@ -272,9 +272,9 @@ public class HylaFAXClientProtocol extends FtpClientProtocol implements ClientPr
      * set the modem format string. the modem format string is used to format the modem status information.
      * Refer to the HylaFAX man pages, hfaxd(8c), for formatting codes.
      * 
+     * @param value the new modem format string to use
      * @exception IOException a socket IO error occurred
      * @exception ServerResponseException the server responded with an error code
-     * @param value the new modem format string to use
      */
     public synchronized void mdmfmt(String value) throws IOException, ServerResponseException {
         ostream.write("mdmfmt \"" + value + "\"\r\n");
@@ -319,9 +319,9 @@ public class HylaFAXClientProtocol extends FtpClientProtocol implements ClientPr
      * set the receive file output format string. The rcvfmt string specifies how received faxes (files in the
      * rcvq directory) are displayed. refer to the HylaFAX man pages, hfaxd(8c), for the format string codes.
      * 
+     * @param value the new format string
      * @exception IOException a socket IO error occurred
      * @exception ServerResponseException the server responded with an error code
-     * @param value the new format string
      */
     public synchronized void rcvfmt(String value) throws IOException, ServerResponseException {
         ostream.write("rcvfmt \"" + value + "\"\r\n");
@@ -365,9 +365,9 @@ public class HylaFAXClientProtocol extends FtpClientProtocol implements ClientPr
      * the LIST and STAT commands are used. Refer to the HylaFAX man pages, hfaxd(8c), for the formatting
      * codes.
      * 
+     * @param value the new value of the FILEFMT string
      * @exception IOException a socket IO error occurred
      * @exception ServerResponseException the server replied with an error code
-     * @param value the new value of the FILEFMT string
      */
     public synchronized void filefmt(String value) throws IOException, ServerResponseException {
         ostream.write("filefmt \"" + value + "\"\r\n");
@@ -405,9 +405,9 @@ public class HylaFAXClientProtocol extends FtpClientProtocol implements ClientPr
     /**
      * delete the given job this can be called on a suspended or done job.
      * 
+     * @param jobid id of the job to delete
      * @exception IOException a socket IO error occurred
      * @exception ServerResponseException server replied with error code
-     * @param jobid id of the job to delete
      */
     public synchronized void jdele(long jobid) throws IOException, ServerResponseException {
         // send command to server
@@ -430,9 +430,9 @@ public class HylaFAXClientProtocol extends FtpClientProtocol implements ClientPr
     /**
      * interrupt the given job id
      * 
+     * @param jobid id of the job to interrupt
      * @exception IOException a socket IO error occurred
      * @exception ServerResponseException the server replied with an error code
-     * @param jobid id of the job to interrupt
      */
     public synchronized void jintr(long jobid) throws IOException, ServerResponseException {
         // send command to server
@@ -455,9 +455,9 @@ public class HylaFAXClientProtocol extends FtpClientProtocol implements ClientPr
     /**
      * kill the job with the given job id
      * 
+     * @param jobid the id of the job to kill
      * @exception IOException a socket IO error occurred
      * @exception ServerResponseException the server replied with an error code
-     * @param jobid the id of the job to kill
      */
     public synchronized void jkill(long jobid) throws IOException, ServerResponseException {
         // send command
@@ -528,9 +528,9 @@ public class HylaFAXClientProtocol extends FtpClientProtocol implements ClientPr
     /**
      * submit the given job to the scheduler
      * 
+     * @param jobid the id of the job to submit
      * @exception IOException io error occurred
      * @exception ServerResponseException server replied with an error code
-     * @param jobid the id of the job to submit
      * @return the submitted job id, should match jobid passed in
      */
     public synchronized int jsubm(long jobid) throws IOException, ServerResponseException {
@@ -594,9 +594,9 @@ public class HylaFAXClientProtocol extends FtpClientProtocol implements ClientPr
     /**
      * Suspend the job with the given job id.
      * 
+     * @param jobid id of the job to suspend
      * @exception IOException io error occurred
      * @exception ServerResponseException server replied with an error code
-     * @param jobid id of the job to suspend
      */
     public synchronized void jsusp(long jobid) throws IOException, ServerResponseException {
         ostream.write("jsusp " + jobid + "\r\n");
@@ -613,9 +613,9 @@ public class HylaFAXClientProtocol extends FtpClientProtocol implements ClientPr
     /**
      * Wait for the job with the given job id to complete.
      * 
+     * @param jobid id of the job to wait for
      * @exception IOException io error occurred
      * @exception ServerResponseException server replied with an error code
-     * @param jobid id of the job to wait for
      */
     public synchronized void jwait(long jobid) throws IOException, ServerResponseException {
         ostream.write("jwait " + jobid + "\r\n");
@@ -648,9 +648,9 @@ public class HylaFAXClientProtocol extends FtpClientProtocol implements ClientPr
     /**
      * set the timezone display format valid tzone values are TZONE_GMT and TZONE_LOCAL
      * 
+     * @param value new timezone display setting
      * @exception IOException io error occurred
      * @exception ServerResponseException server replied with an error code
-     * @param value new timezone display setting
      */
     public synchronized void tzone(String value) throws IOException, ServerResponseException {
         ostream.write("tzone " + value + "\r\n");
@@ -667,10 +667,10 @@ public class HylaFAXClientProtocol extends FtpClientProtocol implements ClientPr
     /**
      * set job parameters on the current job
      * 
-     * @exception IOException io error occurred
-     * @exception ServerResponseException server replied with an error code
      * @param parm the name of the job parameter to change
      * @param value the value of the given parameter
+     * @exception IOException io error occurred
+     * @exception ServerResponseException server replied with an error code
      */
     public synchronized void jparm(String parm, String value) throws IOException, ServerResponseException {
         String response;
@@ -693,10 +693,10 @@ public class HylaFAXClientProtocol extends FtpClientProtocol implements ClientPr
     /**
      * set job parameters on the current job
      * 
-     * @exception IOException io error occurred
-     * @exception ServerResponseException server replied with an error code
      * @param parm the name of the job parameter to change
      * @param value the value of the given parameter as an Object
+     * @exception IOException io error occurred
+     * @exception ServerResponseException server replied with an error code
      */
     public synchronized void jparm(String parm, Object value) throws IOException, ServerResponseException {
         jparm(parm, value.toString());
@@ -705,10 +705,10 @@ public class HylaFAXClientProtocol extends FtpClientProtocol implements ClientPr
     /**
      * set job parameters on the current job
      * 
-     * @exception IOException io error occurred
-     * @exception ServerResponseException server replied with an error code
      * @param parm the name of the job parameter to change
      * @param value the value of the given parameter
+     * @exception IOException io error occurred
+     * @exception ServerResponseException server replied with an error code
      */
     public synchronized void jparm(String parm, int value) throws IOException, ServerResponseException {
         jparm(parm, Integer.toString(value));
@@ -717,10 +717,10 @@ public class HylaFAXClientProtocol extends FtpClientProtocol implements ClientPr
     /**
      * set job parameters on the current job
      * 
-     * @exception IOException io error occurred
-     * @exception ServerResponseException server replied with an error code
      * @param parm the name of the job parameter to change
      * @param value the value of the given parameter
+     * @exception IOException io error occurred
+     * @exception ServerResponseException server replied with an error code
      */
     public synchronized void jparm(String parm, long value) throws IOException, ServerResponseException {
         jparm(parm, Long.toString(value));
@@ -729,9 +729,9 @@ public class HylaFAXClientProtocol extends FtpClientProtocol implements ClientPr
     /**
      * get job parameters of the current job
      * 
+     * @param parm the name of the job parameter to change
      * @exception IOException io error occurred
      * @exception ServerResponseException server replied with an error code
-     * @param parm the name of the job parameter to change
      * @return value of the named job parameter
      */
     public synchronized String jparm(String parm) throws IOException, ServerResponseException {
@@ -801,10 +801,10 @@ public class HylaFAXClientProtocol extends FtpClientProtocol implements ClientPr
     /**
      * verify dialstring handling and/or least-cost routing.
      * 
+     * @param dialstring the dialstring to verify
      * @exception IOException a socket IO error occurred
      * @exception ServerResponseException the server replied with an error code
      * @return the InetAddress of the server that will handle the given dialstring
-     * @param dialstring the dialstring to verify
      */
     public synchronized InetAddress vrfy(String dialstring) throws IOException, ServerResponseException {
         ostream.write("vrfy " + dialstring + "\r\n");
@@ -846,10 +846,10 @@ public class HylaFAXClientProtocol extends FtpClientProtocol implements ClientPr
      * Returns the size (in bytes) of the given regular file. This is the size on the server and may not
      * accurately represent the file size once the file has been transferred (particularly via ASCII mode)
      * 
+     * @param pathname the name of the file to get the size for
      * @exception IOException caused by a socket IO error
      * @exception ServerResponseException caused by a server response indicating an error
      * @exception FileNotFoundException the given path does not exist
-     * @param pathname the name of the file to get the size for
      */
     public synchronized long size(String pathname) throws IOException, FileNotFoundException, ServerResponseException {
         ostream.write("size " + pathname + "\r\n");
