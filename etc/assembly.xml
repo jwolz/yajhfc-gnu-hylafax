@@ -1,0 +1,28 @@
+<assembly>
+	<id>bin</id>
+	<formats>
+		<format>tar.gz</format>
+	</formats>
+	<includeBaseDirectory>true</includeBaseDirectory>
+	<moduleSets>
+		<moduleSet>
+			<binaries>
+				<outputDirectory>/lib</outputDirectory>
+				<includeDependencies>true</includeDependencies>
+				<unpack>false</unpack>
+			</binaries>
+		</moduleSet>
+	</moduleSets>
+	<fileSets>
+		<fileSet>
+			<directory>etc</directory>
+			<outputDirectory></outputDirectory>
+			<includes>
+				<include>README</include>
+				<include>LICENSE</include>
+			</includes>
+			<fileMode>0444</fileMode>
+			<lineEnding>unix</lineEnding>
+		</fileSet>
+	</fileSets>
+</assembly>

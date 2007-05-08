@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="HylaFAX Protocol for Java">
+	<body>
+		<menu ref="modules" />
+		<menu ref="reports" />
+	</body>
+	<publishDate position="navigation-bottom" format="MM-dd-yy" />
+</project>
+

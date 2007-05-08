@@ -1,11 +1,25 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>gnu-hylafax</groupId>
 	<artifactId>gnu-hylafax</artifactId>
 	<packaging>pom</packaging>
 	<version>1.0.0-SNAPSHOT</version>
-	<name>gnu-hylafax</name>
+	<name>HylaFAX Protocol for Java</name>
+	<url>http://gnu-hylafax.sourceforge.net</url>
+	<description>
+		The gnu.hylafax package is a pure-Java implementation of the HylaFAX (FAX server) client protocol. The
+		gnu.hylafax package can be used to implement a HylaFAX client that will run on any Java-supporting system.
+	</description>
+
+	<licenses>
+		<license>
+			<name>GNU Lesser General Public License</name>
+			<url>http://www.gnu.org/licenses/lgpl.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
 
 	<modules>
 		<module>modules/inet</module>
@@ -35,15 +49,17 @@
 			<plugin>
 				<artifactId>maven-release-plugin</artifactId>
 				<configuration>
-					<tagBase>
-						https://sjardine@gnu-hylafax.svn.sourceforge.net/svnroot/gnu-hylafax/tags
-					</tagBase>
+					<tagBase>https://gnu-hylafax.svn.sourceforge.net/svnroot/gnu-hylafax/tags</tagBase>
 				</configuration>
 			</plugin>
 		</plugins>
 	</build>
 
 	<distributionManagement>
+		<site>
+			<id>website</id>
+			<url>scp://sjardine@shell.sourceforge.net/home/groups/g/gn/gnu-hylafax/htdocs/beta</url>
+		</site>
 		<repository>
 			<id>inhouse</id>
 			<name>MJN Services, Inc. Private Repository</name>
@@ -52,9 +68,160 @@
 	</distributionManagement>
 
 	<scm>
-		<connection>scm:svn:https://sjardine@gnu-hylafax.svn.sourceforge.net/svnroot/gnu-hylafax/tags</connection>
-		<developerConnection>scm:svn:https://gnu-hylafax.svn.sourceforge.net/svnroot/gnu-hylafax/tags</developerConnection>
-		<url>gnu-hylafax.svn.sourceforge.net/svnroot/gnu-hylafax/tags</url>
+		<url>http://gnu-hylafax.svn.sourceforge.net/svnroot/gnu-hylafax/trunk</url>
+		<connection>scm:svn:http://gnu-hylafax.svn.sourceforge.net/svnroot/gnu-hylafax/trunk</connection>
+		<developerConnection>
+			scm:svn:https://gnu-hylafax.svn.sourceforge.net/svnroot/gnu-hylafax/trunk
+		</developerConnection>
 	</scm>
+
+	<issueManagement>
+		<system>Sourceforge Bug Tracker</system>
+		<url>
+			<![CDATA[
+				https://sourceforge.net/tracker/?group_id=160285&atid=815234
+			]]>
+		</url>
+	</issueManagement>
+
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-project-info-reports-plugin</artifactId>
+				<!-- 
+					<reportSets>
+					<reportSet>
+					<reports>
+					<report>index</report>
+					<report>project-team</report>
+					<report>mailing-list</report>
+					<report>issue-tracking</report>
+					<report>license</report>
+					<report>scm</report>
+					</reports>
+					</reportSet>
+					</reportSets>
+				-->
+			</plugin>
+			<plugin>
+				<artifactId>maven-javadoc-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>jxr-maven-plugin</artifactId>
+				<configuration>
+					<aggregate>true</aggregate>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>jdepend-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>javancss-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-pmd-plugin</artifactId>
+				<configuration>
+					<targetjdk>1.3</targetjdk>
+					<rulesets>
+						<ruleset>/rulesets/basic.xml</ruleset>
+						<!-- <ruleset>/rulesets/controversial.xml</ruleset> -->
+					</rulesets>
+					<format>xml</format>
+					<linkXref>true</linkXref>
+					<sourceEncoding>utf-8</sourceEncoding>
+					<minimumTokens>100</minimumTokens>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>changelog-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-changes-plugin</artifactId>
+				<reportSets>
+					<reportSet>
+						<reports>
+							<report>jira-report</report>
+						</reports>
+					</reportSet>
+				</reportSets>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>taglist-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</reporting>
+
+	<developers>
+		<developer>
+			<id>sjardine</id>
+			<name>Steven Jardine</name>
+			<email>sjardine@users.sourceforge.net</email>
+			<roles>
+				<role>Admin</role>
+			</roles>
+			<organization>MJN Services, Inc.</organization>
+			<organizationUrl>www.mjnservices.com</organizationUrl>
+		</developer>
+	</developers>
+
+	<contributors>
+		<contributor>
+			<name>Steven Jardine</name>
+			<email>sjardine@users.sourceforge.net</email>
+			<roles>
+				<role>Admin</role>
+			</roles>
+			<organization>MJN Services, Inc.</organization>
+			<organizationUrl>http://www.mjnservices.com</organizationUrl>
+		</contributor>
+	</contributors>
+
+	<mailingLists>
+		<mailingList>
+			<name>Announce</name>
+			<subscribe>https://lists.sourceforge.net/lists/listinfo/gnu-hylafax-announce</subscribe>
+			<unsubscribe>https://lists.sourceforge.net/lists/listinfo/gnu-hylafax-announce</unsubscribe>
+			<post>gnu-hylafax-announce@lists.sourceforge.net</post>
+			<archive>https://sourceforge.net/mailarchive/forum.php?forum_name=gnu-hylafax-announce</archive>
+		</mailingList>
+		<mailingList>
+			<name>Discuss</name>
+			<subscribe>https://lists.sourceforge.net/lists/listinfo/gnu-hylafax-discuss</subscribe>
+			<unsubscribe>https://lists.sourceforge.net/lists/listinfo/gnu-hylafax-discuss</unsubscribe>
+			<post>gnu-hylafax-discuss@lists.sourceforge.net</post>
+			<archive>https://sourceforge.net/mailarchive/forum.php?forum_name=gnu-hylafax-discuss</archive>
+		</mailingList>
+		<mailingList>
+			<name>Support</name>
+			<subscribe>https://lists.sourceforge.net/lists/listinfo/gnu-hylafax-support</subscribe>
+			<unsubscribe>https://lists.sourceforge.net/lists/listinfo/gnu-hylafax-support</unsubscribe>
+			<post>gnu-hylafax-support@lists.sourceforge.net</post>
+			<archive>https://sourceforge.net/mailarchive/forum.php?forum_name=gnu-hylafax-support</archive>
+		</mailingList>
+	</mailingLists>
+
+	<pluginRepositories>
+		<pluginRepository>
+			<id>Maven Snapshots</id>
+			<url>http://snapshots.maven.codehaus.org/maven2/</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+		</pluginRepository>
+	</pluginRepositories>
 
 </project>

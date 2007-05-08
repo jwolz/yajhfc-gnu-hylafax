@@ -1,0 +1,91 @@
+gnu.hylafax README (1.0.0beta1)
+--------------------------
+$Id: README,v 1.8 2006/02/20 04:39:07 sjardine Exp $
+
+This is open source software distributed under the terms of the GNU
+Library General Public License.  See the LICENSE file for details.
+
+PACKAGE
+
+There are current 4 modules in the gnu.hylafax package (inet, core, 
+pool, utils).
+
+inet	- provides ftp client functionality.  
+		Dependencies:  	none.
+
+core	- provides the core functionality of gnu.hylafax.
+		Dependencies:	inet	
+
+pool	- provides client pooling functionality
+		Dependencies:	core, inet
+
+utils	- provides additional utilities that may be helpful.  
+Designed primarily to test and demonstrate gnu.hylafax's features.
+		Dependencies:	core, inet
+
+INSTALLATION
+
+Choose the modules that fit your situation and include them 
+in your classpath.
+
+Alternatevely, you can use the central maven repository.  Just 
+include the desired module in your pom.xml file and let maven do 
+the rest.
+
+Here is an example:
+
+<dependencies>
+	...
+	<dependency>
+		<groupId>gnu-hylafax</groupId>
+		<artifactId>gnu-hylafax-core</artifactId>
+		<version>1.0.0beta1</version>
+		<scope>compile</scope>
+	</dependency>
+</dependencies>
+
+DOCUMENTATION
+
+Javadoc documentation is included in the javadoc directory of 
+the distribution package.  It can also be viewed on the
+gnu-hylafax website.
+
+UTILITIES
+
+gnu.hylafax comes with some simple utility programs intended to test
+and demonstrate its features.  At this time, the gnu.hylafax.util.SendFax
+and gnu.hylafax.util.FaxStat programs are included in their own JAR file.
+
+HACKING
+
+You are free to fold, spindle, mutilate and modify this library,
+provided you follow the terms outlined in LICENSE.  The gnu.hylafax
+project team gratefully accepts any bug fixes or enhancements you may
+come up with. We would prefer changes in the form of GNU-style diff files
+but won't be too picky about it.
+
+BUG REPORTS
+
+Please file bug reports at the bug tracker found at the gnu-hylafax site
+(http://sourceforge.net/projects/gnu-hylafax).  It helps if you can send 
+a code sample showing how you were using gnu.hylafax.  It may also be helpful
+to show the correct/expected behavior (say sendfax -vv) if it can be shown
+with another HylaFAX client.
+
+LATEST VERSION
+
+You can always obtain info about the latest version of gnu.hylafax at
+http://sourceforge.net/projects/gnu-hylafax.  New versions are also 
+announced on the gnu-hylafax-announce mailing list and Sourceforge 
+(http://sourceforge.net/projects/gnu-hylafax).
+
+MAILING LIST
+
+There is a mailing list maintained at the project website.  Please
+visit http://sourceforge.net/projects/gnu-hylafax for information
+on subscribing and unsubscribing and access to the archives.
+
+Cheers
+
+Steven Jardine <sjardine@users.sourceforge.net>
+Joe Phillips <jaiger@innovationsw.com>
