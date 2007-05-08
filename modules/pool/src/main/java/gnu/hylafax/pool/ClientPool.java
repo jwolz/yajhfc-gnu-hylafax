@@ -32,383 +32,407 @@ import java.util.Iterator;
 
 import EDU.oswego.cs.dl.util.concurrent.LinkedQueue;
 
-public class ClientPool {
+public class ClientPool implements gnu.hylafax.ClientPool {
 
-	private static final Logger log = LoggingFactory
-			.getLogger(ClientPool.class);
+    private static final Logger log = LoggingFactory.getLogger(ClientPool.class);
 
-	private boolean blocked = false;
+    private boolean blocked = false;
 
-	private boolean stopped = false;
+    private HashMap clientMap;
 
-	private HashMap clientMap;
+    private LinkedQueue clients;
 
-	private LinkedQueue clients;
+    private ClientPoolConfiguration configuration;
 
-	private ClientPoolConfiguration configuration;
+    private ArrayList creationTimes;
 
-	private ArrayList creationTimes;
+    private boolean logClientCreationTimes = true;
 
-	private boolean logClientCreationTimes = true;
+    private Object mutex = new Object();
 
-	private Object mutex = new Object();
+    private int size = 0;
 
-	private int size = 0;
+    private boolean stopped = false;
 
-	private int totalSize = 0;
+    private int totalSize = 0;
 
-	private HashSet workingClients;
+    private HashSet workingClients;
 
-	private HashSet workingClientsToClose;
+    private HashSet workingClientsToClose;
 
-	private int workingSize = 0;
+    private int workingSize = 0;
 
-	public ClientPool(ClientPoolConfiguration configuration) {
+    public ClientPool(ClientPoolConfiguration configuration) {
 
-		this.configuration = configuration;
+        this.configuration = configuration;
 
-		clients = new LinkedQueue();
-		clientMap = new HashMap();
-		workingClients = new HashSet();
-		workingClientsToClose = new HashSet();
-		creationTimes = new ArrayList();
+        clients = new LinkedQueue();
+        clientMap = new HashMap();
+        workingClients = new HashSet();
+        workingClientsToClose = new HashSet();
+        creationTimes = new ArrayList();
 
-	}
+    }
 
-	private synchronized boolean addClient() throws ClientPoolException {
+    private synchronized boolean addClient() throws ClientPoolException {
 
-		log.debug("Trying To Create Client, Total Connections: " + totalSize
-				+ ", Max Allowed: " + getConfiguration().getMaxPoolSize());
+        log.debug("Trying To Create Client, Total Connections: " + totalSize + ", Max Allowed: "
+                + getConfiguration().getMaxPoolSize());
 
-		boolean maximumCapacityReached = getConfiguration().getMaxPoolSize() <= totalSize
-				&& getConfiguration().getMaxPoolSize() != 0
-				&& getConfiguration().isPooling();
+        boolean maximumCapacityReached = getConfiguration().getMaxPoolSize() <= totalSize
+                && getConfiguration().getMaxPoolSize() != 0 && getConfiguration().isPooling();
 
-		if (maximumCapacityReached) {
+        if (maximumCapacityReached) {
 
-			log.debug("Maximum Clients Reached.");
-			return false;
-		}
+            log.debug("Maximum Clients Reached.");
+            return false;
+        }
 
-		PooledClient client = createClient();
-		log.debug("Client Created.");
+        PooledClient client = createClient();
+        log.debug("Client Created.");
 
-		put(client);
-		clientMap.put(client, client);
-		totalSize++;
+        put(client);
+        clientMap.put(client, client);
+        totalSize++;
 
-		return true;
-	}
+        return true;
+    }
 
-	private PooledClient createClient() throws ClientPoolException {
+    private PooledClient createClient() throws ClientPoolException {
 
-		return openClient(new HylaFAXPooledClient(this));
+        return openClient(new HylaFAXPooledClient(this));
 
-	}
+    }
 
-	private void destroyClient(PooledClient client) throws ClientPoolException {
+    private void destroyClient(PooledClient client) throws ClientPoolException {
 
-		try {
+        try {
 
-			client.destroy();
+            client.destroy();
 
-			totalSize--;
-			workingClients.remove(client);
-			clientMap.remove(client);
+            totalSize--;
+            workingClients.remove(client);
+            clientMap.remove(client);
 
-		} catch (Exception e) {
+        } catch (Exception e) {
 
-			throw new ClientPoolException("Could Not Destroy Client: "
-					+ e.getMessage());
+            throw new ClientPoolException("Could Not Destroy Client: " + e.getMessage());
 
-		}
+        }
 
-	}
+    }
 
-	public PooledClient get() throws ClientPoolException {
+    public long getAverageClientCreationTime() {
 
-		long startTime = System.currentTimeMillis();
+        if (creationTimes.size() > 0) {
 
-		log.debug("Wants A Client.");
+            long average = 0;
+            for (int count = 0; count < creationTimes.size(); count++) {
+                average += ((Long) creationTimes.get(count)).longValue();
+            }
+            return average / creationTimes.size();
+        }
 
-		PooledClient client = null;
+        return -1;
 
-		try {
+    }
 
-			synchronized (mutex) {
-				if (clients.isEmpty()) {
+    public long getBlockingTimeout() {
+        return getConfiguration().getBlockingTimeout();
+    }
 
-					while (client == null) {
+    public PooledClient getClient() throws ClientPoolException {
 
-						if (!keepBlocking(startTime)) {
-							ClientPoolException e = new ClientPoolException(
-									"Could Not Obtain Client During Blocking Timeout ("
-											+ getConfiguration()
-													.getBlockingTimeout()
-											+ " ms)");
-							throw e;
-						}
+        long startTime = System.currentTimeMillis();
 
-						boolean clientAdded = false;
+        log.debug("Wants A Client.");
 
-						try {
-							clientAdded = addClient();
-						} catch (ClientPoolException e) {
-							log.warn("Could Not Create Connection: "
-									+ e.getMessage());
-						}
+        PooledClient client = null;
 
-						if (!clientAdded) {
-							log.warn("Pool Is Empty And Will Block Here.");
-							blocked = true;
-						}
+        try {
 
-						client = (PooledClient) clients.poll(getConfiguration()
-								.getRetryInterval());
+            synchronized (mutex) {
+                if (clients.isEmpty()) {
 
-						if (client == null)
-							log.warn("No Clients Available.");
-						else if (client != null && !clientAdded)
-							log.info("Obtained Connection.");
-					}
+                    while (client == null) {
 
-				} else {
-					client = (PooledClient) clients.take();
-				}
-			}
+                        if (!keepBlocking(startTime)) {
+                            ClientPoolException e = new ClientPoolException(
+                                "Could Not Obtain Client During Blocking Timeout ("
+                                        + getConfiguration().getBlockingTimeout() + " ms)");
+                            throw e;
+                        }
 
-		} catch (InterruptedException e) {
-			throw new ClientPoolException(
-					"Interrupted Thread and No Free Connection Available.");
-		}
+                        boolean clientAdded = false;
 
-		size--;
+                        try {
+                            clientAdded = addClient();
+                        } catch (ClientPoolException e) {
+                            log.warn("Could Not Create Connection: " + e.getMessage());
+                        }
 
-		((HylaFAXPooledClient) client).setWorking(true);
-		workingClients.add(client);
+                        if (!clientAdded) {
+                            log.warn("Pool Is Empty And Will Block Here.");
+                            blocked = true;
+                        }
 
-		log.debug("Got Client.");
+                        client = (PooledClient) clients.poll(getConfiguration().getRetryInterval());
 
-		return client;
-	}
+                        if (client == null)
+                            log.warn("No Clients Available.");
+                        else if (client != null && !clientAdded) log.info("Obtained Connection.");
+                    }
 
-	public long getAverageClientCreationTime() {
+                } else {
+                    client = (PooledClient) clients.take();
+                }
+            }
 
-		if (creationTimes.size() > 0) {
+        } catch (InterruptedException e) {
+            throw new ClientPoolException("Interrupted Thread and No Free Connection Available.");
+        }
 
-			long average = 0;
-			for (int count = 0; count < creationTimes.size(); count++) {
-				average += ((Long) creationTimes.get(count)).longValue();
-			}
-			return average / creationTimes.size();
-		}
+        size--;
 
-		return -1;
+        ((HylaFAXPooledClient) client).setWorking(true);
+        workingClients.add(client);
 
-	}
+        log.debug("Got Client.");
 
-	public HashMap getClientMap() {
-		return clientMap;
-	}
+        return client;
+    }
 
-	public ClientPoolConfiguration getConfiguration() {
+    public HashMap getClientMap() {
+        return clientMap;
+    }
 
-		return configuration;
+    public ClientPoolConfiguration getConfiguration() {
 
-	}
+        return configuration;
 
-	public int getSize() {
+    }
 
-		return size;
+    public int getMaxPoolSize() {
+        return getConfiguration().getMaxPoolSize();
+    }
 
-	}
+    public int getMinPoolSize() {
+        return getConfiguration().getMinPoolSize();
+    }
 
-	public int getTotalSize() {
+    public long getNoopInterval() {
+        return getConfiguration().getMaxNoopTime();
+    }
 
-		return totalSize;
+    public int getSize() {
 
-	}
+        return size;
 
-	public int getWorkingSize() {
+    }
 
-		return workingSize;
+    public int getTotalSize() {
 
-	}
+        return totalSize;
 
-	public boolean isLogClientCreationTimes() {
+    }
 
-		return logClientCreationTimes;
+    public String getUserName() {
+        return getConfiguration().getUserName();
+    }
 
-	}
+    public int getWorkingSize() {
 
-	public boolean keepBlocking(long startTime) {
-		return System.currentTimeMillis() - startTime < getConfiguration()
-				.getBlockingTimeout();
-	}
+        return workingSize;
 
-	PooledClient openClient(HylaFAXPooledClient client)
-			throws ClientPoolException {
+    }
 
-		try {
+    public boolean isLogClientCreationTimes() {
 
-			long startTime = System.currentTimeMillis();
+        return logClientCreationTimes;
 
-			ClientPoolConfiguration config = getConfiguration();
+    }
 
-			if (config.getHost() != null && config.getPort() != -1)
-				client.poolOpen(config.getHost(), config.getPort());
-			else if (config.getHost() != null)
-				client.poolOpen(config.getHost());
-			else
-				client.poolOpen();
+    public boolean isStopped() {
+        return stopped;
+    }
 
-			if (config.getUserName() != null)
-				client.poolUser(config.getUserName());
+    public boolean keepBlocking(long startTime) {
+        return System.currentTimeMillis() - startTime < getConfiguration().getBlockingTimeout();
+    }
 
-			if (config.getPassword() != null)
-				client.poolPass(config.getPassword());
+    PooledClient openClient(HylaFAXPooledClient client) throws ClientPoolException {
 
-			if (config.getAdminPassword() != null)
-				client.poolAdmin(config.getAdminPassword());
+        try {
 
-			if (config.getTimeZone() != null)
-				client.poolTzone(config.getTimeZone());
+            long startTime = System.currentTimeMillis();
 
-			if (isLogClientCreationTimes())
-				creationTimes.add(new Long(System.currentTimeMillis()
-						- startTime));
+            ClientPoolConfiguration config = getConfiguration();
 
-			client.setPassive(true);
+            if (config.getHost() != null && config.getPort() != -1)
+                client.poolOpen(config.getHost(), config.getPort());
+            else if (config.getHost() != null)
+                client.poolOpen(config.getHost());
+            else client.poolOpen();
 
-			return client;
+            if (config.getUserName() != null) client.poolUser(config.getUserName());
 
-		} catch (Exception e) {
+            if (config.getPassword() != null) client.poolPass(config.getPassword());
 
-			throw new ClientPoolException(e.getMessage());
+            if (config.getAdminPassword() != null) client.poolAdmin(config.getAdminPassword());
 
-		}
+            if (config.getTimeZone() != null) client.poolTzone(config.getTimeZone());
 
-	}
+            if (isLogClientCreationTimes()) creationTimes.add(new Long(System.currentTimeMillis() - startTime));
 
-	public void put(PooledClient client) throws ClientPoolException {
-		try {
+            client.setPassive(true);
 
-			if (!client.isValid())
-				workingClientsToClose.add(client);
-			((HylaFAXPooledClient) client).setWorking(false);
+            return client;
 
-			if (blocked)
-				log.warn("Will Be Unblocked");
+        } catch (Exception e) {
 
-			if (getConfiguration().isPooling()) {
+            throw new ClientPoolException(e.getMessage());
 
-				if (workingClientsToClose.remove(client)) {
+        }
 
-					destroyClient(client);
-					addClient();
+    }
 
-				} else {
+    public void put(PooledClient client) throws ClientPoolException {
+        try {
 
-					clients.put(client);
-					size++;
+            if (!client.isValid()) workingClientsToClose.add(client);
+            ((HylaFAXPooledClient) client).setWorking(false);
 
-				}
-			}
-			blocked = false;
+            if (blocked) log.warn("Will Be Unblocked");
 
-			workingClients.remove(client);
+            if (getConfiguration().isPooling()) {
 
-			// Desctoy client if pooling is not enabled.
-			if (!getConfiguration().isPooling())
-				destroyClient(client);
+                if (workingClientsToClose.remove(client)) {
 
-			log.debug("Released Client.");
+                    destroyClient(client);
+                    addClient();
 
-		} catch (InterruptedException e) {
-			log.warn("Was Interrupted.", e);
-			destroyClient(client);
-		}
-	}
+                } else {
 
-	public void restart() {
-		// Flag working clients for destruction when returned to the stack.
-		workingClientsToClose.addAll(workingClients);
+                    clients.put(client);
+                    size++;
 
-		// Close all free clients
-		while (getSize() > 0)
-			try {
-				PooledClient client = get();
-				destroyClient(client);
-			} catch (ClientPoolException e) {
-				log.warn("Could Not Close Connection.", e);
-			}
-		// Create enough clients to restore the stack to minPoolSize.
-		while (getTotalSize() < getConfiguration().getMinPoolSize())
-			try {
-				addClient();
-			} catch (Exception e) {
-				log.warn("Could Not Add Connection.", e);
-			}
-	}
+                }
+            }
+            blocked = false;
 
-	public void setClientMap(HashMap clientMap) {
-		this.clientMap = clientMap;
-	}
+            workingClients.remove(client);
 
-	public void setConfiguration(ClientPoolConfiguration configuration) {
-		this.configuration = configuration;
-	}
+            // Desctoy client if pooling is not enabled.
+            if (!getConfiguration().isPooling()) destroyClient(client);
 
-	public void setLogClientCreationTimes(boolean logClientCreationTimes) {
+            log.debug("Released Client.");
 
-		this.logClientCreationTimes = logClientCreationTimes;
+        } catch (InterruptedException e) {
+            log.warn("Was Interrupted.", e);
+            destroyClient(client);
+        }
+    }
 
-	}
+    public void restart() {
+        // Flag working clients for destruction when returned to the stack.
+        workingClientsToClose.addAll(workingClients);
 
-	public void setSize(int size) {
-		this.size = size;
-	}
+        // Close all free clients
+        while (getSize() > 0)
+            try {
+                PooledClient client = getClient();
+                destroyClient(client);
+            } catch (ClientPoolException e) {
+                log.warn("Could Not Close Connection.", e);
+            }
+        // Create enough clients to restore the stack to minPoolSize.
+        while (getTotalSize() < getConfiguration().getMinPoolSize())
+            try {
+                addClient();
+            } catch (Exception e) {
+                log.warn("Could Not Add Connection.", e);
+            }
+    }
 
-	public void setTotalSize(int totalSize) {
-		this.totalSize = totalSize;
-	}
+    public void setBlockingTimeout(long blockingTimeout) {
+        getConfiguration().setBlockingTimeout(blockingTimeout);
+    }
 
-	public void setWorkingSize(int workingSize) {
-		this.workingSize = workingSize;
-	}
+    public void setClientMap(HashMap clientMap) {
+        this.clientMap = clientMap;
+    }
 
-	public void start() throws ClientPoolException {
-		stopped = false;
-		for (int i = 0; i < getConfiguration().getMinPoolSize(); i++) {
-			addClient();
-		}
-	}
+    public void setConfiguration(ClientPoolConfiguration configuration) {
+        this.configuration = configuration;
+    }
 
-	public void stop() {
-		stopped = true;
-		// Close all working connections.
-		Iterator iter = workingClients.iterator();
-		while (iter.hasNext()) {
-			try {
-				PooledClient item = (PooledClient) iter.next();
-				destroyClient(item);
-			} catch (ClientPoolException e) {
-				log.warn("Could Not Close Connection.", e);
-			}
-		}
+    public void setLogClientCreationTimes(boolean logClientCreationTimes) {
 
-		// Close all free connections
-		while (getSize() > 0)
-			try {
-				PooledClient item = get();
-				destroyClient(item);
-			} catch (ClientPoolException e) {
-				log.warn("Could Not Close Connection.", e);
-			}
-		totalSize = 0;
-	}
+        this.logClientCreationTimes = logClientCreationTimes;
 
-	public boolean isStopped() {
-		return stopped;
-	}
+    }
+
+    public void setMaxPoolSize(int maxPoolSize) {
+        getConfiguration().setMaxPoolSize(maxPoolSize);
+    }
+
+    public void setMinPoolSize(int minPoolSize) {
+        getConfiguration().setMinPoolSize(minPoolSize);
+    }
+
+    public void setNoopInterval(long noopInterval) {
+        getConfiguration().setMaxNoopTime(noopInterval);
+    }
+
+    public void setPassword(String password) {
+        getConfiguration().setPassword(password);
+    }
+
+    public void setSize(int size) {
+        this.size = size;
+    }
+
+    public void setTotalSize(int totalSize) {
+        this.totalSize = totalSize;
+    }
+
+    public void setUserName(String userName) {
+        getConfiguration().setUserName(userName);
+    }
+
+    public void setWorkingSize(int workingSize) {
+        this.workingSize = workingSize;
+    }
+
+    public void start() throws ClientPoolException {
+        stopped = false;
+        for (int i = 0; i < getConfiguration().getMinPoolSize(); i++) {
+            addClient();
+        }
+    }
+
+    public void stop() {
+        stopped = true;
+        // Close all working connections.
+        Iterator iter = workingClients.iterator();
+        while (iter.hasNext()) {
+            try {
+                PooledClient item = (PooledClient) iter.next();
+                destroyClient(item);
+            } catch (ClientPoolException e) {
+                log.warn("Could Not Close Connection.", e);
+            }
+        }
+
+        // Close all free connections
+        while (getSize() > 0)
+            try {
+                PooledClient item = getClient();
+                destroyClient(item);
+            } catch (ClientPoolException e) {
+                log.warn("Could Not Close Connection.", e);
+            }
+        totalSize = 0;
+    }
+
 }
