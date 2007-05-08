@@ -23,8 +23,10 @@
 package gnu.hylafax.pool;
 
 import gnu.hylafax.Client;
+import gnu.inet.ftp.ConnectionEventSource;
+import gnu.inet.ftp.TransferEventSource;
 
-public interface PooledClient extends Client {
+public interface PooledClient extends Client, TransferEventSource, ConnectionEventSource {
 
     /**
      * Destroy the client. This makes the client unusable.
@@ -33,8 +35,8 @@ public interface PooledClient extends Client {
     public void destroy() throws ClientPoolException;
 
     /**
-     * Checks to see if the client is currently valid. If the client is not
-     * valid it should be reopened or destroyed.
+     * Checks to see if the client is currently valid. If the client is not valid it should be reopened or
+     * destroyed.
      */
     public boolean isValid();
 

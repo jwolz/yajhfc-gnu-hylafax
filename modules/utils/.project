@@ -1,10 +1,14 @@
 <projectDescription>
-  <name>utils</name>
+  <name>gnu-hylafax-utils</name>
   <comment/>
-  <projects/>
+  <projects>
+    <project>gnu-hylafax-core</project>
+    <project>gnu-hylafax-inet</project>
+  </projects>
   <buildSpec>
     <buildCommand>
       <name>org.eclipse.jdt.core.javabuilder</name>
+      <arguments/>
     </buildCommand>
   </buildSpec>
   <natures>

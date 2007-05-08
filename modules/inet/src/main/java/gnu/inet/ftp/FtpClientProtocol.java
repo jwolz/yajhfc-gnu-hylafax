@@ -1238,10 +1238,10 @@ public class FtpClientProtocol extends Object {
 
         boolean done = false;
         boolean first = true;
-        while (!done) {
-            String tmp = input.readLine();
-            response += tmp + '\n';
 
+        String tmp = null;
+        while (!done && (tmp = input.readLine()) != null) {
+            response += tmp + '\n';
             if (tmp.length() >= 4) {
                 if (first == true) {
                     // first time through
@@ -1261,7 +1261,6 @@ public class FtpClientProtocol extends Object {
                 // I assume this is ok and continue...
             }// if(length >= 4)
         }// while loop
-
         return response;
     }// readResponse
 

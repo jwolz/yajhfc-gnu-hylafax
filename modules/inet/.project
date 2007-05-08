@@ -1,10 +1,11 @@
 <projectDescription>
-  <name>inet</name>
+  <name>gnu-hylafax-inet</name>
   <comment/>
   <projects/>
   <buildSpec>
     <buildCommand>
       <name>org.eclipse.jdt.core.javabuilder</name>
+      <arguments/>
     </buildCommand>
   </buildSpec>
   <natures>

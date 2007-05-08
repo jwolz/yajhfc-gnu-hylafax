@@ -1,10 +1,14 @@
 <projectDescription>
-  <name>pool</name>
+  <name>gnu-hylafax-pool</name>
   <comment/>
-  <projects/>
+  <projects>
+    <project>gnu-hylafax-inet</project>
+    <project>gnu-hylafax-core</project>
+  </projects>
   <buildSpec>
     <buildCommand>
       <name>org.eclipse.jdt.core.javabuilder</name>
+      <arguments/>
     </buildCommand>
   </buildSpec>
   <natures>

@@ -22,6 +22,7 @@
 //
 package gnu.hylafax.pool;
 
+import gnu.hylafax.Client;
 import gnu.inet.logging.Logger;
 import gnu.inet.logging.LoggingFactory;
 
@@ -141,7 +142,7 @@ public class ClientPool implements gnu.hylafax.ClientPool {
         return getConfiguration().getBlockingTimeout();
     }
 
-    public PooledClient getClient() throws ClientPoolException {
+    public Client getClient() throws ClientPoolException {
 
         long startTime = System.currentTimeMillis();
 
@@ -180,7 +181,7 @@ public class ClientPool implements gnu.hylafax.ClientPool {
 
                         if (client == null)
                             log.warn("No Clients Available.");
-                        else if (client != null && !clientAdded) log.info("Obtained Connection.");
+                        else if (!clientAdded) log.info("Obtained Connection.");
                     }
 
                 } else {
@@ -340,7 +341,7 @@ public class ClientPool implements gnu.hylafax.ClientPool {
         // Close all free clients
         while (getSize() > 0)
             try {
-                PooledClient client = getClient();
+                PooledClient client = (PooledClient) getClient();
                 destroyClient(client);
             } catch (ClientPoolException e) {
                 log.warn("Could Not Close Connection.", e);
@@ -427,7 +428,7 @@ public class ClientPool implements gnu.hylafax.ClientPool {
         // Close all free connections
         while (getSize() > 0)
             try {
-                PooledClient item = getClient();
+                PooledClient item = (PooledClient) getClient();
                 destroyClient(item);
             } catch (ClientPoolException e) {
                 log.warn("Could Not Close Connection.", e);
