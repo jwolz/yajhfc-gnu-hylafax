@@ -217,6 +217,15 @@ public interface Client extends ClientProtocol, TransferEventSource, ConnectionE
     public void suspend(Job job) throws ServerResponseException, IOException;
 
     /**
+     * Specify the type of file being sent.
+     * 
+     * @param type the type of file being sent.
+     * @throws ServerResponseException
+     * @throws IOException
+     */
+    public void type(char type) throws ServerResponseException, IOException;
+
+    /**
      * wait for the given job to complete
      * 
      * @param job the job to wait for
