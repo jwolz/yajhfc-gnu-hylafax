@@ -1,11 +1,10 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>gnu-hylafax</groupId>
 	<artifactId>gnu-hylafax</artifactId>
 	<packaging>pom</packaging>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1.0.0beta1</version>
 	<name>gnu-hylafax</name>
 
 	<modules>
@@ -37,7 +36,7 @@
 				<artifactId>maven-release-plugin</artifactId>
 				<configuration>
 					<tagBase>
-						https://sjardine@https://gnu-hylafax.svn.sourceforge.net/svnroot/gnu-hylafax/tags/${pom.artifactId}
+						https://sjardine@gnu-hylafax.svn.sourceforge.net/svnroot/gnu-hylafax/tags
 					</tagBase>
 				</configuration>
 			</plugin>
@@ -47,19 +46,15 @@
 	<distributionManagement>
 		<repository>
 			<id>inhouse</id>
-			<name>MJN Services, Inc Inhouse Repository</name>
+			<name>MJN Services, Inc. Private Repository</name>
 			<url>scp://file/shared/maven/inhouse/storage</url>
 		</repository>
 	</distributionManagement>
 
 	<scm>
-		<connection>
-			scm:https://sjardine@https://gnu-hylafax.svn.sourceforge.net/svnroot/gnu-hylafax/tags/${pom.artifactId}
-		</connection>
-		<developerConnection>
-			scm:https://sjardine@https://gnu-hylafax.svn.sourceforge.net/svnroot/gnu-hylafax/tags/${pom.artifactId}
-		</developerConnection>
-		<url>https://gnu-hylafax.svn.sourceforge.net/svnroot/gnu-hylafax</url>
+		<connection>scm:svn:https://sjardine@gnu-hylafax.svn.sourceforge.net/svnroot/gnu-hylafax/tags/1.0.0beta1</connection>
+		<developerConnection>scm:svn:https://sjardine@gnu-hylafax.svn.sourceforge.net/svnroot/gnu-hylafax/tags/1.0.0beta1</developerConnection>
+		<url>https://sjardine@gnu-hylafax.svn.sourceforge.net/svnroot/gnu-hylafax/tags/1.0.0beta1</url>
 	</scm>
 
 </project>
