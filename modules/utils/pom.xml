@@ -12,11 +12,17 @@
 	<parent>
 		<groupId>gnu-hylafax</groupId>
 		<artifactId>gnu-hylafax</artifactId>
-		<version>1.0.0-SNAPSHOT</version>
+		<version>${project.version}</version>
 		<relativePath>../../pom.xml</relativePath>
 	</parent>
 
 	<dependencies>
+		<dependency>
+			<groupId>gnu-hylafax</groupId>
+			<artifactId>gnu-hylafax-inet</artifactId>
+			<version>${project.version}</version>
+			<scope>compile</scope>
+		</dependency>
 		<dependency>
 			<groupId>gnu-hylafax</groupId>
 			<artifactId>gnu-hylafax-core</artifactId>
