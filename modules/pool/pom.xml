@@ -19,12 +19,6 @@
 	<dependencies>
 		<dependency>
 			<groupId>gnu-hylafax</groupId>
-			<artifactId>gnu-hylafax-inet</artifactId>
-			<version>${project.version}</version>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>gnu-hylafax</groupId>
 			<artifactId>gnu-hylafax-core</artifactId>
 			<version>${project.version}</version>
 			<scope>compile</scope>

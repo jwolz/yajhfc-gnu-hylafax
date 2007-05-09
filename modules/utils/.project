@@ -1,9 +1,10 @@
 <projectDescription>
   <name>gnu-hylafax-utils</name>
-  <comment/>
+  <comment>The gnu.hylafax package is a pure-Java implementation of the HylaFAX (FAX server) client protocol. The
+		gnu.hylafax package can be used to implement a HylaFAX client that will run on any Java-supporting system.</comment>
   <projects>
+    <project>gnu-hylafax-inet-ftp</project>
     <project>gnu-hylafax-core</project>
-    <project>gnu-hylafax-inet</project>
   </projects>
   <buildSpec>
     <buildCommand>

@@ -22,7 +22,7 @@
 	</licenses>
 
 	<modules>
-		<module>modules/inet</module>
+		<module>modules/inet-ftp</module>
 		<module>modules/core</module>
 		<module>modules/pool</module>
 		<module>modules/utils</module>
