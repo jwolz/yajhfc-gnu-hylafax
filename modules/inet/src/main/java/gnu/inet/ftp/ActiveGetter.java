@@ -18,14 +18,11 @@
 // License along with this library; if not, write to the Free
 // Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //
-// TODO:
-// - implement compressed streams
-//
-//
+// TODO implement compressed streams
 
 package gnu.inet.ftp;
 
-// system includes
+
 import gnu.inet.logging.Logger;
 import gnu.inet.logging.LoggingFactory;
 
@@ -55,7 +52,7 @@ public class ActiveGetter extends Getter {
 
     private int timeout;
 
-    // public constructors
+    
     //
 
     /**

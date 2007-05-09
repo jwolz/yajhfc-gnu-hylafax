@@ -23,9 +23,9 @@
 //
 package gnu.hylafax.job;
 
-// system includes
 
-// home-grown includes
+
+
 
 /**
  * This class is a convenience class implementing both a SendNotifier and ReceiveNotifier.

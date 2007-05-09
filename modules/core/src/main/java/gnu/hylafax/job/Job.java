@@ -23,7 +23,7 @@
 //
 package gnu.hylafax.job;
 
-// system includes
+
 import gnu.hylafax.*;
 import gnu.inet.ftp.ServerResponseException;
 

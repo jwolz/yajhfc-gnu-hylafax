@@ -23,13 +23,12 @@
 // for information on the HylaFAX FAX server see
 //  http://www.hylafax.org/
 //
-// TODO:
-// - make this class more flexible
+// TODO make this class more flexible
 //  
 
 package gnu.hylafax.util;
 
-// system includes
+
 import gnu.hylafax.HylaFAXClient;
 import gnu.hylafax.HylaFAXClientProtocol;
 import gnu.hylafax.Job;

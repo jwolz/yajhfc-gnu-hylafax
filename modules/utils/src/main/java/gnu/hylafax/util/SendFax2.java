@@ -30,10 +30,7 @@
 // - not all symbolic pagesizes are supported yet (see Job.pagesizes)
 // - can only queue a single job to the server per execution
 //
-// TODO:
-// - make this class more flexible so it can be used by other programs
-//   rather than only called from the command line
-// - don't echo the password to the screen
+// TODO make this class more flexible so it can be used by other programs rather than only called from the command line don't echo the password to the screen
 //
 
 package gnu.hylafax.util;
@@ -332,7 +329,7 @@ public class SendFax2 {
 		// get down to business, send the FAX already
 		try {
 			c.setDebug(verbose); // enable debug messages for the
-									// ConsoleLogger only.
+			// ConsoleLogger only.
 			c.open(host);
 
 			if (c.user(user)) {

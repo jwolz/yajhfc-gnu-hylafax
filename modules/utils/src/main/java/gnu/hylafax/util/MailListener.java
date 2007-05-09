@@ -28,7 +28,7 @@
 
 package gnu.hylafax.util;
 
-// system includes
+
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Properties;
@@ -46,7 +46,7 @@ import javax.activation.DataHandler;
 
 
 
-// home-grown includes
+
 import gnu.inet.logging.Logger;
 import gnu.inet.logging.LoggingFactory;
 import gnu.hylafax.job.SendListener;

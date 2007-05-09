@@ -24,16 +24,15 @@
 // for information on the HylaFAX FAX server see
 //  http://www.hylafax.org/
 //
-// TODO:
-// - make this class more flexible
+// TODO make this class more flexible
 //  
 
 package gnu.hylafax.util;
 
-// system includes
+
 import java.sql.*;
 
-// home-grown includes
+
 import gnu.inet.logging.Logger;
 import gnu.inet.logging.LoggingFactory;
 import gnu.hylafax.job.SendListener;
@@ -43,6 +42,7 @@ import gnu.hylafax.job.ReceiveEvent;
 
 /**
  * This class implements an example fax job listener.
+ * 
  * @author $Author: sjardine $
  * @version $Id: SampleListener.java,v 1.4 2007/02/21 00:07:49 sjardine Exp $
  * @see gnu.hylafax.job.SendNotifier
@@ -50,74 +50,76 @@ import gnu.hylafax.job.ReceiveEvent;
  * @see gnu.hylafax.job.ReceiveNotifier
  * @see gnu.hylafax.job.ReceiveEvent
  * @see gnu.hylafax.util.Notifier
- **/
-public class SampleListener implements SendListener, ReceiveListener
-{
-    private final static Logger log = LoggingFactory.getLogger(SampleListener.class);  
+ */
+public class SampleListener implements SendListener, ReceiveListener {
+	private final static Logger log = LoggingFactory
+			.getLogger(SampleListener.class);
 
-	public final static String KEY_DBUSER= "notifier.db.user";
-	public final static String KEY_DBPASSWORD= "notifier.db.password";
-	public final static String KEY_DBDRIVER= "notifier.db.driver";
-	public final static String KEY_DBURI= "notifier.db.uri";
+	public final static String KEY_DBUSER = "notifier.db.user";
 
-	String DB_USER= System.getProperties().getProperty(KEY_DBUSER);
-	String DB_PASSWORD= System.getProperties().getProperty(KEY_DBPASSWORD);
-	String DB_URI= System.getProperties().getProperty(KEY_DBURI);
-	String DB_CLASS= System.getProperties().getProperty(KEY_DBDRIVER);
+	public final static String KEY_DBPASSWORD = "notifier.db.password";
+
+	public final static String KEY_DBDRIVER = "notifier.db.driver";
+
+	public final static String KEY_DBURI = "notifier.db.uri";
+
+	String DB_USER = System.getProperties().getProperty(KEY_DBUSER);
+
+	String DB_PASSWORD = System.getProperties().getProperty(KEY_DBPASSWORD);
+
+	String DB_URI = System.getProperties().getProperty(KEY_DBURI);
+
+	String DB_CLASS = System.getProperties().getProperty(KEY_DBDRIVER);
 
 	/**
-	 *
-	 *
+	 * 
+	 * 
 	 */
-	public void onSendEvent(SendEvent event)
-	{
-		try{
+	public void onSendEvent(SendEvent event) {
+		try {
 
-		Class.forName(DB_CLASS);
-		Connection connection= DriverManager.getConnection(
-			DB_URI,
-			DB_USER, DB_PASSWORD);
-		String sql= "insert into send (reason,filename,jobid,jobtime,next) values (?,?,?,?,?)";
-		PreparedStatement stmt= connection.prepareStatement(sql);
-		stmt.setString(1,event.getReason());
-		stmt.setString(2,event.getFilename());
-		stmt.setLong(3,event.getJobId());
-		stmt.setLong(4,event.getElapsedTime());
-		stmt.setString(5,event.getNextAttempt());
-		stmt.execute();
-		stmt.close();
-		connection.close();
+			Class.forName(DB_CLASS);
+			Connection connection = DriverManager.getConnection(DB_URI,
+					DB_USER, DB_PASSWORD);
+			String sql = "insert into send (reason,filename,jobid,jobtime,next) values (?,?,?,?,?)";
+			PreparedStatement stmt = connection.prepareStatement(sql);
+			stmt.setString(1, event.getReason());
+			stmt.setString(2, event.getFilename());
+			stmt.setLong(3, event.getJobId());
+			stmt.setLong(4, event.getElapsedTime());
+			stmt.setString(5, event.getNextAttempt());
+			stmt.execute();
+			stmt.close();
+			connection.close();
 
-		}catch(Exception e){
-			log.error(e.getMessage(),e);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
 		}
 	}// onSendEvent
 
 	/**
 	 * This method is called when a fax-received event occurs.
 	 */
-	public void onReceiveEvent(ReceiveEvent event)
-	{
-		try{
+	public void onReceiveEvent(ReceiveEvent event) {
+		try {
 
-		Class.forName(DB_CLASS);
-		Connection connection= DriverManager.getConnection(
-			DB_URI,
-			DB_USER, DB_PASSWORD);
-		String sql= "insert into receive (filename,modem,commid,message,cidnumber,cidname) values (?,?,?,?,?,?)";
-		PreparedStatement stmt= connection.prepareStatement(sql);
-		stmt.setString(1,event.getFilename());
-		stmt.setString(2,event.getModem());
-		stmt.setString(3,event.getCommunicationIdentifier());
-		stmt.setString(4,event.getMessage());
-		stmt.setString(5,event.getCidNumber());
-		stmt.setString(6,event.getCidName());
-		stmt.execute();
-		stmt.close();
-		connection.close();
+			Class.forName(DB_CLASS);
+			Connection connection = DriverManager.getConnection(DB_URI,
+					DB_USER, DB_PASSWORD);
+			String sql = "insert into receive (filename,modem,commid,message,cidnumber,cidname) values (?,?,?,?,?,?)";
+			PreparedStatement stmt = connection.prepareStatement(sql);
+			stmt.setString(1, event.getFilename());
+			stmt.setString(2, event.getModem());
+			stmt.setString(3, event.getCommunicationIdentifier());
+			stmt.setString(4, event.getMessage());
+			stmt.setString(5, event.getCidNumber());
+			stmt.setString(6, event.getCidName());
+			stmt.execute();
+			stmt.close();
+			connection.close();
 
-		}catch(Exception e){
-			log.error(e.getMessage(),e);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
 		}
 	}// onReceiveEvent
 

@@ -28,7 +28,7 @@
 
 package gnu.hylafax.util;
 
-// system includes
+
 import java.io.PrintStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -40,7 +40,7 @@ import org.apache.log4j.BasicConfigurator;
 
 import gnu.getopt.*;
 
-// home-grown includes
+
 import gnu.hylafax.job.SendListener;
 import gnu.hylafax.job.SendEvent;
 import gnu.hylafax.job.ReceiveListener;

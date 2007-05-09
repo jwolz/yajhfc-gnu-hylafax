@@ -23,7 +23,7 @@
 //
 package gnu.hylafax.job;
 
-// system includes
+
 import java.util.StringTokenizer;
 
 /**

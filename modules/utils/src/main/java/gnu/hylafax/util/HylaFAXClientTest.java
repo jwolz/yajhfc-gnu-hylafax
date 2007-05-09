@@ -44,7 +44,7 @@ import org.apache.log4j.BasicConfigurator;
  * This class was created to move the test out of the HylaFAXClient class.
  * </p>
  * <p>
- * <b>TODO:</b> A better test framework needs to be put into place.
+ * TODO A better test framework needs to be put into place.
  * </p>
  */
 public class HylaFAXClientTest extends HylaFAXClient {
