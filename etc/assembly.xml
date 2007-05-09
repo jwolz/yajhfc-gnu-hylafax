@@ -4,6 +4,11 @@
 		<format>tar.gz</format>
 	</formats>
 	<includeBaseDirectory>true</includeBaseDirectory>
+	<dependencySet>
+		<includes>
+			<include>*:javadoc</include>
+		</includes>
+	</dependencySet>
 	<moduleSets>
 		<moduleSet>
 			<binaries>
@@ -11,6 +16,12 @@
 				<includeDependencies>true</includeDependencies>
 				<unpack>false</unpack>
 			</binaries>
+			<sources>
+				<outputDirectory>sources/${artifactId}</outputDirectory>
+				<excludes>
+					<exclude>**/target/**</exclude>
+				</excludes>
+			</sources>
 		</moduleSet>
 	</moduleSets>
 	<fileSets>

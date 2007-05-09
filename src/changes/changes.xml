@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document>
+	<properties>
+		<title>HylaFAX Protocol for Java</title>
+		<author email="sjardine@users.sourceforge.net">sjardine</author>
+	</properties>
+	<body>
+		<release version="1.0.0-b1" date="2007-05-09">
+			<action dev="sjardine" type="add">Added a retry function to the Client interface.</action>
+			<action dev="sjardine" type="fix">
+				Starting initial code cleanup using Checkstyle and Sun's Conventions. Still lots left to do.
+			</action>
+			<action dev="sjardine" type="fix">
+				<fixes issue="1620001" />
+				<fixes issue="1620004" />
+				Changed interfaces for Client and ClientPool to be consistent with each other.
+			</action>
+			<action dev="sjardine" type="fix">
+				<fixes issue="1496964" />
+				Added new null checks.
+			</action>
+			<action dev="sjardine" type="delete">Removed obsolete files.</action>
+			<action dev="sjardine" type="add">Converted site documentation over to Apache's Maven's Site.</action>
+			<action dev="sjardine" type="add">Created separate modules inet-ftp, core, pool, and utils.</action>
+			<action dev="sjardine" type="add">Converted build system to Apache's Maven.</action>
+			<action dev="sjardine" type="add">Switched version control system from cvs to subversion.</action>
+			<action dev="sjardine" due-to="Thomas Papendieck" due-to-email="t.papendieck@t-online.net" type="fix">
+				Fixed problem with clients in the pool not getting released properly.
+			</action>
+		</release>
+	</body>
+</document>

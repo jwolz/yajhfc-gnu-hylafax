@@ -1,4 +1,4 @@
-gnu.hylafax README (1.0.0beta1)
+gnu.hylafax README
 --------------------------
 $Id: README,v 1.8 2006/02/20 04:39:07 sjardine Exp $
 
@@ -39,16 +39,15 @@ Here is an example:
 	<dependency>
 		<groupId>gnu-hylafax</groupId>
 		<artifactId>gnu-hylafax-core</artifactId>
-		<version>1.0.0beta1</version>
+		<version>1.0.0-b1</version>
 		<scope>compile</scope>
 	</dependency>
 </dependencies>
 
 DOCUMENTATION
 
-Javadoc documentation is included in the javadoc directory of 
-the distribution package.  It can also be viewed on the
-gnu-hylafax website.
+Javadoc documentation in located at http://gnu-hylafax@sourceforge.net.
+It can also be generated using Apache's Maven (mvn javadoc:javadoc).
 
 UTILITIES
 

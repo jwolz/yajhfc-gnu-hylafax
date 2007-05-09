@@ -36,6 +36,7 @@
 					<descriptors>
 						<descriptor>etc/assembly.xml</descriptor>
 					</descriptors>
+					<tarLongFileMode>gnu</tarLongFileMode>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -132,7 +133,6 @@
 					<targetjdk>1.3</targetjdk>
 					<rulesets>
 						<ruleset>/rulesets/basic.xml</ruleset>
-						<!-- <ruleset>/rulesets/controversial.xml</ruleset> -->
 					</rulesets>
 					<format>xml</format>
 					<linkXref>true</linkXref>
@@ -145,15 +145,8 @@
 				<artifactId>changelog-maven-plugin</artifactId>
 			</plugin>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-changes-plugin</artifactId>
-				<reportSets>
-					<reportSet>
-						<reports>
-							<report>jira-report</report>
-						</reports>
-					</reportSet>
-				</reportSets>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>changes-maven-plugin</artifactId>
 			</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
@@ -219,7 +212,11 @@
 		<contributor>
 			<name>John Yeary</name>
 		</contributor>
+		<contributor>
+			<name>Thomas Papendieck</name>
+		</contributor>
 	</contributors>
+
 
 	<mailingLists>
 		<mailingList>
