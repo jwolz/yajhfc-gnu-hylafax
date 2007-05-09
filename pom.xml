@@ -4,7 +4,7 @@
 	<groupId>gnu-hylafax</groupId>
 	<artifactId>gnu-hylafax</artifactId>
 	<packaging>pom</packaging>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1.0.0-b1</version>
 	<name>HylaFAX Protocol for Java</name>
 	<url>http://gnu-hylafax.sourceforge.net</url>
 	<description>
@@ -58,7 +58,7 @@
 	<distributionManagement>
 		<site>
 			<id>website</id>
-			<url>scp://sjardine@shell.sourceforge.net/home/groups/g/gn/gnu-hylafax/htdocs/beta</url>
+			<url>scp://sjardine@shell.sourceforge.net/home/groups/g/gn/gnu-hylafax/htdocs/</url>
 		</site>
 		<repository>
 			<id>inhouse</id>
