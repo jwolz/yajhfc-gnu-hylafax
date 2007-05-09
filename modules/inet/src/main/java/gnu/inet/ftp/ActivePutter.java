@@ -44,17 +44,11 @@ public class ActivePutter extends Putter {
 
 	private InetAddress address;
 
-	private boolean compress = true;
-
 	private int port;
 
 	private ServerSocket server;
 
 	private int timeout;
-
-	public ActivePutter(InputStream in) throws IOException {
-		this(in, true);
-	}
 
 	/**
 	 * Create a new ActivePutter thread given the InputStream data source.
@@ -64,11 +58,8 @@ public class ActivePutter extends Putter {
 	 * @exception IOException
 	 *                io error with the ServerSocket
 	 */
-	public ActivePutter(InputStream in, boolean compress) throws IOException {
+	public ActivePutter(InputStream in) throws IOException {
 		super();
-
-		// use compression
-		this.compress = compress;
 
 		// create server socket
 		this.server = new ServerSocket(0);
@@ -148,11 +139,6 @@ public class ActivePutter extends Putter {
 				default:
 					break;
 				}// switch
-
-				if (compress) {
-					// compress the outputstream.
-					ostream = new GZIPOutputStream(ostream);
-				}
 
 				int len;
 				while ((len = istream.read(buffer)) != -1) {

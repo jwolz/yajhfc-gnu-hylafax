@@ -39,23 +39,7 @@ public class PassivePutter extends Putter {
 	private final static Logger log = LoggingFactory
 			.getLogger(PassivePutter.class);
 
-	private boolean compress = true;
-
 	private PassiveConnection connection;
-
-	/**
-	 * Create a new PassivePutter thread given the input stream data source and
-	 * PssiveParameters to use to connect to the server. The default compression
-	 * is NO_COMPRESSION.
-	 * 
-	 * @param in
-	 *            the inputstream to read from
-	 * @param connection
-	 *            the passive connection to the server
-	 */
-	public PassivePutter(InputStream in, PassiveConnection connection) {
-		this(in, connection, true);
-	}
 
 	/**
 	 * Create a new PassivePutter thread given the input stream data source and
@@ -69,10 +53,8 @@ public class PassivePutter extends Putter {
 	/**
 	 * @param in
 	 * @param connection
-	 * @param compress
 	 */
-	public PassivePutter(InputStream in, PassiveConnection connection,
-			boolean compress) {
+	public PassivePutter(InputStream in, PassiveConnection connection) {
 		super();
 
 		this.istream = in;
@@ -129,11 +111,6 @@ public class PassivePutter extends Putter {
 					break;
 				}// switch
 
-				if (compress) {
-					// compress the outputstream.
-					ostream = new GZIPOutputStream(ostream);
-				}
-
 				int len;
 				while ((len = istream.read(buffer)) != -1) {
 					ostream.write(buffer, 0, len);
@@ -167,7 +144,6 @@ public class PassivePutter extends Putter {
 					.getInetAddress(), parameters.getPort()));
 		}
 	}// run
-
 }// PassivePutter
 
 // PassivePutter.java
