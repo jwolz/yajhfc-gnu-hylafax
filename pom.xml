@@ -169,21 +169,55 @@
 			<email>sjardine@users.sourceforge.net</email>
 			<roles>
 				<role>Admin</role>
+				<role>Developer</role>
 			</roles>
 			<organization>MJN Services, Inc.</organization>
-			<organizationUrl>www.mjnservices.com</organizationUrl>
+			<organizationUrl>http://www.mjnservices.com</organizationUrl>
+		</developer>
+		<developer>
+			<id>jaiger</id>
+			<name>Joe Phillips</name>
+			<email>jaiger@users.sourceforge.net</email>
+			<roles>
+				<role>Admin</role>
+				<role>Developer</role>
+			</roles>
+			<organization>Innovation Software Group</organization>
 		</developer>
 	</developers>
 
 	<contributors>
 		<contributor>
-			<name>Steven Jardine</name>
-			<email>sjardine@users.sourceforge.net</email>
-			<roles>
-				<role>Admin</role>
-			</roles>
-			<organization>MJN Services, Inc.</organization>
-			<organizationUrl>http://www.mjnservices.com</organizationUrl>
+			<name>Bernd Proissl</name>
+		</contributor>
+		<contributor>
+			<name>Tilo Christ</name>
+		</contributor>
+		<contributor>
+			<name>Eugene Doudine</name>
+		</contributor>
+		<contributor>
+			<name>Andrea Girotto</name>
+		</contributor>
+		<contributor>
+			<name>Karl Hallowell</name>
+			<organization>Hewlett Packard</organization>
+		</contributor>
+		<contributor>
+			<name>Matt Reid</name>
+			<organization>SNET Internet</organization>
+		</contributor>
+		<contributor>
+			<name>Scott Dietrich</name>
+		</contributor>
+		<contributor>
+			<name>Marco Silva</name>
+		</contributor>
+		<contributor>
+			<name>Martin Muc</name>
+		</contributor>
+		<contributor>
+			<name>John Yeary</name>
 		</contributor>
 	</contributors>
 
