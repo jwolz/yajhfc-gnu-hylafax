@@ -4,11 +4,6 @@
 		<format>tar.gz</format>
 	</formats>
 	<includeBaseDirectory>true</includeBaseDirectory>
-	<dependencySet>
-		<includes>
-			<include>*:javadoc</include>
-		</includes>
-	</dependencySet>
 	<moduleSets>
 		<moduleSet>
 			<binaries>

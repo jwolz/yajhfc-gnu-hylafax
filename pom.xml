@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>gnu-hylafax</groupId>
@@ -70,7 +71,9 @@
 	<scm>
 		<url>https://gnu-hylafax.svn.sourceforge.net/svnroot/gnu-hylafax/tags/1.0.0-b1</url>
 		<connection>scm:svn:https://gnu-hylafax.svn.sourceforge.net/svnroot/gnu-hylafax/tags/1.0.0-b1</connection>
-		<developerConnection>scm:svn:https://gnu-hylafax.svn.sourceforge.net/svnroot/gnu-hylafax/tags/1.0.0-b1</developerConnection>
+		<developerConnection>
+			scm:svn:https://gnu-hylafax.svn.sourceforge.net/svnroot/gnu-hylafax/tags/1.0.0-b1
+		</developerConnection>
 	</scm>
 
 	<issueManagement>
@@ -87,20 +90,6 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-project-info-reports-plugin</artifactId>
-				<!-- 
-					<reportSets>
-					<reportSet>
-					<reports>
-					<report>index</report>
-					<report>project-team</report>
-					<report>mailing-list</report>
-					<report>issue-tracking</report>
-					<report>license</report>
-					<report>scm</report>
-					</reports>
-					</reportSet>
-					</reportSets>
-				-->
 			</plugin>
 			<plugin>
 				<artifactId>maven-javadoc-plugin</artifactId>
@@ -238,19 +227,5 @@
 			<archive>https://sourceforge.net/mailarchive/forum.php?forum_name=gnu-hylafax-support</archive>
 		</mailingList>
 	</mailingLists>
-
-	<pluginRepositories>
-		<pluginRepository>
-			<id>Maven Snapshots</id>
-			<url>http://snapshots.maven.codehaus.org/maven2/</url>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-			<releases>
-				<enabled>false</enabled>
-			</releases>
-		</pluginRepository>
-	</pluginRepositories>
-
 
 </project>
