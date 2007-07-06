@@ -5,6 +5,17 @@
 		<author email="sjardine@users.sourceforge.net">sjardine</author>
 	</properties>
 	<body>
+		<release version="1.0.0-b2" date="2007-07-10">
+			<action dev="sjardine" type="fix">
+				<fixes issue="1749236" />
+				FTPClientProtocol no longer throws an exception when code 130 warnings are present.
+			</action>
+			<action dev="sjardine" type="add">
+				<fixes issue="1749255" />
+				Added support for line continuations.
+			</action>
+			<action dev="sjardine" type="fix">Removed duplicate code when doing a get or put.</action>
+		</release>
 		<release version="1.0.0-b1" date="2007-05-09">
 			<action dev="sjardine" type="add">Added a retry function to the Client interface.</action>
 			<action dev="sjardine" type="fix">
