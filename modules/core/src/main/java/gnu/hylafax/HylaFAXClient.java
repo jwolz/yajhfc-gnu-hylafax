@@ -332,7 +332,7 @@ public class HylaFAXClient extends HylaFAXClientProtocol implements Client {
 			line = null;
 		}
 		return result;
-		
+
 	}
 
 	/**
@@ -505,9 +505,8 @@ public class HylaFAXClient extends HylaFAXClientProtocol implements Client {
 			if (pathname != null) {
 				stor(data, pathname);
 				return null;
-			} else {
-				filename = temporary ? stot(data) : stou(data);
 			}
+			filename = temporary ? stot(data) : stou(data);
 		} catch (IOException ioe) {
 			put.cancel();
 			throw ioe;
