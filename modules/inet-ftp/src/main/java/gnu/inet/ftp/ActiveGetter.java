@@ -127,7 +127,7 @@ public class ActiveGetter extends Getter {
 
                 // handle different type settings
                 switch (type) {
-                case FtpClient.TYPE_ASCII:
+                case FtpClientProtocol.TYPE_ASCII:
                     istream = new AsciiInputStream(sock.getInputStream());
                     break;
                 default:
@@ -137,10 +137,10 @@ public class ActiveGetter extends Getter {
 
                 // handle different mode settings
                 switch (mode) {
-                case FtpClient.MODE_ZLIB:
+                case FtpClientProtocol.MODE_ZLIB:
                     istream = new InflaterInputStream(istream);
                     break;
-                case FtpClient.MODE_STREAM:
+                case FtpClientProtocol.MODE_STREAM:
                 default:
                     break;
                 }// switch

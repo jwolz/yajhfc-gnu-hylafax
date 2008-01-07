@@ -122,7 +122,7 @@ public class ActivePutter extends Putter {
 
 				// handle different type settings
 				switch (type) {
-				case FtpClient.TYPE_ASCII:
+				case FtpClientProtocol.TYPE_ASCII:
 					ostream = new AsciiOutputStream(sock.getOutputStream());
 					break;
 				default:
@@ -132,10 +132,10 @@ public class ActivePutter extends Putter {
 
 				// handle different mode settings
 				switch (mode) {
-				case FtpClient.MODE_ZLIB:
+				case FtpClientProtocol.MODE_ZLIB:
 					ostream = new DeflaterOutputStream(ostream);
 					break;
-				case FtpClient.MODE_STREAM:
+				case FtpClientProtocol.MODE_STREAM:
 				default:
 					break;
 				}// switch

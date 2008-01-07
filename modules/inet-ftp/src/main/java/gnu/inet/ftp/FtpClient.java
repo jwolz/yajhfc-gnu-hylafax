@@ -123,10 +123,10 @@ public class FtpClient extends FtpClientProtocol implements
 	 * @exception ServerResponseException
 	 *                the server replied with an error code
 	 */
-	public synchronized void mode(char mode) throws IOException,
+	public synchronized void mode(char newMode) throws IOException,
 			ServerResponseException {
-		super.mode(mode);
-		this.mode = mode; // cache the mode for later use
+		super.mode(newMode);
+		this.mode = newMode; // cache the mode for later use
 	}// mode
 
 	/**

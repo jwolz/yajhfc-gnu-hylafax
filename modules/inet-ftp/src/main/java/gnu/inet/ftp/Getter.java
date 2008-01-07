@@ -63,8 +63,8 @@ public class Getter extends Thread implements ConnectionEventSource,
 		this.cancelled = false;
 		this.connectionListeners = new Vector();
 		this.transferListeners = new Vector();
-		this.mode = FtpClient.MODE_STREAM;
-		this.type = FtpClient.TYPE_IMAGE;
+		this.mode = FtpClientProtocol.MODE_STREAM;
+		this.type = FtpClientProtocol.TYPE_IMAGE;
 	}// end of default constructor
 
 	//

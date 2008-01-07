@@ -610,7 +610,7 @@ public class FtpClientProtocol extends Object {
 	 * @exception ServerResponseException
 	 *                server replied with an error code
 	 */
-	public synchronized void port(InetAddress address, int port)
+	public synchronized void port(InetAddress address, int newPort)
 			throws IOException, ServerResponseException {
 
 		// The PORT command sends a comma-delimited list of positive
@@ -629,12 +629,12 @@ public class FtpClientProtocol extends Object {
 		// now turn all '.' characters into ',' characters
 		addr = addr.replace('.', ',');
 
-		String str = new String("port " + addr + "," + ((port & 0xff00) >> 8)
-				+ "," + (port & 0x00ff));
+		String str = new String("port " + addr + "," + ((newPort & 0xff00) >> 8)
+				+ "," + (newPort & 0x00ff));
 
 		ostream.write(str + "\r\n");
 		ostream.flush();
-		log.debug("-> " + str + " (" + addr.replace(',', '.') + ":" + port
+		log.debug("-> " + str + " (" + addr.replace(',', '.') + ":" + newPort
 				+ ")");
 
 		String response = readResponse(istream);
@@ -1364,10 +1364,9 @@ public class FtpClientProtocol extends Object {
 		addr = addr + "." + st.nextToken();
 		addr = addr + "." + st.nextToken();
 
-		int port;
-		port = (((Integer.parseInt(st.nextToken()) << 8) & 0xff00) | (Integer
+		int p = (((Integer.parseInt(st.nextToken()) << 8) & 0xff00) | (Integer
 				.parseInt(st.nextToken()) & 0x00ff));
-		return new PassiveParameters(addr, port);
+		return new PassiveParameters(addr, p);
 
 	}// pasv
 
