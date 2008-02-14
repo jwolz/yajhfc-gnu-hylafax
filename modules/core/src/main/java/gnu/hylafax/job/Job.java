@@ -23,14 +23,16 @@
 //
 package gnu.hylafax.job;
 
-
-import gnu.hylafax.*;
+import gnu.hylafax.Client;
+import gnu.hylafax.ClientProtocol;
+import gnu.hylafax.job.TimeParser.ParseException;
 import gnu.inet.ftp.ServerResponseException;
 
 import java.awt.Dimension;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.TimeZone;
 
 /**
@@ -41,412 +43,335 @@ import java.util.TimeZone;
  * @see gnu.hylafax.Client
  * @see gnu.hylafax.Job
  **/
-public class Job implements gnu.hylafax.Job
-{
-   protected Client client;
-   private long Id;
+public class Job implements gnu.hylafax.Job {
 
-   public static int PRIORITY_NORMAL= 127;
-   public static int PRIORITY_BULK= 207;
-   public static int PRIORITY_HIGH= 63;
+	protected Client client;
 
-   public static int RESOLUTION_LOW= 98;
-   public static int RESOLUTION_MEDIUM= 196;
+	private long Id;
 
-   public static String NOTIFY_NONE= ClientProtocol.NOTIFY_NONE;
-   public static String NOTIFY_DONE= ClientProtocol.NOTIFY_DONE;
-   public static String NOTIFY_REQUEUE= ClientProtocol.NOTIFY_REQUEUE;
-   public static String NOTIFY_ALL= ClientProtocol.NOTIFY_ALL;
+	public static int PRIORITY_NORMAL = 127;
 
-   public static String CHOP_DEFAULT= "default";
+	public static int PRIORITY_BULK = 207;
 
-   public Job(Client c)
-      throws ServerResponseException,
-         IOException
-   {
-      synchronized(c){
-         client= c;
-         client.jnew();
-         Id= client.job();
-      }
-   }// constructor
+	public static int PRIORITY_HIGH = 63;
 
-   public Job(Client c, long id)
-      throws ServerResponseException,
-         IOException
-   {
-      synchronized(c){
-         client= c;
-         client.job(id);
-         Id= client.job();
-      }
-   }// constructor
+	public static int RESOLUTION_LOW = 98;
 
-   /* (non-Javadoc)
- * @see gnu.hylafax.Job#getFromUser()
- */
-public String getFromUser()
-      throws ServerResponseException,
-         IOException
-   {
-      return getProperty("FROMUSER");
-   }// getFromUser
+	public static int RESOLUTION_MEDIUM = 196;
 
-   public String getKilltime()
-      throws ServerResponseException,
-         IOException
-   {
-      return getProperty("LASTTIME");
-   }// getKilltime
+	public static String NOTIFY_NONE = ClientProtocol.NOTIFY_NONE;
 
-   public int getMaximumDials()
-      throws ServerResponseException,
-         IOException
-   {
-      return Integer.parseInt(getProperty("MAXDIALS"));
-   }// getMaximumDials
+	public static String NOTIFY_DONE = ClientProtocol.NOTIFY_DONE;
 
-   public int getMaximumTries()
-      throws ServerResponseException,
-         IOException
-   {
-      return Integer.parseInt(getProperty("MAXTRIES"));
-   }// getMaximumTries
+	public static String NOTIFY_REQUEUE = ClientProtocol.NOTIFY_REQUEUE;
 
-   public int getPriority()
-      throws ServerResponseException,
-         IOException
-   {
-      return Integer.parseInt(getProperty("SCHEDPRI"));
-   }// getPriority
+	public static String NOTIFY_ALL = ClientProtocol.NOTIFY_ALL;
 
-   public String getDialstring()
-      throws ServerResponseException,
-         IOException
-   {
-      return getProperty("DIALSTRING");
-   }// getDialstring
+	public static String CHOP_DEFAULT = "default";
 
-   public String getNotifyAddress()
-      throws ServerResponseException,
-         IOException
-   {
-      return getProperty("NOTIFYADDR");
-   }// getNotifyAddress
+	public Job(Client c) throws ServerResponseException, IOException {
+		synchronized (c) {
+			client = c;
+			client.jnew();
+			Id = client.job();
+		}
+	}// constructor
 
-   public int getVerticalResolution()
-      throws ServerResponseException,
-         IOException
-   {
-      return Integer.parseInt(getProperty("VRES"));
-   }// getVerticalResolution
+	public Job(Client c, long id) throws ServerResponseException, IOException {
+		synchronized (c) {
+			client = c;
+			client.job(id);
+			Id = client.job();
+		}
+	}// constructor
 
-   public Dimension getPageDimension()
-      throws ServerResponseException,
-         IOException
-   {
-      return new Dimension(getPageWidth(), getPageLength());
-   }// getPageDimension
+	/* (non-Javadoc)
+	* @see gnu.hylafax.Job#getFromUser()
+	*/
+	public String getFromUser() throws ServerResponseException, IOException {
+		return getProperty("FROMUSER");
+	}// getFromUser
 
-   public int getPageWidth()
-      throws ServerResponseException,
-         IOException
-   {
-      return Integer.parseInt(getProperty("PAGEWIDTH"));
-   }// getPageWidth
+	public String getKilltime() throws ServerResponseException, IOException {
+		return getProperty("LASTTIME");
+	}// getKilltime
 
-   public int getPageLength()
-      throws ServerResponseException,
-         IOException
-   {
-      return Integer.parseInt(getProperty("PAGELENGTH"));
-   }// getPageLength
+	public int getMaximumDials() throws ServerResponseException, IOException {
+		return Integer.parseInt(getProperty("MAXDIALS"));
+	}// getMaximumDials
 
-   public String getNotifyType()
-      throws ServerResponseException,
-         IOException
-   {
-      return getProperty("NOTIFY");
-   }// getNotifyType
+	public int getMaximumTries() throws ServerResponseException, IOException {
+		return Integer.parseInt(getProperty("MAXTRIES"));
+	}// getMaximumTries
 
-   public String getPageChop()
-      throws ServerResponseException,
-         IOException
-   {
-      return getProperty("PAGECHOP");
-   }// getPageChop
+	public int getPriority() throws ServerResponseException, IOException {
+		return Integer.parseInt(getProperty("SCHEDPRI"));
+	}// getPriority
 
-   public int getChopThreshold()
-      throws ServerResponseException,
-         IOException
-   {
-      return Integer.parseInt(getProperty("CHOPTHRESHOLD"));
-   }// getChopThreshold
+	public String getDialstring() throws ServerResponseException, IOException {
+		return getProperty("DIALSTRING");
+	}// getDialstring
 
-   public String getDocumentName()
-      throws ServerResponseException,
-         IOException
-   {
-      return getProperty("DOCUMENT");
-   }// getDocumentName
+	public String getNotifyAddress() throws ServerResponseException,
+			IOException {
+		return getProperty("NOTIFYADDR");
+	}// getNotifyAddress
 
-   public String getRetrytime()
-      throws ServerResponseException,
-         IOException
-   {
-      return getProperty("RETRYTIME");
-   }// getRetrytime
+	public int getVerticalResolution() throws ServerResponseException,
+			IOException {
+		return Integer.parseInt(getProperty("VRES"));
+	}// getVerticalResolution
 
-   /**
-    * Get the value for an arbitrary property for this job.
-    * Developers using this method should be familiar with the HylaFAX client protocol in order to provide the correct key values and how to interpret the values returned.
-    * @exception ServerResponseException the server responded with an error.  This is likely due to a protocol error.
-    * @exception IOException an i/o error occured
-    * @return a String value for the given property key
-    */
-   public String getProperty(String key)
-      throws ServerResponseException,
-         IOException
-   {
-         String tmp= client.jparm(key);
-         return tmp;
-   }// getProperty
+	public Dimension getPageDimension() throws ServerResponseException,
+			IOException {
+		return new Dimension(getPageWidth(), getPageLength());
+	}// getPageDimension
 
-   /**
-    * get the job-id of this Job instance. 
-    * @return job id
-    */
-   public long getId(){
-      return Id;
-   }// getId
+	public int getPageWidth() throws ServerResponseException, IOException {
+		return Integer.parseInt(getProperty("PAGEWIDTH"));
+	}// getPageWidth
 
-   public void setFromUser(String value)
-      throws ServerResponseException,
-         IOException
-   {
-      setProperty("FROMUSER", value);
-   }// setFromUser
+	public int getPageLength() throws ServerResponseException, IOException {
+		return Integer.parseInt(getProperty("PAGELENGTH"));
+	}// getPageLength
 
-   public void setKilltime(String value)
-      throws ServerResponseException,
-         IOException
-   {
-      setProperty("LASTTIME", value);
-   }// setKilltime
+	public String getNotifyType() throws ServerResponseException, IOException {
+		return getProperty("NOTIFY");
+	}// getNotifyType
 
-   public void setMaximumDials(int value)
-      throws ServerResponseException,
-         IOException
-   {
-      setProperty("MAXDIALS", value);
-   }// setMaximumDials
+	public String getPageChop() throws ServerResponseException, IOException {
+		return getProperty("PAGECHOP");
+	}// getPageChop
 
-   public void setMaximumTries(int value)
-      throws ServerResponseException,
-         IOException
-   {
-      setProperty("MAXTRIES", value);
-   }// setMaximumTries
+	public int getChopThreshold() throws ServerResponseException, IOException {
+		return Integer.parseInt(getProperty("CHOPTHRESHOLD"));
+	}// getChopThreshold
 
-   public void setPriority(int value)
-      throws ServerResponseException,
-         IOException
-   {
-      setProperty("SCHEDPRI", value);
-   }// setPriority
+	public String getDocumentName() throws ServerResponseException, IOException {
+		return getProperty("DOCUMENT");
+	}// getDocumentName
 
-   public void setDialstring(String value)
-      throws ServerResponseException,
-         IOException
-   {
-      setProperty("DIALSTRING", value);
-   }// setDialstring
+	public String getRetrytime() throws ServerResponseException, IOException {
+		return getProperty("RETRYTIME");
+	}// getRetrytime
 
-   public void setNotifyAddress(String value)
-      throws ServerResponseException,
-         IOException
-   {
-      setProperty("NOTIFYADDR", value);
-   }// setNotifyAddress
+	/**
+	 * Get the value for an arbitrary property for this job.
+	 * Developers using this method should be familiar with the HylaFAX client protocol in order to provide the correct key values and how to interpret the values returned.
+	 * @exception ServerResponseException the server responded with an error.  This is likely due to a protocol error.
+	 * @exception IOException an i/o error occured
+	 * @return a String value for the given property key
+	 */
+	public String getProperty(String key) throws ServerResponseException,
+			IOException {
+		String tmp = client.jparm(key);
+		return tmp;
+	}// getProperty
 
-   public void setVerticalResolution(int value)
-      throws ServerResponseException,
-         IOException
-   {
-      setProperty("VRES", value);
-   }// setVerticalResolution
+	/**
+	 * get the job-id of this Job instance. 
+	 * @return job id
+	 */
+	public long getId() {
+		return Id;
+	}// getId
 
-   public void setPageDimension(Dimension value)
-      throws ServerResponseException,
-         IOException
-   {
-      setPageWidth((int)value.getWidth());
-      setPageLength((int)value.getHeight());
-   }// setPageDimension
+	public void setFromUser(String value) throws ServerResponseException,
+			IOException {
+		setProperty("FROMUSER", value);
+	}// setFromUser
 
-   public void setPageWidth(int width)
-      throws ServerResponseException,
-         IOException
-   {
-      setProperty("PAGEWIDTH", width);
-   }// setPageWidth
+	public void setKilltime(String value) throws ServerResponseException,
+			IOException {
+		String time;
+		try {
+			time = new TimeParser().getKillTime(value);
+		} catch (ParseException e) {
+			time = value;
+		}
+		setProperty("LASTTIME", time);
+	}// setKilltime
 
-   public void setPageLength(int length)
-      throws ServerResponseException,
-         IOException
-   {
-      setProperty("PAGELENGTH", length);
-   }// setPageLength
+	public void setMaximumDials(int value) throws ServerResponseException,
+			IOException {
+		setProperty("MAXDIALS", value);
+	}// setMaximumDials
 
-   /**
-    * Get JobInfo attribute.
-    * JobInfo is an identifying string associated with the job.
-    */
-   public String getJobInfo()
-	throws ServerResponseException, IOException
-   {
-      return getProperty("JOBINFO");
-   }// getJobInfo
+	public void setMaximumTries(int value) throws ServerResponseException,
+			IOException {
+		setProperty("MAXTRIES", value);
+	}// setMaximumTries
 
-   /**
-    * Get TagLine format attribute.
-    * The TagLine
-    */
-   public String getTagline()
-      throws ServerResponseException, IOException
-   {
-      return getProperty("TAGLINE");
-   }// getTagline
+	public void setPriority(int value) throws ServerResponseException,
+			IOException {
+		setProperty("SCHEDPRI", value);
+	}// setPriority
 
-   /**
-    * Get the UseTagLine attribute.
-    * The TagLine
-    */
-   public boolean getUseTagline()
-      throws ServerResponseException, IOException
-   {
-      return ("YES".equalsIgnoreCase(getProperty("USETAGLINE"))?true:false);
-   }// getUseTagline
- 
-   /**
-    * set the notification type.  For possible values, see the NOTIFY_*
-    * members of this class.
-    * @param value the new notification type
-    * @exception ServerResponseException the server responded with an error.  This is likely a protocol violation.
-    * @exception IOException an IO error occurred while communicating with the server
-    */
-   public void setNotifyType(String value)
-      throws ServerResponseException,
-         IOException
-   {
-      setProperty("NOTIFY", value);
-   }// setNotifyType
+	public void setDialstring(String value) throws ServerResponseException,
+			IOException {
+		setProperty("DIALSTRING", value);
+	}// setDialstring
 
-   public void setPageChop(String value)
-      throws ServerResponseException,
-         IOException
-   {
-      setProperty("PAGECHOP", value);
-   }// setPageChop
+	public void setNotifyAddress(String value) throws ServerResponseException,
+			IOException {
+		setProperty("NOTIFYADDR", value);
+	}// setNotifyAddress
 
-   public void setChopThreshold(int value)
-      throws ServerResponseException,
-         IOException
-   {
-      setProperty("CHOPTHRESHOLD", value);
-   }// setChopThreshold
+	public void setVerticalResolution(int value)
+			throws ServerResponseException, IOException {
+		setProperty("VRES", value);
+	}// setVerticalResolution
 
-   public void addDocument(String value)
-      throws ServerResponseException,
-         IOException
-   {
-      setProperty("DOCUMENT", value);
-   }// addDocument
+	public void setPageDimension(Dimension value)
+			throws ServerResponseException, IOException {
+		setPageWidth((int) value.getWidth());
+		setPageLength((int) value.getHeight());
+	}// setPageDimension
 
-   public void setUseTagline(boolean value)
-      throws ServerResponseException, IOException
-   {
-      setProperty("USETAGLINE", (value?"YES":"NO"));
-   }// setUseTagline
+	public void setPageWidth(int width) throws ServerResponseException,
+			IOException {
+		setProperty("PAGEWIDTH", width);
+	}// setPageWidth
 
-   public void setRetrytime(String value)
-      throws ServerResponseException,
-         IOException
-   {
-      setProperty("RETRYTIME", value);
-   }// setRetrytime
+	public void setPageLength(int length) throws ServerResponseException,
+			IOException {
+		setProperty("PAGELENGTH", length);
+	}// setPageLength
 
-   /**
-    * Set the JobInfo attribute.
-    * This is an identifying string associated with each job.
-    */
-   public void setJobInfo(String value)
-      throws ServerResponseException, IOException
-   {
-      setProperty("JOBINFO", value);
-   }// setJobInfo
+	/**
+	 * Get JobInfo attribute.
+	 * JobInfo is an identifying string associated with the job.
+	 */
+	public String getJobInfo() throws ServerResponseException, IOException {
+		return getProperty("JOBINFO");
+	}// getJobInfo
 
-   /**
-    * Set the TagLine format attribute.
-    * This property specifies the format of the tagline rendered at
-    * the top of each page of the transmitted FAX.
-    * Tagline format strings are documented in config(5F).
-    * If you use this, you will probably want to use setUseTagline()
-    */
-   public void setTagline(String value)
-      throws ServerResponseException, IOException
-   {
-      setProperty("TAGLINE",value);
-   }// setTagline
+	/**
+	 * Get TagLine format attribute.
+	 * The TagLine
+	 */
+	public String getTagline() throws ServerResponseException, IOException {
+		return getProperty("TAGLINE");
+	}// getTagline
 
-   /**
-    * Set any arbitrary property on this job.
-    * In order to use this method, developers should be familiar with the HylaFAX client protocol.
-    * @exception ServerResponseException the server responded with an error code.  This is likely a protocol violation.
-    * @exception IOException an i/o error occured
-    */
-   public void setProperty(String parameter, String value)
-      throws ServerResponseException,
-         IOException
-   {
-         client.jparm(parameter, value);
-   }// setProperty
+	/**
+	 * Get the UseTagLine attribute.
+	 * The TagLine
+	 */
+	public boolean getUseTagline() throws ServerResponseException, IOException {
+		return ("YES".equalsIgnoreCase(getProperty("USETAGLINE")) ? true
+				: false);
+	}// getUseTagline
 
-   /**
-    * Set any arbitrary property on this job to an integer value.
-    * In order to use this method, developers should be familiar with the HylaFAX client protocol.
-    * @exception ServerResponseException the server responded with an error code.  This is likely a protocol violation.
-    * @exception IOException an i/o error occured
-    */
-   public void setProperty(String property, int value)
-      throws ServerResponseException,
-         IOException
-   {
-      setProperty(property, (new Integer(value)).toString());
-   }// setProperty
+	/**
+	 * set the notification type.  For possible values, see the NOTIFY_*
+	 * members of this class.
+	 * @param value the new notification type
+	 * @exception ServerResponseException the server responded with an error.  This is likely a protocol violation.
+	 * @exception IOException an IO error occurred while communicating with the server
+	 */
+	public void setNotifyType(String value) throws ServerResponseException,
+			IOException {
+		setProperty("NOTIFY", value);
+	}// setNotifyType
 
-   /* (non-Javadoc)
-    * @see gnu.hylafax.Job#setSendTime(java.util.Date)
-    */
-    public void setSendTime(Date sendTime)
-       throws ServerResponseException,
-          IOException
-    {
-      //Format the date using the GMT timezone and Hylafax date format for SENDTIME.
-      SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmm");
-      df.setTimeZone(TimeZone.getTimeZone("GMT"));
-      setProperty("SENDTIME", df.format(sendTime));
-    }// setSentTime
+	public void setPageChop(String value) throws ServerResponseException,
+			IOException {
+		setProperty("PAGECHOP", value);
+	}// setPageChop
 
-    /* (non-Javadoc)
-    * @see gnu.hylafax.Job#setSendTime(java.lang.String)
-    */
-   public void setSendTime(String sendTime)
-       throws ServerResponseException,
-          IOException   
-    {
-      setProperty("SENDTIME", sendTime);
-    }// setSentTime
+	public void setChopThreshold(int value) throws ServerResponseException,
+			IOException {
+		setProperty("CHOPTHRESHOLD", value);
+	}// setChopThreshold
+
+	public void addDocument(String value) throws ServerResponseException,
+			IOException {
+		setProperty("DOCUMENT", value);
+	}// addDocument
+
+	public void setUseTagline(boolean value) throws ServerResponseException,
+			IOException {
+		setProperty("USETAGLINE", (value ? "YES" : "NO"));
+	}// setUseTagline
+
+	public void setRetrytime(String value) throws ServerResponseException,
+			IOException {
+		setProperty("RETRYTIME", value);
+	}// setRetrytime
+
+	/**
+	 * Set the JobInfo attribute.
+	 * This is an identifying string associated with each job.
+	 */
+	public void setJobInfo(String value) throws ServerResponseException,
+			IOException {
+		setProperty("JOBINFO", value);
+	}// setJobInfo
+
+	/**
+	 * Set the TagLine format attribute.
+	 * This property specifies the format of the tagline rendered at
+	 * the top of each page of the transmitted FAX.
+	 * Tagline format strings are documented in config(5F).
+	 * If you use this, you will probably want to use setUseTagline()
+	 */
+	public void setTagline(String value) throws ServerResponseException,
+			IOException {
+		setProperty("TAGLINE", value);
+	}// setTagline
+
+	/**
+	 * Set any arbitrary property on this job.
+	 * In order to use this method, developers should be familiar with the HylaFAX client protocol.
+	 * @exception ServerResponseException the server responded with an error code.  This is likely a protocol violation.
+	 * @exception IOException an i/o error occured
+	 */
+	public void setProperty(String parameter, String value)
+			throws ServerResponseException, IOException {
+		client.jparm(parameter, value);
+	}// setProperty
+
+	/**
+	 * Set any arbitrary property on this job to an integer value.
+	 * In order to use this method, developers should be familiar with the HylaFAX client protocol.
+	 * @exception ServerResponseException the server responded with an error code.  This is likely a protocol violation.
+	 * @exception IOException an i/o error occured
+	 */
+	public void setProperty(String property, int value)
+			throws ServerResponseException, IOException {
+		setProperty(property, (new Integer(value)).toString());
+	}// setProperty
+
+	/* (non-Javadoc)
+	 * @see gnu.hylafax.Job#setSendTime(java.util.Date)
+	 */
+	public void setSendTime(Date sendTime) throws ServerResponseException,
+			IOException {
+		// Format the date using the GMT timezone and Hylafax date format for SENDTIME.
+		SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmm");
+		df.setTimeZone(TimeZone.getTimeZone("GMT"));
+		setProperty("SENDTIME", df.format(sendTime));
+	}
+
+	/* (non-Javadoc)
+	* @see gnu.hylafax.Job#setSendTime(java.lang.String)
+	*/
+	public void setSendTime(String sendTime) throws ServerResponseException,
+			IOException {
+		setSendTime(sendTime, Locale.getDefault(), TimeZone.getDefault());
+	}
+
+	public void setSendTime(String sendTime, Locale locale, TimeZone timeZone)
+			throws ServerResponseException, IOException {
+		String time;
+		try {
+			time = new TimeParser(locale, timeZone).getSendTime(sendTime);
+		} catch (ParseException e) {
+			time = sendTime;
+		}
+		setProperty("SENDTIME", time);
+	}
 
 }// Job class
 
