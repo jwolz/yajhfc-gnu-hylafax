@@ -12,9 +12,9 @@
 			<action dev="sjardine" type="add">
 				Integrated TimeParser class into the setSendTime and setKillTime functions.
 			</action>
-			<action dev="sjardine" type="add" due-to="Stefan Uterhofer" due-to-email="stefan.unterhofer@enerbility.com">
-				Helper class for parsing SENDTIME and LASTTIME values. An examples is "now + 5 minutes". Thank
-				you Stefan Uterhofer.
+			<action dev="sjardine" type="add" due-to="Stefan Uterhofer"
+				due-to-email="stefan.unterhofer@enerbility.com">
+				Helper class for parsing SENDTIME and LASTTIME values. An examples is "now + 5 minutes".
 			</action>
 		</release>
 		<release version="1.0.0-rc1" date="2008-01-07">
