@@ -5,6 +5,23 @@
 		<author email="sjardine@users.sourceforge.net">sjardine</author>
 	</properties>
 	<body>
+		<release version="1.0.0-rc2" date="2008-02-14">
+			<action dev="sjardine" type="fix" due-to="Lieven Poelman" due-to-email="dorpsidioot@gmail.com">
+				Added setSoLinger call to prevent CLOSE_WAIT and TIME_WAIT socket states.
+			</action>
+			<action dev="sjardine" type="add">
+				Integrated TimeParser class into the setSendTime and setKillTime functions.
+			</action>
+			<action dev="sjardine" type="add" due-to="Stefan Uterhofer" due-to-email="stefan.unterhofer@enerbility.com">
+				Helper class for parsing SENDTIME and LASTTIME values. An examples is "now + 5 minutes". Thank
+				you Stefan Uterhofer.
+			</action>
+		</release>
+		<release version="1.0.0-rc1" date="2008-01-07">
+			<action dev="sjardine" type="fix">
+				Removed some potential programming problems. Parameter shadowing. Local variable shadowing.
+			</action>
+		</release>
 		<release version="1.0.0-b2" date="2007-07-10">
 			<action dev="sjardine" type="fix">
 				<fixes issue="1749236" />
@@ -31,11 +48,16 @@
 				Added new null checks.
 			</action>
 			<action dev="sjardine" type="delete">Removed obsolete files.</action>
-			<action dev="sjardine" type="add">Converted site documentation over to Apache's Maven's Site.</action>
-			<action dev="sjardine" type="add">Created separate modules inet-ftp, core, pool, and utils.</action>
+			<action dev="sjardine" type="add">
+				Converted site documentation over to Apache's Maven's Site.
+			</action>
+			<action dev="sjardine" type="add">
+				Created separate modules inet-ftp, core, pool, and utils.
+			</action>
 			<action dev="sjardine" type="add">Converted build system to Apache's Maven.</action>
 			<action dev="sjardine" type="add">Switched version control system from cvs to subversion.</action>
-			<action dev="sjardine" due-to="Thomas Papendieck" due-to-email="t.papendieck@t-online.net" type="fix">
+			<action dev="sjardine" due-to="Thomas Papendieck" due-to-email="t.papendieck@t-online.net"
+				type="fix">
 				Fixed problem with clients in the pool not getting released properly.
 			</action>
 		</release>
