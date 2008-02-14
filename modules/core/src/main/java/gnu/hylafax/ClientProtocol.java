@@ -76,6 +76,46 @@ public interface ClientProtocol {
     public void admin(String password) throws IOException, ServerResponseException;
 
     /**
+     * get site config parameters of the current client.
+     * 
+     * @param parm the name of the site parameter to change
+     * @param value the value of the given parameter
+     * @exception IOException io error occurred
+     * @exception ServerResponseException server replied with an error code
+     */
+    public void config(String parm, int value) throws IOException, ServerResponseException;
+
+    /**
+     * get site config parameters of the current client.
+     * 
+     * @param parm the name of the site parameter to change
+     * @param value the value of the given parameter
+     * @exception IOException io error occurred
+     * @exception ServerResponseException server replied with an error code
+     */
+    public void config(String parm, long value) throws IOException, ServerResponseException;
+
+    /**
+     * get site config parameters of the current client.
+     * 
+     * @param parm the name of the site parameter to change
+     * @param value the value of the given parameter as an Object
+     * @exception IOException io error occurred
+     * @exception ServerResponseException server replied with an error code
+     */
+    public void config(String parm, Object value) throws IOException, ServerResponseException;
+
+    /**
+     * get site config parameters of the current client.
+     * 
+     * @param parm the name of the site parameter to change
+     * @param value the value of the given parameter
+     * @exception IOException io error occurred
+     * @exception ServerResponseException server replied with an error code
+     */
+    public void config(String parm, String value) throws IOException, ServerResponseException;
+
+    /**
      * get the FILEFMT string value. The FILEFMT string specifies how file status information is formatted
      * when returned by the LIST and STAT commands. Refer to the HylaFAX man pages, hfaxd(8c), for information
      * on the formatting codes that can be used in this string.
@@ -361,6 +401,46 @@ public interface ClientProtocol {
      * @exception ServerResponseException the server responded with an error code
      */
     public void rcvfmt(String value) throws IOException, ServerResponseException;
+
+    /**
+     * set site parameters on the current client.
+     * 
+     * @param parm the name of the site parameter to change
+     * @param value the value of the given parameter
+     * @exception IOException io error occurred
+     * @exception ServerResponseException server replied with an error code
+     */
+    public void site(String parm, int value) throws IOException, ServerResponseException;
+
+    /**
+     * set site parameters on the current client.
+     * 
+     * @param parm the name of the site parameter to change
+     * @param value the value of the given parameter
+     * @exception IOException io error occurred
+     * @exception ServerResponseException server replied with an error code
+     */
+    public void site(String parm, long value) throws IOException, ServerResponseException;
+
+    /**
+     * set site parameters on the current client.
+     * 
+     * @param parm the name of the site parameter to change
+     * @param value the value of the given parameter as an Object
+     * @exception IOException io error occurred
+     * @exception ServerResponseException server replied with an error code
+     */
+    public void site(String parm, Object value) throws IOException, ServerResponseException;
+
+    /**
+     * set site parameters on the current client.
+     * 
+     * @param parm the name of the site parameter to change
+     * @param value the value of the given parameter
+     * @exception IOException io error occurred
+     * @exception ServerResponseException server replied with an error code
+     */
+    public void site(String parm, String value) throws IOException, ServerResponseException;
 
     /**
      * Returns the size (in bytes) of the given regular file. This is the size on the server and may not
