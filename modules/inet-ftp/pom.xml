@@ -4,14 +4,14 @@
 	<groupId>gnu-hylafax</groupId>
 	<artifactId>gnu-hylafax-inet-ftp</artifactId>
 	<packaging>jar</packaging>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1.0.0-rc2</version>
 	<name>Inet-FTP Module</name>
 	<url>http://gnu-hylafax.sourceforge.net/gnu-hylafax-inet-ftp</url>
 
 	<parent>
 		<groupId>gnu-hylafax</groupId>
 		<artifactId>gnu-hylafax</artifactId>
-		<version>1.0.0-SNAPSHOT</version>
+		<version>1.0.0-rc2</version>
 		<relativePath>../../pom.xml</relativePath>
 	</parent>
 
