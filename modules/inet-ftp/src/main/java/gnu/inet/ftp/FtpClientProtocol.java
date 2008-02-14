@@ -73,6 +73,10 @@ import java.util.Vector;
  * Most developers should use the higher-level FtpClient to perform some actions
  * rather than this class directly.
  * 
+ * @author <a href="mailto:jaiger@net-foundry.com">Joe Phillips</a>
+ * @author <a href="mailto:steve@mjnservices.com">Steven Jardine</a>
+ * @author <a href="mailto:dorpsidioot@gmail.com">Lieven Poelman</a>
+ * 
  * @version $Id: FtpClientProtocol.java,v 1.7 2007/05/07 18:26:54 sjardine Exp $
  */
 public class FtpClientProtocol extends Object {
@@ -629,8 +633,8 @@ public class FtpClientProtocol extends Object {
 		// now turn all '.' characters into ',' characters
 		addr = addr.replace('.', ',');
 
-		String str = new String("port " + addr + "," + ((newPort & 0xff00) >> 8)
-				+ "," + (newPort & 0x00ff));
+		String str = new String("port " + addr + ","
+				+ ((newPort & 0xff00) >> 8) + "," + (newPort & 0x00ff));
 
 		ostream.write(str + "\r\n");
 		ostream.flush();
@@ -1394,6 +1398,7 @@ public class FtpClientProtocol extends Object {
 				throw (new ServerResponseException(response));
 			}// end of if
 		} finally {
+			sock.setSoLinger(true, 0); //Thanks Lieven!
 			sock.close();
 		}
 	}// end of quit method
