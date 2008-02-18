@@ -87,7 +87,7 @@ import gnu.inet.logging.LoggingFactory;
  */
 public class SendFax {
 
-	private final static Logger log = LoggingFactory.getLogger(SendFax.class);
+	private final static Log log = LogFactory.getLog(SendFax.class);
 
 	public static void main(String arguments[]) {
 		BasicConfigurator.configure();

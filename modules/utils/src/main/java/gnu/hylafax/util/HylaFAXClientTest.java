@@ -49,7 +49,7 @@ import org.apache.log4j.BasicConfigurator;
  */
 public class HylaFAXClientTest extends HylaFAXClient {
     
-    private final static Logger log = LoggingFactory.getLogger(Client.class);
+    private final static Log log = LogFactory.getLog(Client.class);
     
     /** Creates a new instance of HylaFAXClientTest */
     public HylaFAXClientTest() {

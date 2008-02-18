@@ -25,8 +25,6 @@ package gnu.hylafax;
 
 import gnu.inet.ftp.FtpClientProtocol;
 import gnu.inet.ftp.ServerResponseException;
-import gnu.inet.logging.Logger;
-import gnu.inet.logging.LoggingFactory;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -35,6 +33,9 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * This is the core implementation of the HylaFAX client protocol.
@@ -58,7 +59,7 @@ public class HylaFAXClientProtocol extends FtpClientProtocol implements ClientPr
     public static int DEFAULT_PORT = 4559;
 
     // public static stuff
-    private final static Logger log = LoggingFactory.getLogger(ClientProtocol.class);
+    private final static Log log = LogFactory.getLog(ClientProtocol.class);
 
     /**
      * use the GMT timezone for date fields.
