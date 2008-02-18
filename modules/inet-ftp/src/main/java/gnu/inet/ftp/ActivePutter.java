@@ -19,9 +19,6 @@
 // Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 package gnu.inet.ftp;
 
-import gnu.inet.logging.Logger;
-import gnu.inet.logging.LoggingFactory;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InterruptedIOException;
@@ -31,6 +28,9 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.zip.DeflaterOutputStream;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 /**
  * This class implements an FTP-style data connection server thread for PUTing
  * in a non-passive files/data.
@@ -38,152 +38,148 @@ import java.util.zip.DeflaterOutputStream;
  * This class is used internally to the FtpClient class.
  */
 public class ActivePutter extends Putter {
-	// private data
-	private final static Logger log = LoggingFactory
-			.getLogger(ActivePutter.class);
 
-	private InetAddress address;
+    private final static Log log = LogFactory.getLog(ActivePutter.class);
 
-	private int port;
+    private InetAddress address;
 
-	private ServerSocket server;
+    private int port;
 
-	private int timeout;
+    private ServerSocket server;
 
-	/**
-	 * Create a new ActivePutter thread given the InputStream data source.
-	 * 
-	 * @param in
-	 *            data source
-	 * @exception IOException
-	 *                io error with the ServerSocket
-	 */
-	public ActivePutter(InputStream in) throws IOException {
-		super();
+    private int timeout;
 
-		// create server socket
-		this.server = new ServerSocket(0);
-		this.timeout = 30 * 1000; // 30s timeout
-		// store the port that the server is listening on
-		this.port = server.getLocalPort();
-		this.address = this.server.getInetAddress();
+    /**
+     * Create a new ActivePutter thread given the InputStream data source.
+     * 
+     * @param in
+     *            data source
+     * @exception IOException
+     *                io error with the ServerSocket
+     */
+    public ActivePutter(InputStream in) throws IOException {
+        super();
 
-		this.istream = in;
-	}// end of default constructor
+        // create server socket
+        this.server = new ServerSocket(0);
+        this.timeout = 30 * 1000; // 30s timeout
+        // store the port that the server is listening on
+        this.port = server.getLocalPort();
+        this.address = this.server.getInetAddress();
 
-	//
-	// public methods
-	//
+        this.istream = in;
+    }// end of default constructor
 
-	/**
-	 * get address that this Putter is listening on
-	 * 
-	 * @return server socket IP address
-	 */
-	public InetAddress getInetAddress() {
-		return address;
-	}// getInetAddress
+    //
+    // public methods
+    //
 
-	/**
-	 * get the port this ActivePutter is listening on
-	 * 
-	 * @return port number
-	 */
-	public synchronized int getPort() {
-		return port;
-	}// getPort
+    /**
+     * get address that this Putter is listening on
+     * 
+     * @return server socket IP address
+     */
+    public InetAddress getInetAddress() {
+        return address;
+    }// getInetAddress
 
-	/**
-	 * implements thread behavior. Put data to server using given parameters.
-	 */
-	public void run() {
-		boolean signalClosure = false;
-		Socket sock = null;
-		OutputStream ostream;
-		long amount = 0;
-		int buffer_size = 0;
-		byte buffer[] = new byte[BUFFER_SIZE];
-		// this.cancelled= false; // reset cancelled flag
+    /**
+     * get the port this ActivePutter is listening on
+     * 
+     * @return port number
+     */
+    public synchronized int getPort() {
+        return port;
+    }// getPort
 
-		try {
-			// wait for connection
-			server.setSoTimeout(timeout); // can only wait so long
-			if (cancelled)
-				throw new InterruptedIOException("Transfer cancelled"); // small
-			// race
-			// condition
-			// here
-			sock = server.accept();
-			signalConnectionOpened(new ConnectionEvent(sock.getInetAddress(),
-					sock.getPort()));
-			signalTransferStarted();
+    /**
+     * implements thread behavior. Put data to server using given parameters.
+     */
+    public void run() {
+        boolean signalClosure = false;
+        Socket sock = null;
+        OutputStream ostream;
+        long amount = 0;
+        int buffer_size = 0;
+        byte buffer[] = new byte[BUFFER_SIZE];
+        // this.cancelled= false; // reset cancelled flag
 
-			try {
+        try {
+            // wait for connection
+            server.setSoTimeout(timeout); // can only wait so long
+            if (cancelled) throw new InterruptedIOException("Transfer cancelled"); // small
+            // race
+            // condition
+            // here
+            sock = server.accept();
+            signalConnectionOpened(new ConnectionEvent(sock.getInetAddress(), sock.getPort()));
+            signalTransferStarted();
 
-				// handle different type settings
-				switch (type) {
-				case FtpClientProtocol.TYPE_ASCII:
-					ostream = new AsciiOutputStream(sock.getOutputStream());
-					break;
-				default:
-					ostream = sock.getOutputStream();
-					break;
-				}// switch
+            try {
 
-				// handle different mode settings
-				switch (mode) {
-				case FtpClientProtocol.MODE_ZLIB:
-					ostream = new DeflaterOutputStream(ostream);
-					break;
-				case FtpClientProtocol.MODE_STREAM:
-				default:
-					break;
-				}// switch
+                // handle different type settings
+                switch (type) {
+                case FtpClientProtocol.TYPE_ASCII:
+                    ostream = new AsciiOutputStream(sock.getOutputStream());
+                    break;
+                default:
+                    ostream = sock.getOutputStream();
+                    break;
+                }// switch
 
-				int len;
-				while ((len = istream.read(buffer)) != -1) {
-					ostream.write(buffer, 0, len);
-					amount += len;
-					buffer_size += len;
-					if (buffer_size >= BUFFER_SIZE) {
-						buffer_size = buffer_size % BUFFER_SIZE;
-						signalTransfered(amount);
-					}
-					yield();
-				}
+                // handle different mode settings
+                switch (mode) {
+                case FtpClientProtocol.MODE_ZLIB:
+                    ostream = new DeflaterOutputStream(ostream);
+                    break;
+                case FtpClientProtocol.MODE_STREAM:
+                default:
+                    break;
+                }// switch
 
-				ostream.close();
-				sock.close();
-			} catch (InterruptedIOException iioe) {
-				if (!cancelled) {
-					log.error(iioe.getMessage(), iioe);
-				}
-			} catch (Exception e) {
-				log.error(e.getMessage(), e);
-			} finally {
-				signalTransferCompleted();
-			}
-		} catch (Exception ee) {
-			signalConnectionFailed(ee);
-			log.error(ee.getMessage(), ee);
-		}
-		if (signalClosure == true && sock != null) {
-			signalConnectionClosed(new ConnectionEvent(sock.getInetAddress(),
-					sock.getPort()));
-		}
-	}// run
+                int len;
+                while ((len = istream.read(buffer)) != -1) {
+                    ostream.write(buffer, 0, len);
+                    amount += len;
+                    buffer_size += len;
+                    if (buffer_size >= BUFFER_SIZE) {
+                        buffer_size = buffer_size % BUFFER_SIZE;
+                        signalTransfered(amount);
+                    }
+                    yield();
+                }
 
-	/**
-	 * set connection timeout in milliseconds. must be called before
-	 * start()/run()
-	 * 
-	 * @param milliseconds
-	 *            the number of milliseconds the server socket should wait for a
-	 *            connection before timing-out. the default timeout is 30s
-	 */
-	public void setTimeout(int milliseconds) {
-		timeout = milliseconds;
-	}// setTimeout
+                ostream.close();
+                sock.close();
+            } catch (InterruptedIOException iioe) {
+                if (!cancelled) {
+                    log.error(iioe.getMessage(), iioe);
+                }
+            } catch (Exception e) {
+                log.error(e.getMessage(), e);
+            } finally {
+                signalTransferCompleted();
+            }
+        } catch (Exception ee) {
+            signalConnectionFailed(ee);
+            log.error(ee.getMessage(), ee);
+        }
+        if (signalClosure == true && sock != null) {
+            signalConnectionClosed(new ConnectionEvent(sock.getInetAddress(), sock.getPort()));
+        }
+    }// run
+
+    /**
+     * set connection timeout in milliseconds. must be called before
+     * start()/run()
+     * 
+     * @param milliseconds
+     *            the number of milliseconds the server socket should wait for a
+     *            connection before timing-out. the default timeout is 30s
+     */
+    public void setTimeout(int milliseconds) {
+        timeout = milliseconds;
+    }// setTimeout
 
 }// ActivePutter
 

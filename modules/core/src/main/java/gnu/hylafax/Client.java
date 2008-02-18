@@ -184,14 +184,6 @@ public interface Client extends ClientProtocol, TransferEventSource, ConnectionE
     public String putTemporary(InputStream data) throws IOException, ServerResponseException;
 
     /**
-     * Sets the ConsoleLogger's debug output. Does nothing for the Lof4jLogger. Log4j needs to be configured
-     * using log4j.properties
-     * 
-     * @param value new debug flag value
-     */
-    public void setDebug(boolean value);
-
-    /**
      * enable or disable passive transfers
      * 
      * @param passive indicates whether passive transfers should be used

@@ -22,10 +22,6 @@
 
 package gnu.inet.ftp;
 
-
-import gnu.inet.logging.Logger;
-import gnu.inet.logging.LoggingFactory;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InterruptedIOException;
@@ -35,6 +31,9 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.zip.InflaterInputStream;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 /**
  * This class implements an FTP-style data connection server thread for GETing files/data non-passively.
  * <P>
@@ -42,7 +41,7 @@ import java.util.zip.InflaterInputStream;
  */
 public class ActiveGetter extends Getter {
     // private data
-    private final static Logger log = LoggingFactory.getLogger(ActiveGetter.class);
+    private final static Log log = LogFactory.getLog(ActiveGetter.class);
 
     private InetAddress address;
 
@@ -52,7 +51,6 @@ public class ActiveGetter extends Getter {
 
     private int timeout;
 
-    
     //
 
     /**
@@ -117,7 +115,7 @@ public class ActiveGetter extends Getter {
             // wait for connection
             server.setSoTimeout(timeout); // can only wait so long
             if (cancelled) throw new InterruptedIOException("Transfer cancelled"); // small race condition
-                                                                                    // here
+            // here
             sock = server.accept();
             signalConnectionOpened(new ConnectionEvent(sock.getInetAddress(), sock.getPort()));
             signalClosure = true;
