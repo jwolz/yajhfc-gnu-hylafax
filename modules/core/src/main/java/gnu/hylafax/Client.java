@@ -35,7 +35,7 @@ import java.util.Vector;
 /**
  * @author <a href="mailto:steve@mjnservices.com">Steven Jardine </a>
  */
-public interface Client extends ClientProtocol, TransferEventSource, ConnectionEventSource {
+public interface Client extends ClientProtocol, TransferEventSource, ConnectionEventSource, StatusEventSource {
 
     /**
      * create a new job in the server
