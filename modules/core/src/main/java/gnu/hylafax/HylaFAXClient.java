@@ -45,9 +45,14 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Enumeration;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * This class implements convenience methods that wrapper the ClientProtocol
@@ -65,6 +70,39 @@ public class HylaFAXClient extends HylaFAXClientProtocol implements Client {
     private static final int LIST = 1;
 
     private static final int NAMELIST = 2;
+
+    private int currentOptions = 0;
+
+    private List statusEventListeners = Collections.synchronizedList(new ArrayList());
+
+    private static final Log log = LogFactory.getLog(HylaFAXClient.class);
+
+    public void addStatusEventListener(StatusEventListener listener) {
+        int mask = listener.getEventMask();
+
+        int tmp = currentOptions | mask;
+        if (tmp != currentOptions) {
+            currentOptions = tmp;
+            String options = "";
+            if ((currentOptions & StatusEventListener.MODEM) == StatusEventListener.MODEM) options += "M*";
+            if ((currentOptions & StatusEventListener.SEND) == StatusEventListener.SEND) options += "S*";
+            if ((currentOptions & StatusEventListener.RECEIVE) == StatusEventListener.RECEIVE) options += "R*";
+            if ((currentOptions & StatusEventListener.JOB) == StatusEventListener.JOB) options += "J*";
+            log.debug("status event options changed to " + options);
+        }
+        statusEventListeners.add(listener);
+    }
+
+    public void addStatusEventListeners(List listeners) {
+        Iterator iterator = listeners.iterator();
+        while (iterator.hasNext()) {
+            addStatusEventListener((StatusEventListener) iterator.next());
+        }
+    }
+
+    public void removeStatusEventListener(StatusEventListener listener) {
+        statusEventListeners.remove(listener);
+    }
 
     /**
      * This is a cached PassiveConnection instance. After some hair-pulling I

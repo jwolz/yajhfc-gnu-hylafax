@@ -586,7 +586,6 @@ public class FtpClientProtocol extends Object {
      *                server replied with an error code
      */
     public synchronized void port(InetAddress address, int newPort) throws IOException, ServerResponseException {
-
         // The PORT command sends a comma-delimited list of positive
         // decimal integers, each of which is one octet of the IP
         // address and port on which this client will accept a
