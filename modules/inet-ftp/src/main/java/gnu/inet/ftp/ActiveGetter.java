@@ -22,7 +22,6 @@
 
 package gnu.inet.ftp;
 
-
 import gnu.inet.logging.Logger;
 import gnu.inet.logging.LoggingFactory;
 
@@ -52,7 +51,6 @@ public class ActiveGetter extends Getter {
 
     private int timeout;
 
-    
     //
 
     /**
@@ -107,7 +105,7 @@ public class ActiveGetter extends Getter {
     public void run() {
         boolean signalClosure = false;
         Socket sock = null;
-        InputStream istream;
+        InputStream istream = null;
         long amount = 0;
         long buffer_size = 0;
         byte buffer[] = new byte[BUFFER_SIZE];
@@ -117,7 +115,7 @@ public class ActiveGetter extends Getter {
             // wait for connection
             server.setSoTimeout(timeout); // can only wait so long
             if (cancelled) throw new InterruptedIOException("Transfer cancelled"); // small race condition
-                                                                                    // here
+            // here
             sock = server.accept();
             signalConnectionOpened(new ConnectionEvent(sock.getInetAddress(), sock.getPort()));
             signalClosure = true;
@@ -165,7 +163,15 @@ public class ActiveGetter extends Getter {
             } catch (Exception e) {
                 log.error(e.getMessage(), e);
             } finally {
+                log.debug("Closing inputstream");
+                if (istream != null) {
+                    istream.close();
+                }
+
+                log.debug("Setting socket to 0 lingering");
+                sock.setSoLinger(true, 0);
                 sock.close(); // make sure the socket is closed
+
                 signalTransferCompleted();
             }
         } catch (InterruptedIOException eiioe) {
@@ -176,7 +182,15 @@ public class ActiveGetter extends Getter {
         } catch (Exception ee) {
             signalConnectionFailed(ee);
             log.error(ee.getMessage(), ee);
+        } finally {
+            try {
+                log.debug("Closing server socket");
+                server.close();
+            } catch (IOException ex) {
+                // don't care
+            }
         }
+
         if (signalClosure == true && sock != null) {
             signalConnectionClosed(new ConnectionEvent(sock.getInetAddress(), sock.getPort()));
         }
