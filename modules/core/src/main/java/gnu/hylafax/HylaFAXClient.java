@@ -71,26 +71,18 @@ public class HylaFAXClient extends HylaFAXClientProtocol implements Client {
 
     private static final int NAMELIST = 2;
 
-    private int currentOptions = 0;
+    private static final Log log = LogFactory.getLog(HylaFAXClient.class);
 
     private List statusEventListeners = Collections.synchronizedList(new ArrayList());
 
-    private static final Log log = LogFactory.getLog(HylaFAXClient.class);
-
     public void addStatusEventListener(StatusEventListener listener) {
-        int mask = listener.getEventMask();
-
-        int tmp = currentOptions | mask;
-        if (tmp != currentOptions) {
-            currentOptions = tmp;
-            String options = "";
-            if ((currentOptions & StatusEventListener.MODEM) == StatusEventListener.MODEM) options += "M*";
-            if ((currentOptions & StatusEventListener.SEND) == StatusEventListener.SEND) options += "S*";
-            if ((currentOptions & StatusEventListener.RECEIVE) == StatusEventListener.RECEIVE) options += "R*";
-            if ((currentOptions & StatusEventListener.JOB) == StatusEventListener.JOB) options += "J*";
-            log.debug("status event options changed to " + options);
+        try {
+            FaxWatch.getInstance().addStatusEventListener(hylafaxServerHost, hylafaxServerPort, hylafaxServerUsername,
+                hylafaxServerTimeZone, listener);
+            statusEventListeners.add(listener);
+        } catch (FaxWatchException e) {
+            log.error(e.getMessage(), e);
         }
-        statusEventListeners.add(listener);
     }
 
     public void addStatusEventListeners(List listeners) {
@@ -98,10 +90,16 @@ public class HylaFAXClient extends HylaFAXClientProtocol implements Client {
         while (iterator.hasNext()) {
             addStatusEventListener((StatusEventListener) iterator.next());
         }
+        statusEventListeners.addAll(listeners);
     }
 
     public void removeStatusEventListener(StatusEventListener listener) {
-        statusEventListeners.remove(listener);
+        try {
+            FaxWatch.getInstance().removeStatusEventListener(hylafaxServerHost, listener);
+            statusEventListeners.remove(listener);
+        } catch (FaxWatchException e) {
+            log.error(e.getMessage(), e);
+        }
     }
 
     /**
@@ -142,6 +140,24 @@ public class HylaFAXClient extends HylaFAXClientProtocol implements Client {
         mode = MODE_STREAM; // default mode is stream mode
         connectionListeners = new Vector();
         transferListeners = new Vector();
+    }
+
+    /* (non-Javadoc)
+     * @see gnu.inet.ftp.FtpClientProtocol#quit()
+     */
+    public void quit() throws IOException, ServerResponseException {
+        //Remove all status event listeners.  This will shutdown the thread if all listeners are removed.
+        ArrayList listeners = new ArrayList();
+        Iterator iterator = statusEventListeners.iterator();
+        while (iterator.hasNext()) {
+            listeners.add(iterator.next());
+        }
+        iterator = listeners.iterator();
+        while (iterator.hasNext()) {
+            removeStatusEventListener((StatusEventListener) iterator.next());
+        }
+
+        super.quit();
     }
 
     /**
