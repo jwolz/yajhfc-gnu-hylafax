@@ -205,40 +205,38 @@ public class FaxWatch implements Runnable {
     }
 
     public static void main(String[] args) {
-        org.apache.log4j.BasicConfigurator.configure();
-
         Thread thread1 = new Thread("Hylafax1") {
             public void run() {
                 try {
-//                    HylaFAXClient client = new HylaFAXClient();
-//
-//                    client.open("10.0.0.205");
-//                    client.user("autofax");
-//
-//                    client.addStatusEventListener(new AbstractStatusEventListener() {
-//                        public int getEventMask() {
-//                            return StatusEventListener.MODEM;
-//                        }
-//                    });
-//                    Thread.sleep(10000);
-//                    client.addStatusEventListener(new AbstractStatusEventListener() {
-//                        public int getEventMask() {
-//                            return StatusEventListener.RECEIVE;
-//                        }
-//                    });
-//                    Thread.sleep(10000);
-//                    client.addStatusEventListener(new AbstractStatusEventListener() {
-//                        public int getEventMask() {
-//                            return StatusEventListener.SEND | StatusEventListener.JOB;
-//                        }
-//                    });
-//                    Thread.sleep(10000);
-//                    client.addStatusEventListener(new AbstractStatusEventListener() {
-//                        public int getEventMask() {
-//                            return StatusEventListener.MODEM;
-//                        }
-//                    });
-//                    client.quit();
+                    //                    HylaFAXClient client = new HylaFAXClient();
+                    //
+                    //                    client.open("10.0.0.205");
+                    //                    client.user("autofax");
+                    //
+                    //                    client.addStatusEventListener(new AbstractStatusEventListener() {
+                    //                        public int getEventMask() {
+                    //                            return StatusEventListener.MODEM;
+                    //                        }
+                    //                    });
+                    //                    Thread.sleep(10000);
+                    //                    client.addStatusEventListener(new AbstractStatusEventListener() {
+                    //                        public int getEventMask() {
+                    //                            return StatusEventListener.RECEIVE;
+                    //                        }
+                    //                    });
+                    //                    Thread.sleep(10000);
+                    //                    client.addStatusEventListener(new AbstractStatusEventListener() {
+                    //                        public int getEventMask() {
+                    //                            return StatusEventListener.SEND | StatusEventListener.JOB;
+                    //                        }
+                    //                    });
+                    //                    Thread.sleep(10000);
+                    //                    client.addStatusEventListener(new AbstractStatusEventListener() {
+                    //                        public int getEventMask() {
+                    //                            return StatusEventListener.MODEM;
+                    //                        }
+                    //                    });
+                    //                    client.quit();
 
                 } catch (Exception e) {
                     e.printStackTrace();
