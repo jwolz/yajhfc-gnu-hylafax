@@ -1,5 +1,5 @@
 // HylaFAXClient.java - a HylaFAX client protocol implementation in Java
-// $Id: HylaFAXClient.java,v 1.13 2007/05/07 18:26:54 sjardine Exp $
+// $Id$
 //
 // Copyright 1999, 2000 Joe Phillips <jaiger@net-foundry.com>
 // Copyright 2001 Innovation Software Group, LLC - http://www.innovationsw.com

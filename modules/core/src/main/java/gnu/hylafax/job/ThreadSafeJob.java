@@ -1,5 +1,5 @@
 // ThreadSafeJob.java - a HylaFAX Job representation
-// $Id: ThreadSafeJob.java,v 1.3 2006/02/20 04:52:10 sjardine Exp $
+// $Id$
 //
 // Copyright 2003 Innovation Software Group, LLC - http://www.innovationsw.com
 //                Joe Phillips <jaiger@innovationsw.com>

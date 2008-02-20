@@ -1,5 +1,5 @@
 // ReceiveEvent.java - a HylaFAX Job representation
-// $Id: ReceiveEvent.java,v 1.2 2006/02/20 04:52:10 sjardine Exp $
+// $Id$
 //
 // Copyright 2003 Innovation Software Group, LLC - http://www.innovationsw.com
 //                Joe Phillips <joe.phillips@innovationsw.com>
@@ -25,8 +25,8 @@ package gnu.hylafax.job;
 
 /**
  * This class contains the information available on a receive job notification.
- * @author $Author: sjardine $
- * @version $Id: ReceiveEvent.java,v 1.2 2006/02/20 04:52:10 sjardine Exp $
+ * @author $Author$
+ * @version $Id$
  **/
 public class ReceiveEvent extends Event
 {

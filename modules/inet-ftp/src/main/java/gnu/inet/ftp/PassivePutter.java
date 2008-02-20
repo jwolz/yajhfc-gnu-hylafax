@@ -1,5 +1,5 @@
 // PassivePutter.java
-// $Id: PassivePutter.java,v 1.7 2007/05/07 18:26:54 sjardine Exp $
+// $Id$
 //
 // Copyright 2000, Joe Phillips <jaiger@innovationsw.com>
 // Copyright 2001, 2002 Innovation Software Group, LLC - http://www.innovationsw.com

@@ -1,6 +1,6 @@
 // ==============================================================================
 // Copyright (c) 2008 Steven Jardine, MJN Services, Inc., All Rights Reserved.
-// $Id: StatusEventListener.java 1 Feb 18, 2008 steve $
+// $Id$
 // ==============================================================================
 package gnu.hylafax.status;
 
@@ -9,7 +9,7 @@ import java.util.EventListener;
 /**
  * Interface for the status events sent from the FaxWatch daemon.  ALL implementations should be <strong>thread safe</strong>.
  * 
- * @version $Id: StatusEventListener.java 1 Feb 18, 2008 steve $
+ * @version $Id$
  * @author Steven Jardine, MJN Services, Inc., Copyright(c) 2008, All Rights Reserved
  */
 public interface StatusEventListener extends EventListener {

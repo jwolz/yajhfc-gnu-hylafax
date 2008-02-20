@@ -1,5 +1,5 @@
 // Job.java - a HylaFAX Job representation
-// $Id: Job.java,v 1.3 2006/02/20 04:52:10 sjardine Exp $
+// $Id$
 //
 // Copyright 2001-2003 Innovation Software Group, LLC - http://www.innovationsw.com
 //                Joe Phillips <jaiger@innovationsw.com>
@@ -37,8 +37,8 @@ import java.util.TimeZone;
 
 /**
  * This class is a light, unsynchronized implementation of gnu.hylafax.Job.
- * @author $Author: sjardine $
- * @version $Id: Job.java,v 1.3 2006/02/20 04:52:10 sjardine Exp $
+ * @author $Author$
+ * @version $Id$
  * @see gnu.hylafax.ClientProtocol
  * @see gnu.hylafax.Client
  * @see gnu.hylafax.Job

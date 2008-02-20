@@ -1,13 +1,13 @@
 // ==============================================================================
 // Copyright (c) 2008 Steven Jardine, MJN Services, Inc., All Rights Reserved.
-// $Id: StatusEvent.java 1 Feb 18, 2008 steve $
+// $Id$
 // ==============================================================================
 package gnu.hylafax.status;
 
 /**
  * Represents an event received from the hylafax server.
  *  
- * @version $Id: StatusEvent.java 1 Feb 18, 2008 steve $
+ * @version $Id$
  * @author Steven Jardine, MJN Services, Inc., Copyright(c) 2008, All Rights Reserved
  */
 public interface StatusEvent {

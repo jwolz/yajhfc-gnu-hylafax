@@ -1,6 +1,6 @@
 // ==============================================================================
 // Copyright (c) 2008 Steven Jardine, MJN Services, Inc., All Rights Reserved.
-// $Id: FaxWatch.java 1 Feb 17, 2008 steve $
+// $Id$
 // ==============================================================================
 package gnu.hylafax.status;
 
@@ -28,7 +28,7 @@ import org.apache.commons.logging.LogFactory;
  * This thread allows for event listeners to be registered and sends connection, modem, send, receive, and job events.
  * 
  *  
- * @version $Id: FaxWatch.java 1 Feb 17, 2008 steve $
+ * @version $Id$
  * @author Steven Jardine, MJN Services, Inc., Copyright(c) 2008, All Rights Reserved
  */
 public class FaxWatch implements Runnable {

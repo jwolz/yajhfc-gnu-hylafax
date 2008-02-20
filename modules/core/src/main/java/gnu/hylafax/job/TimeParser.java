@@ -1,5 +1,5 @@
 // ClientProtocol.java - a HylaFAX client protocol implementation in Java
-// $Id: HylaFAXClientProtocol.java,v 1.11 2007/05/07 18:26:54 sjardine Exp $
+// $Id$
 //
 // Copyright 2008 Stefan Unterhofer
 // Copyright 2008 Steven Jardine, MJN Services, Inc.  www.mjnservices.com
