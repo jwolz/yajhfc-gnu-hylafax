@@ -36,7 +36,6 @@ import java.util.Vector;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.log4j.BasicConfigurator;
 
 /**
  * This class implements convenience methods that wrapper the FtpClientProtocol
@@ -635,8 +634,6 @@ public class FtpClient extends FtpClientProtocol implements ConnectionEventSourc
      *            an array of command-line-argument Strings
      */
     public static void main(String Arguments[]) {
-        BasicConfigurator.configure();
-
         FtpClient c = new FtpClient();
         try {
             c.open("localhost");
