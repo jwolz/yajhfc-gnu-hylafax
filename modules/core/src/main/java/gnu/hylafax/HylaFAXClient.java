@@ -1,5 +1,5 @@
 // HylaFAXClient.java - a HylaFAX client protocol implementation in Java
-// $Id$
+// $Id:HylaFAXClient.java 77 2008-02-20 21:54:51Z sjardine $
 //
 // Copyright 1999, 2000 Joe Phillips <jaiger@net-foundry.com>
 // Copyright 2001 Innovation Software Group, LLC - http://www.innovationsw.com
@@ -25,9 +25,9 @@
 //
 package gnu.hylafax;
 
-import gnu.hylafax.status.FaxWatch;
-import gnu.hylafax.status.FaxWatchException;
+import gnu.hylafax.status.StatusEventException;
 import gnu.hylafax.status.StatusEventListener;
+import gnu.hylafax.status.StatusWatcher;
 import gnu.inet.ftp.ActiveGetter;
 import gnu.inet.ftp.ActivePutter;
 import gnu.inet.ftp.ConnectionListener;
@@ -72,40 +72,9 @@ public class HylaFAXClient extends HylaFAXClientProtocol implements Client {
 
     private static final int LIST = 1;
 
-    private static final int NAMELIST = 2;
-
     private static final Log log = LogFactory.getLog(HylaFAXClient.class);
 
-    private List statusEventListeners = Collections.synchronizedList(new ArrayList());
-
-    public void addStatusEventListener(StatusEventListener listener, int type, int events, String id) {
-        //TODO Convert the normal StatusEventListener into an extended 
-        //status event listener with the appropriate type, events, and id. 
-    }
-
-    public void addStatusEventListener(StatusEventListener listener, int type, int events) {
-        //TODO Convert the normal StatusEventListener into an extended 
-        //status event listener with the appropriate type, events 
-    }
-
-    public void addStatusEventListener(StatusEventListener listener, int type) {
-        //TODO Convert the normal StatusEventListener into an extended 
-        //status event listener with the appropriate type 
-    }
-
-    public void addStatusEventListener(StatusEventListener listener) {
-        //TODO Convert the normal StatusEventListener into an extended 
-        //status event listener receiving all types and events.
-    }
-
-    public void removeStatusEventListener(StatusEventListener listener) {
-        try {
-            FaxWatch.getInstance().removeStatusEventListener(hylafaxServerHost, listener);
-            statusEventListeners.remove(listener);
-        } catch (FaxWatchException e) {
-            log.error(e.getMessage(), e);
-        }
-    }
+    private static final int NAMELIST = 2;
 
     /**
      * This is a cached PassiveConnection instance. After some hair-pulling I
@@ -135,6 +104,8 @@ public class HylaFAXClient extends HylaFAXClientProtocol implements Client {
     // indicate whether passive transfers should be used
     private boolean passive;
 
+    private List statusEventListeners = Collections.synchronizedList(new ArrayList());
+
     private Vector transferListeners;
 
     /**
@@ -145,24 +116,6 @@ public class HylaFAXClient extends HylaFAXClientProtocol implements Client {
         mode = MODE_STREAM; // default mode is stream mode
         connectionListeners = new Vector();
         transferListeners = new Vector();
-    }
-
-    /* (non-Javadoc)
-     * @see gnu.inet.ftp.FtpClientProtocol#quit()
-     */
-    public void quit() throws IOException, ServerResponseException {
-        //Remove all status event listeners.  This will shutdown the thread if all listeners are removed.
-        ArrayList listeners = new ArrayList();
-        Iterator iterator = statusEventListeners.iterator();
-        while (iterator.hasNext()) {
-            listeners.add(iterator.next());
-        }
-        iterator = listeners.iterator();
-        while (iterator.hasNext()) {
-            removeStatusEventListener((StatusEventListener) iterator.next());
-        }
-
-        super.quit();
     }
 
     /**
@@ -188,6 +141,25 @@ public class HylaFAXClient extends HylaFAXClientProtocol implements Client {
             ConnectionListener listener = (ConnectionListener) enumeration.nextElement();
             connectionListeners.addElement(listener);
         }
+    }
+
+    public void addStatusEventListener(StatusEventListener listener) throws StatusEventException {
+        addStatusEventListener(listener, -1);
+    }
+
+    public void addStatusEventListener(StatusEventListener listener, int type) throws StatusEventException {
+        addStatusEventListener(listener, type, -1);
+    }
+
+    public void addStatusEventListener(StatusEventListener listener, int type, int events) throws StatusEventException {
+        addStatusEventListener(listener, type, events, null);
+    }
+
+    public void addStatusEventListener(StatusEventListener listener, int type, int events, String id)
+            throws StatusEventException {
+        StatusWatcher.getInstance().addStatusEventListener(hylafaxServerHost, hylafaxServerPort, hylafaxServerUsername,
+            hylafaxServerTimeZone, listener, type, events, id);
+        statusEventListeners.add(listener);
     }
 
     /**
@@ -589,6 +561,28 @@ public class HylaFAXClient extends HylaFAXClientProtocol implements Client {
         return put(data, null, true);
     }
 
+    /* (non-Javadoc)
+     * @see gnu.inet.ftp.FtpClientProtocol#quit()
+     */
+    public void quit() throws IOException, ServerResponseException {
+        //Remove all status event listeners.  This will shutdown the thread if all listeners are removed.
+        ArrayList listeners = new ArrayList();
+        Iterator iterator = statusEventListeners.iterator();
+        while (iterator.hasNext()) {
+            listeners.add(iterator.next());
+        }
+        iterator = listeners.iterator();
+        while (iterator.hasNext()) {
+            try {
+                removeStatusEventListener((StatusEventListener) iterator.next());
+            } catch (StatusEventException e) {
+                log.error(e.getMessage(), e);
+            }
+        }
+
+        super.quit();
+    }
+
     /**
      * De-register a connection listener with the event source.
      * 
@@ -597,6 +591,11 @@ public class HylaFAXClient extends HylaFAXClientProtocol implements Client {
      */
     public void removeConnectionListener(ConnectionListener listener) {
         connectionListeners.removeElement(listener);
+    }
+
+    public void removeStatusEventListener(StatusEventListener listener) throws StatusEventException {
+        StatusWatcher.getInstance().removeStatusEventListener(hylafaxServerHost, listener);
+        statusEventListeners.remove(listener);
     }
 
     /**
