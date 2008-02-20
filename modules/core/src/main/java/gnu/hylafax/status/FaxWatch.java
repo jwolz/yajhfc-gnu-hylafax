@@ -2,7 +2,10 @@
 // Copyright (c) 2008 Steven Jardine, MJN Services, Inc., All Rights Reserved.
 // $Id: FaxWatch.java 1 Feb 17, 2008 steve $
 // ==============================================================================
-package gnu.hylafax;
+package gnu.hylafax.status;
+
+import gnu.hylafax.HylaFAXClient;
+import gnu.hylafax.HylaFAXClientProtocol;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -21,19 +24,71 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * Implements a thread that performs the same functions as the faxwatch program distributed with hylafax server.
+ * Implements a daemon that performs the same functions as the faxwatch program distributed with hylafax server.
  * This thread allows for event listeners to be registered and sends connection, modem, send, receive, and job events.
  * 
- * The thead will attempt to maintain the client connection and will retry to connect upon a closed connection/
  *  
  * @version $Id: FaxWatch.java 1 Feb 17, 2008 steve $
  * @author Steven Jardine, MJN Services, Inc., Copyright(c) 2008, All Rights Reserved
  */
 public class FaxWatch implements Runnable {
 
-    private class Watcher extends HylaFAXClientProtocol implements Runnable, StatusEventSource {
+    private class ListenerWrapper {
+
+        private int eventMask = -1;
+
+        private String id = null;
+
+        private StatusEventListener listener = null;
+
+        private int typeMask = -1;
+
+        public ListenerWrapper(StatusEventListener listener, int typeMask, int eventMask, String id) {
+            this.listener = listener;
+            this.typeMask = typeMask;
+            this.eventMask = eventMask;
+            this.id = id;
+        }
+
+        public int getEventMask() {
+            return eventMask;
+        }
+
+        public String getId() {
+            return id;
+        }
+
+        public StatusEventListener getListener() {
+            return listener;
+        }
+
+        public int getTypeMask() {
+            return typeMask;
+        }
+
+        public void setEventMask(int eventMask) {
+            this.eventMask = eventMask;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        public void setListener(StatusEventListener listener) {
+            this.listener = listener;
+        }
+
+        public void setTypeMask(int typeMask) {
+            this.typeMask = typeMask;
+        }
+
+    }
+
+    private class Watcher extends HylaFAXClientProtocol implements Runnable {
 
         private String host = null;
+
+        final Log log = LogFactory.getLog(Watcher.class);
 
         private int options = 0;
 
@@ -61,12 +116,24 @@ public class FaxWatch implements Runnable {
             this.timeZone = timeZone;
         }
 
-        public void addStatusEventListener(StatusEventListener listener) {
+        public void addStatusEventListener(ListenerWrapper listener) {
             statusEventListeners.add(listener);
         }
 
         public void addStatusEventListeners(List listeners) {
             statusEventListeners.addAll(listeners);
+        }
+
+        private StatusEvent createEvent(String[] event) {
+            String type = event[2];
+            if (type.equals("MODEM")) {
+                return new ModemStatusEvent(event);
+            } else if (type.equals("SEND")) {
+                return new SendStatusEvent(event);
+            } else if (type.equals("RECEIVE")) {
+                return new ReceiveStatusEvent(event);
+            } else if (type.equals("JOB")) { return new JobStatusEvent(event); }
+            return null;
         }
 
         public List getListeners() {
@@ -79,10 +146,10 @@ public class FaxWatch implements Runnable {
          */
         public String getMask() {
             String mask = "";
-            if ((options & StatusEventListener.MODEM) == StatusEventListener.MODEM) mask += "M*";
-            if ((options & StatusEventListener.SEND) == StatusEventListener.SEND) mask += "S*";
-            if ((options & StatusEventListener.RECEIVE) == StatusEventListener.RECEIVE) mask += "R*";
-            if ((options & StatusEventListener.JOB) == StatusEventListener.JOB) mask += "J*";
+            if ((options & StatusEventType.MODEM) == StatusEventType.MODEM) mask += "M*";
+            if ((options & StatusEventType.SEND) == StatusEventType.SEND) mask += "S*";
+            if ((options & StatusEventType.RECEIVE) == StatusEventType.RECEIVE) mask += "R*";
+            if ((options & StatusEventType.JOB) == StatusEventType.JOB) mask += "J*";
             return mask;
         }
 
@@ -106,19 +173,45 @@ public class FaxWatch implements Runnable {
                 //Log the error.
                 log.error(e.getMessage(), e);
 
-                //Remove and stop the watcher
-                watchers.remove(this);
+                //Stop the watcher.
                 stop();
 
                 throw new FaxWatchException(e);
             }
         }
 
-        public synchronized void notify(String line) {
+        public synchronized void notify(final String line) {
+            String[] eventArr = line.split(" ");
+
+            final StatusEvent event = createEvent(eventArr);
+            String type = eventArr[2];
+
+            log.debug(type + " event received: " + line);
+
+            //Notify the listeners.
+            ArrayList threads = new ArrayList();
             Iterator iterator = statusEventListeners.iterator();
             while (iterator.hasNext()) {
-                StatusEventListener listener = (StatusEventListener) iterator.next();
-                listener.eventReceived(line);
+                final StatusEventListener listener = (StatusEventListener) iterator.next();
+                Thread t = new Thread() {
+                    public void run() {
+                        //Notify the listeners.
+                        if (event instanceof ModemStatusEvent) {
+                            listener.modemEventReceived(event);
+                        }
+                        if (event instanceof SendStatusEvent) {
+                            listener.sendEventReceived(event);
+                        }
+                        if (event instanceof ReceiveStatusEvent) {
+                            listener.receiveEventReceived(event);
+                        }
+                        if (event instanceof JobStatusEvent) {
+                            listener.jobEventReceived(event);
+                        }
+                    }
+                };
+                t.start();
+                threads.add(t);
             }
         }
 
@@ -195,10 +288,10 @@ public class FaxWatch implements Runnable {
 
     public static boolean isValidMask(int mask) {
         if (mask == 0) return true;
-        if ((mask & StatusEventListener.MODEM) == StatusEventListener.MODEM) return true;
-        if ((mask & StatusEventListener.SEND) == StatusEventListener.SEND) return true;
-        if ((mask & StatusEventListener.RECEIVE) == StatusEventListener.RECEIVE) return true;
-        if ((mask & StatusEventListener.JOB) == StatusEventListener.JOB) return true;
+        if ((mask & StatusEventType.MODEM) == StatusEventType.MODEM) return true;
+        if ((mask & StatusEventType.SEND) == StatusEventType.SEND) return true;
+        if ((mask & StatusEventType.RECEIVE) == StatusEventType.RECEIVE) return true;
+        if ((mask & StatusEventType.JOB) == StatusEventType.JOB) return true;
         return false;
     }
 
@@ -213,12 +306,11 @@ public class FaxWatch implements Runnable {
                     client.open(host1);
                     client.user("autofax");
 
-                    client.addStatusEventListener(new AbstractStatusEventListener() {
-                        public int getEventMask() {
-                            return StatusEventListener.MODEM | StatusEventListener.RECEIVE | StatusEventListener.JOB
-                                    | StatusEventListener.SEND;
-                        }
-                    });
+                    //                    client.addStatusEventListener(new AbstractStatusEventListener() {
+                    //                        public int getTypeMask() {
+                    //                            return StatusEventType.MODEM | StatusEventType.RECEIVE | StatusEventType.JOB | StatusEventType.SEND;
+                    //                        }
+                    //                    });
 
                     Thread.sleep(60000);
                     client.quit();
@@ -237,28 +329,29 @@ public class FaxWatch implements Runnable {
                     client.open(host2);
                     client.user("autofax");
 
-                    client.addStatusEventListener(new AbstractStatusEventListener() {
-                        public int getEventMask() {
-                            return StatusEventListener.MODEM;
-                        }
-                    });
+                    //                    client.addStatusEventListener(new AbstractStatusEventListener() {
+                    //                        public int getTypeMask() {
+                    //                            return StatusEventListener.MODEM | StatusEventListener.RECEIVE | StatusEventListener.JOB
+                    //                                    | StatusEventListener.SEND;
+                    //                        }
+                    //                    });
+                    //
+                    //                    Thread.sleep(5000);
+                    //
+                    //                    client.addStatusEventListener(new AbstractStatusEventListener() {
+                    //                        public int getTypeMask() {
+                    //                            return StatusEventListener.MODEM | StatusEventListener.RECEIVE;
+                    //                        }
+                    //                    });
+                    //
+                    //                    Thread.sleep(5000);
+                    //                    client.addStatusEventListener(new AbstractStatusEventListener() {
+                    //                        public int getTypeMask() {
+                    //                            return StatusEventListener.JOB;
+                    //                        }
+                    //                    });
 
-                    Thread.sleep(5000);
-
-                    client.addStatusEventListener(new AbstractStatusEventListener() {
-                        public int getEventMask() {
-                            return StatusEventListener.MODEM | StatusEventListener.RECEIVE;
-                        }
-                    });
-
-                    Thread.sleep(5000);
-                    client.addStatusEventListener(new AbstractStatusEventListener() {
-                        public int getEventMask() {
-                            return StatusEventListener.JOB;
-                        }
-                    });
-
-                    Thread.sleep(5000);
+                    Thread.sleep(240000);
                     client.quit();
 
                 } catch (Exception e) {
@@ -297,14 +390,16 @@ public class FaxWatch implements Runnable {
     }
 
     public synchronized void addStatusEventListener(String host, int port, String user, String timeZone,
-            StatusEventListener listener) throws FaxWatchException {
+            StatusEventListener listener, int typeMask, int eventMask, String id) throws FaxWatchException {
         try {
+            ListenerWrapper wrapper = new ListenerWrapper(listener, typeMask, eventMask, id);
+
             if (!started) {
                 started = true;
                 start();
             }
 
-            int options = listener.getEventMask();
+            int options = wrapper.getTypeMask();
             if (!isValidMask(options)) throw new FaxWatchException("Invalid Options for StatusEventListener");
 
             boolean load = false;
@@ -324,11 +419,11 @@ public class FaxWatch implements Runnable {
                 load = true;
                 watcher = new Watcher(host, port, user, timeZone);
                 watcher.addStatusEventListeners(listeners);
-                watcher.setOptions(opts | listener.getEventMask());
+                watcher.setOptions(opts | options);
             }
 
             watchers.put(host, watcher);
-            watcher.addStatusEventListener(listener);
+            watcher.addStatusEventListener(wrapper);
             if (load) watcher.load();
 
             log.debug("Number of Watchers: " + watchers.size());

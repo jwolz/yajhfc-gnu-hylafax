@@ -2,9 +2,7 @@
 // Copyright (c) 2008 Steven Jardine, MJN Services, Inc., All Rights Reserved.
 // $Id: StatusEventSource.java 1 Feb 18, 2008 steve $
 // ==============================================================================
-package gnu.hylafax;
-
-import java.util.List;
+package gnu.hylafax.status;
 
 /**
  * @version $Id: StatusEventSource.java 1 Feb 18, 2008 steve $
@@ -15,7 +13,11 @@ public interface StatusEventSource {
 
     public void addStatusEventListener(StatusEventListener listener);
 
-    public void addStatusEventListeners(List listeners);
+    public void addStatusEventListener(StatusEventListener listener, int type);
+
+    public void addStatusEventListener(StatusEventListener listener, int type, int events);
+
+    public void addStatusEventListener(StatusEventListener listener, int type, int events, String id);
 
     public void removeStatusEventListener(StatusEventListener listener);
 
