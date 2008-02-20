@@ -29,30 +29,29 @@
 package gnu.hylafax.util;
 
 
+import gnu.hylafax.job.ReceiveEvent;
+import gnu.hylafax.job.ReceiveListener;
+import gnu.hylafax.job.SendEvent;
+import gnu.hylafax.job.SendListener;
+
 import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.Properties;
 import java.util.Date;
+import java.util.Properties;
+
+import javax.activation.DataHandler;
+import javax.activation.FileDataSource;
+import javax.activation.MimetypesFileTypeMap;
 import javax.mail.Message;
-import javax.mail.Transport;
-import javax.mail.Session;
 import javax.mail.Part;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
-import javax.mail.internet.MimeBodyPart;
-import javax.activation.MimetypesFileTypeMap;
-import javax.activation.FileDataSource;
-import javax.activation.DataHandler;
 
-
-
-
-import gnu.inet.logging.Logger;
-import gnu.inet.logging.LoggingFactory;
-import gnu.hylafax.job.SendListener;
-import gnu.hylafax.job.SendEvent;
-import gnu.hylafax.job.ReceiveListener;
-import gnu.hylafax.job.ReceiveEvent;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 
 /**
@@ -72,7 +71,7 @@ public class MailListener implements SendListener, ReceiveListener
 	static final String KEY_FROM= "notifier.from";
 	
 	private Properties properties;
-    private final static Logger logger = LoggingFactory.getLogger(MailListener.class);  
+    private final static Log logger = LogFactory.getLog(MailListener.class);  
 
 
 	// default constructor

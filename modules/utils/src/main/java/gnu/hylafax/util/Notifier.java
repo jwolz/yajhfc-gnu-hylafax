@@ -188,7 +188,7 @@ public class Notifier extends SendAndReceiveNotifier {
 			usage(System.err);
 			System.exit(-1);
 		}
-		if (reason.equals(SendEvent.REASON_REQUEUED)
+		if (reason != null && reason.equals(SendEvent.REASON_REQUEUED)
 				&& ((nextAttempt == null) || ("".equals(nextAttempt)))) {
 			usage(System.err);
 			System.exit(-1);
@@ -212,7 +212,7 @@ public class Notifier extends SendAndReceiveNotifier {
 		event.setNextAttempt(nextAttempt);
 		event.setJobId(jobid);
 
-		SendListener l = (SendListener) klass.newInstance();
+		SendListener l = klass != null ? (SendListener) klass.newInstance() : null;
 
 		Notifier n = new Notifier();
 		n.addSendListener(l);
@@ -254,7 +254,7 @@ public class Notifier extends SendAndReceiveNotifier {
 		event.setCidNumber(cidnumber);
 		event.setCidName(cidname);
 
-		ReceiveListener l = (ReceiveListener) klass.newInstance();
+		ReceiveListener l = klass != null ? (ReceiveListener) klass.newInstance() : null;
 
 		Notifier n = new Notifier();
 		n.addReceiveListener(l);

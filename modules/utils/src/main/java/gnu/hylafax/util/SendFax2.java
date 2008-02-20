@@ -39,14 +39,14 @@ import gnu.hylafax.ClientProtocol;
 import gnu.hylafax.HylaFAXClient;
 import gnu.hylafax.Job;
 import gnu.hylafax.Pagesize;
-import gnu.inet.logging.Logger;
-import gnu.inet.logging.LoggingFactory;
+
 import java.awt.Dimension;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.util.Iterator;
 import java.util.Vector;
+
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.GnuParser;
@@ -55,6 +55,8 @@ import org.apache.commons.cli.Option;
 import org.apache.commons.cli.OptionBuilder;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.BasicConfigurator;
 
 /**
@@ -99,7 +101,7 @@ import org.apache.log4j.BasicConfigurator;
  */
 public class SendFax2 {
 
-	private static final Logger log = LoggingFactory.getLogger(SendFax2.class);
+    private final static Log log = LogFactory.getLog(SendFax2.class);
 
 	private static Options options = new Options();
 
@@ -152,7 +154,7 @@ public class SendFax2 {
 				.create('k');
 
 		Option T = OptionBuilder
-				.withArgName("dials")
+		        .withArgName("dials")
 				.hasArg()
 				.withDescription(
 						"maximum number of <dials> to attempt for each job (default: 12)")
@@ -224,6 +226,7 @@ public class SendFax2 {
 			ex.printStackTrace();
 			System.exit(-1);
 		}
+        if (line == null) return;
 
 		// <<<<<<< PARSE using for each loop would be a better option for J5SE
 		// 1.5+ (This would result in a dependency on J5SE 1.5+)
@@ -275,7 +278,7 @@ public class SendFax2 {
 				priority = Integer.parseInt(o.getValue());
 				break;
 			case 's':
-				pagesize = (Dimension) Pagesize.getPagesize(o.getValue());
+				pagesize = Pagesize.getPagesize(o.getValue());
 				if (pagesize == null) {
 					// no good
 					System.err.println(o.getValue()
@@ -328,7 +331,6 @@ public class SendFax2 {
 
 		// get down to business, send the FAX already
 		try {
-			c.setDebug(verbose); // enable debug messages for the
 			// ConsoleLogger only.
 			c.open(host);
 

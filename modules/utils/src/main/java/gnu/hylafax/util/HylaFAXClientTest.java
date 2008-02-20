@@ -27,13 +27,15 @@ package gnu.hylafax.util;
 
 import gnu.hylafax.Client;
 import gnu.hylafax.HylaFAXClient;
-import gnu.inet.logging.Logger;
-import gnu.inet.logging.LoggingFactory;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.RandomAccessFile;
 import java.util.Vector;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.BasicConfigurator;
 
 /**
@@ -68,7 +70,6 @@ public class HylaFAXClientTest extends HylaFAXClient {
         HylaFAXClient c = new HylaFAXClient();
         
         try {
-            c.setDebug(true); // enable debug messages
             c.open("localhost");
             c.noop();
             c.setPassive(true);	// use passive transfers
