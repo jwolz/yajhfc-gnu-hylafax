@@ -1,5 +1,5 @@
 /*******************************************************************************
- * $Id:StatusEventType.java 77 2008-02-20 21:54:51Z sjardine $
+ * $Id$
  * 
  * Copyright 2008, Steven Jardine <steve@mjnservices.com>
  * Copyright 2008, MJN Services, Inc. - http://www.mjnservices.com
