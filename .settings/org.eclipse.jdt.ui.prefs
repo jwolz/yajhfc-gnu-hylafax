@@ -1,5 +1,5 @@
-#Wed Feb 20 09:21:35 MST 2008
+#Wed Feb 20 15:16:23 MST 2008
 eclipse.preferences.version=1
-formatter_profile=_MJN Applications
+formatter_profile=org.eclipse.jdt.ui.default.sun_profile
 formatter_settings_version=11
 org.eclipse.jdt.ui.text.custom_code_templates=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?><templates/>
