@@ -164,20 +164,11 @@ public class FaxWatch implements Runnable {
         private boolean terminated = false;
 
         public void stop() {
-            stop(true);
-        }
-
-        public void stop(boolean shutdownServer) {
             if (!terminated) {
                 terminated = true;
                 try {
                     quit();
-                    if (shutdownServer) {
-                        watchers.remove(host);
-                        if (watchers.size() <= 0) {
-                            FaxWatch.getInstance().stop();
-                        }
-                    }
+                    watchers.remove(this);
                 } catch (Exception e) {
                     log.warn(e.getMessage(), e);
                 }
@@ -318,7 +309,7 @@ public class FaxWatch implements Runnable {
             if (watcher != null) {
                 if (watcher.getOptions() != options) {
                     listeners = watcher.getListeners();
-                    watcher.stop(false);
+                    watcher.stop();
                     opts = watcher.getOptions();
                     watcher = null;
                 }
