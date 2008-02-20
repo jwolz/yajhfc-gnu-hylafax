@@ -96,6 +96,12 @@ public class FtpClientProtocol extends Object {
 
     protected int socketTimeout = 0; // Socket timeout in Milliseconds. 0 =
 
+    protected String hylafaxServerHost = null;
+
+    protected int hylafaxServerPort = -1;
+
+    protected String hylafaxServerUsername = null;
+
     // infinite.
 
     /**
@@ -201,6 +207,9 @@ public class FtpClientProtocol extends Object {
      * @return true if a password is required, false if no password is required
      */
     public synchronized boolean user(String username) throws IOException, ServerResponseException {
+
+        hylafaxServerUsername = username;
+
         // send user command to server
         ostream.write("user " + username + "\r\n");
         ostream.flush();
@@ -1391,6 +1400,9 @@ public class FtpClientProtocol extends Object {
      */
     protected void connect(String host, int portnumber) throws UnknownHostException, IOException,
             ServerResponseException {
+
+        hylafaxServerHost = host;
+        hylafaxServerPort = portnumber;
 
         SocketAddress sockAddr = new InetSocketAddress(host, portnumber);
         sock = new Socket();

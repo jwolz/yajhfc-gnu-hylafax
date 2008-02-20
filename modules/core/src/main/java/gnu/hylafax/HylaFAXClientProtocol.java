@@ -706,7 +706,9 @@ public class HylaFAXClientProtocol extends FtpClientProtocol implements ClientPr
         st = new StringTokenizer(response);
 
         String return_code = st.nextToken();
-        if ((!return_code.equals("213")) && (!return_code.equals("200"))) { throw (new ServerResponseException(response)); }
+        if ((!return_code.equals("213")) && (!return_code.equals("200")) && (!return_code.equals("150"))) {
+            throw (new ServerResponseException(response)); 
+        }
     }
 
     /* (non-Javadoc)
@@ -769,10 +771,13 @@ public class HylaFAXClientProtocol extends FtpClientProtocol implements ClientPr
         return filename;
     }
 
+    protected String hylafaxServerTimeZone = null;
+
     /* (non-Javadoc)
      * @see gnu.hylafax.ClientProtocol#tzone(java.lang.String)
      */
     public synchronized void tzone(String value) throws IOException, ServerResponseException {
+        hylafaxServerTimeZone = value;
         ostream.write("tzone " + value + "\r\n");
         ostream.flush();
         log.debug("-> tzone " + value);
