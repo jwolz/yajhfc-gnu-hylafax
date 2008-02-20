@@ -1,4 +1,4 @@
-//$Id: ClientProtocol.java,v 1.2 2006/02/20 04:52:11 sjardine Exp $
+//$Id$
 //
 //Copyright 2005 Steven Jardine <steve@mjnservices.com>
 //Copyright 2005 MJN Services, Inc - http://www.mjnservices.com

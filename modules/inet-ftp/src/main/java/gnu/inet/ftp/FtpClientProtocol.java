@@ -1,5 +1,5 @@
 // FtpClientProtocol.java - a FTP client protocol implementation in Java
-// $Id: FtpClientProtocol.java,v 1.7 2007/05/07 18:26:54 sjardine Exp $
+// $Id$
 //
 // Copyright 1999, 2000 Joe Phillips <jaiger@innovationsw.com>
 // Copyright 2001, 2002 Innovation Software Group, LLC - http://www.innovationsw.com
@@ -76,7 +76,7 @@ import org.apache.commons.logging.LogFactory;
  * @author <a href="mailto:steve@mjnservices.com">Steven Jardine</a>
  * @author <a href="mailto:dorpsidioot@gmail.com">Lieven Poelman</a>
  * 
- * @version $Id: FtpClientProtocol.java,v 1.7 2007/05/07 18:26:54 sjardine Exp $
+ * @version $Id$
  */
 public class FtpClientProtocol extends Object {
 

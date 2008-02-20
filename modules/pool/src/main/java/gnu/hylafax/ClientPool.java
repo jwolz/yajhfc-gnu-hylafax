@@ -1,4 +1,4 @@
-//$Id: ClientPool.java,v 1.1 2006/02/20 04:25:11 sjardine Exp $
+//$Id$
 //
 //Copyright 2005 Steven Jardine <steve@mjnservices.com>
 //Copyright 2005 MJN Services, Inc - http://www.mjnservices.com

@@ -1,4 +1,4 @@
-//$Id: HylaFAXPooledClient.java,v 1.8 2007/05/07 18:26:55 sjardine Exp $
+//$Id$
 //
 //Copyright 2005 Steven Jardine <steve@mjnservices.com>
 //Copyright 2005 MJN Services, Inc - http://www.mjnservices.com

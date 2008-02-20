@@ -1,5 +1,5 @@
 // Notifier.java - gnu.hylafax implementation of the faxstat utility
-// $Id: Notifier.java,v 1.4 2007/05/07 18:26:53 sjardine Exp $
+// $Id$
 //
 // - gives an example for getting the status callbacks on a FAX job
 //
@@ -69,8 +69,8 @@ import gnu.hylafax.job.SendAndReceiveNotifier;
  * href="http://www.urbanophile.com/arenn/">http://www.urbanophile.com/arenn/
  * </a>
  * 
- * @author $Author: sjardine $
- * @version $Id: Notifier.java,v 1.4 2007/05/07 18:26:53 sjardine Exp $
+ * @author $Author$
+ * @version $Id$
  */
 public class Notifier extends SendAndReceiveNotifier {
 	public final static boolean OP_SEND = true;

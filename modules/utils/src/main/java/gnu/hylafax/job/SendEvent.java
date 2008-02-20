@@ -1,5 +1,5 @@
 // SendEvent.java - a HylaFAX Job representation
-// $Id: SendEvent.java,v 1.2 2006/02/20 04:52:10 sjardine Exp $
+// $Id$
 //
 // Copyright 2003 Innovation Software Group, LLC - http://www.innovationsw.com
 //                Joe Phillips <joe.phillips@innovationsw.com>
@@ -28,8 +28,8 @@ import java.util.StringTokenizer;
 
 /**
  * This class contains the information available on a job notification.
- * @author $Author: sjardine $
- * @version $Id: SendEvent.java,v 1.2 2006/02/20 04:52:10 sjardine Exp $
+ * @author $Author$
+ * @version $Id$
  */
 public class SendEvent extends Event {
 

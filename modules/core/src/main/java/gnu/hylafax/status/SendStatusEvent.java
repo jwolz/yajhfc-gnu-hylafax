@@ -1,11 +1,11 @@
 // ==============================================================================
 // Copyright (c) 2008 Steven Jardine, MJN Services, Inc., All Rights Reserved.
-// $Id: JobStatusEvent.java 1 Feb 20, 2008 steve $
+// $Id$
 // ==============================================================================
 package gnu.hylafax.status;
 
 /**
- * @version $Id: JobStatusEvent.java 1 Feb 20, 2008 steve $
+ * @version $Id$
  * @author Steven Jardine, MJN Services, Inc., Copyright(c) 2008, All Rights Reserved
  *
  */

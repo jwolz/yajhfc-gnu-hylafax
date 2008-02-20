@@ -1,5 +1,5 @@
 // Pagesize.java - a document pagesize
-// $Id: Pagesize.java,v 1.3 2006/02/20 04:52:11 sjardine Exp $
+// $Id$
 //
 // Copyright 2003 Innovation Software Group, LLC - http://www.innovationsw.com
 //
@@ -29,7 +29,7 @@ import java.util.HashMap;
  * This class serves as a store of common pagesizes, or create your own!
  * 
  * @author Joe Phillips <joe.phillips@innovationsw.com>
- * @version $Id: Pagesize.java,v 1.3 2006/02/20 04:52:11 sjardine Exp $
+ * @version $Id$
  * @see Job
  */
 public class Pagesize extends Dimension {
