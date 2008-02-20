@@ -22,6 +22,7 @@
 //
 package gnu.hylafax;
 
+import gnu.hylafax.status.StatusEventSource;
 import gnu.inet.ftp.ConnectionEventSource;
 import gnu.inet.ftp.ServerResponseException;
 import gnu.inet.ftp.TransferEventSource;
