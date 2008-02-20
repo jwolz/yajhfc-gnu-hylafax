@@ -19,8 +19,8 @@ abstract public class AbstractStatusEventListener implements StatusEventListener
     /* (non-Javadoc)
      * @see gnu.hylafax.StatusEventListener#eventReceived(gnu.hylafax.StatusEvent)
      */
-    public void eventReceived(StatusEvent event) {
-        log.debug(event);
+    public void eventReceived(String eventTxt) {
+        log.debug(eventTxt);
     }
 
     /* (non-Javadoc)

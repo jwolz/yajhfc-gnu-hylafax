@@ -31,17 +31,64 @@ import org.apache.commons.logging.LogFactory;
  */
 public class FaxWatch implements Runnable {
 
-    static int watcherNum = 0;
-
     private class Watcher extends HylaFAXClientProtocol implements Runnable, StatusEventSource {
 
         private String host = null;
 
+        private int options = 0;
+
         private int port = -1;
+
+        private Socket socket;
+
+        public boolean started = false;
+
+        private List statusEventListeners = Collections.synchronizedList(new ArrayList());
+
+        private boolean terminated = false;
 
         private String timeZone = null;
 
         private String user = null;
+
+        private Thread watcher;
+
+        public Watcher(String host, int port, String user, String timeZone) {
+            watcher = new Thread(this, "FaxWatcher-" + host);
+            this.host = host;
+            this.port = port;
+            this.user = user;
+            this.timeZone = timeZone;
+        }
+
+        public void addStatusEventListener(StatusEventListener listener) {
+            statusEventListeners.add(listener);
+        }
+
+        public void addStatusEventListeners(List listeners) {
+            statusEventListeners.addAll(listeners);
+        }
+
+        public List getListeners() {
+            return statusEventListeners;
+        }
+
+        /**
+         * @return the actual string representation of the events to receive from 
+         * the hylafax server.
+         */
+        public String getMask() {
+            String mask = "";
+            if ((options & StatusEventListener.MODEM) == StatusEventListener.MODEM) mask += "M*";
+            if ((options & StatusEventListener.SEND) == StatusEventListener.SEND) mask += "S*";
+            if ((options & StatusEventListener.RECEIVE) == StatusEventListener.RECEIVE) mask += "R*";
+            if ((options & StatusEventListener.JOB) == StatusEventListener.JOB) mask += "J*";
+            return mask;
+        }
+
+        public int getOptions() {
+            return options;
+        }
 
         public void load() throws FaxWatchException {
             try {
@@ -67,57 +114,12 @@ public class FaxWatch implements Runnable {
             }
         }
 
-        private int options = 0;
-
-        private Socket socket;
-
-        private List statusEventListeners = Collections.synchronizedList(new ArrayList());
-
-        public List getListeners() {
-            return statusEventListeners;
-        }
-
-        private Thread watcher;
-
-        public Watcher(String host, int port, String user, String timeZone) {
-            watcher = new Thread(this, "FaxWatcher-" + watcherNum++);
-            this.host = host;
-            this.port = port;
-            this.user = user;
-            this.timeZone = timeZone;
-        }
-
-        public void addStatusEventListener(StatusEventListener listener) {
-            statusEventListeners.add(listener);
-        }
-
-        public void addStatusEventListeners(List listeners) {
-            statusEventListeners.addAll(listeners);
-        }
-
-        /**
-         * @return the actual string representation of the events to receive from 
-         * the hylafax server.
-         */
-        public String getMask() {
-            String mask = "";
-            if ((options & StatusEventListener.MODEM) == StatusEventListener.MODEM) mask += "M*";
-            if ((options & StatusEventListener.SEND) == StatusEventListener.SEND) mask += "S*";
-            if ((options & StatusEventListener.RECEIVE) == StatusEventListener.RECEIVE) mask += "R*";
-            if ((options & StatusEventListener.JOB) == StatusEventListener.JOB) mask += "J*";
-            return mask;
-        }
-
-        public void setOptions(int options) {
-            this.options = options;
-        }
-
-        public int getOptions() {
-            return options;
-        }
-
-        public void notify(String line) {
-            log.debug(line);
+        public synchronized void notify(String line) {
+            Iterator iterator = statusEventListeners.iterator();
+            while (iterator.hasNext()) {
+                StatusEventListener listener = (StatusEventListener) iterator.next();
+                listener.eventReceived(line);
+            }
         }
 
         public void removeStatusEventListener(StatusEventListener listener) {
@@ -128,15 +130,16 @@ public class FaxWatch implements Runnable {
             }
         }
 
-        public boolean started = false;
-
         public void run() {
+            log.debug("starting watcher thread: " + watcher.getName());
             try {
                 try {
                     String line = null;
                     BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                     try {
+                        log.debug("reading input stream");
                         while ((line = in.readLine()) != null) {
+                            log.debug("message received: " + line);
                             notify(line);
                         }
                     } finally {
@@ -150,7 +153,11 @@ public class FaxWatch implements Runnable {
                     log.debug(e.getMessage());
                 else log.error(e.getMessage(), e);
             }
-            System.err.println(watcher.getName() + ": stopped");
+            log.debug("thread stopped: " + watcher.getName());
+        }
+
+        public void setOptions(int options) {
+            this.options = options;
         }
 
         public void setSocket(Socket socket) throws FaxWatchException {
@@ -161,14 +168,14 @@ public class FaxWatch implements Runnable {
             } else throw new FaxWatchException("Thread already started.");
         }
 
-        private boolean terminated = false;
-
         public void stop() {
             if (!terminated) {
                 terminated = true;
                 try {
                     quit();
-                    watchers.remove(this);
+
+                    log.debug("removing watcher: " + watcher.getName());
+                    watchers.remove(socket.getInetAddress().getHostAddress());
                 } catch (Exception e) {
                     log.warn(e.getMessage(), e);
                 }
@@ -196,50 +203,38 @@ public class FaxWatch implements Runnable {
     }
 
     public static void main(String[] args) {
-        Thread thread1 = new Thread("Hylafax1") {
+        org.apache.log4j.BasicConfigurator.configure();
+        final String host1 = "10.0.0.222";
+        Thread thread1 = new Thread("FAX-" + host1) {
             public void run() {
                 try {
-                    //                    HylaFAXClient client = new HylaFAXClient();
-                    //
-                    //                    client.open("10.0.0.205");
-                    //                    client.user("autofax");
-                    //
-                    //                    client.addStatusEventListener(new AbstractStatusEventListener() {
-                    //                        public int getEventMask() {
-                    //                            return StatusEventListener.MODEM;
-                    //                        }
-                    //                    });
-                    //                    Thread.sleep(10000);
-                    //                    client.addStatusEventListener(new AbstractStatusEventListener() {
-                    //                        public int getEventMask() {
-                    //                            return StatusEventListener.RECEIVE;
-                    //                        }
-                    //                    });
-                    //                    Thread.sleep(10000);
-                    //                    client.addStatusEventListener(new AbstractStatusEventListener() {
-                    //                        public int getEventMask() {
-                    //                            return StatusEventListener.SEND | StatusEventListener.JOB;
-                    //                        }
-                    //                    });
-                    //                    Thread.sleep(10000);
-                    //                    client.addStatusEventListener(new AbstractStatusEventListener() {
-                    //                        public int getEventMask() {
-                    //                            return StatusEventListener.MODEM;
-                    //                        }
-                    //                    });
-                    //                    client.quit();
+                    HylaFAXClient client = new HylaFAXClient();
+
+                    client.open(host1);
+                    client.user("autofax");
+
+                    client.addStatusEventListener(new AbstractStatusEventListener() {
+                        public int getEventMask() {
+                            return StatusEventListener.MODEM | StatusEventListener.RECEIVE | StatusEventListener.JOB
+                                    | StatusEventListener.SEND;
+                        }
+                    });
+
+                    Thread.sleep(60000);
+                    client.quit();
 
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
         };
-        Thread thread2 = new Thread("Hylafax2") {
+        final String host2 = "10.0.0.205";
+        Thread thread2 = new Thread("FAX-" + host2) {
             public void run() {
                 try {
                     HylaFAXClient client = new HylaFAXClient();
 
-                    client.open("10.0.0.222");
+                    client.open(host2);
                     client.user("autofax");
 
                     client.addStatusEventListener(new AbstractStatusEventListener() {
@@ -247,26 +242,23 @@ public class FaxWatch implements Runnable {
                             return StatusEventListener.MODEM;
                         }
                     });
+
                     Thread.sleep(5000);
+
                     client.addStatusEventListener(new AbstractStatusEventListener() {
                         public int getEventMask() {
-                            return StatusEventListener.RECEIVE;
-                        }
-                    });
-                    Thread.sleep(5000);
-                    client.addStatusEventListener(new AbstractStatusEventListener() {
-                        public int getEventMask() {
-                            return StatusEventListener.SEND | StatusEventListener.JOB;
-                        }
-                    });
-                    Thread.sleep(5000);
-                    client.addStatusEventListener(new AbstractStatusEventListener() {
-                        public int getEventMask() {
-                            return StatusEventListener.MODEM;
+                            return StatusEventListener.MODEM | StatusEventListener.RECEIVE;
                         }
                     });
 
-                    Thread.sleep(100000);
+                    Thread.sleep(5000);
+                    client.addStatusEventListener(new AbstractStatusEventListener() {
+                        public int getEventMask() {
+                            return StatusEventListener.JOB;
+                        }
+                    });
+
+                    Thread.sleep(5000);
                     client.quit();
 
                 } catch (Exception e) {
@@ -276,21 +268,33 @@ public class FaxWatch implements Runnable {
         };
         thread1.start();
         thread2.start();
+
+        try {
+            thread1.join();
+            thread2.join();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        System.exit(-1);
     }
+
+    ServerSocket server = null;
 
     private boolean started = false;
 
-    ServerSocket server;
+    private boolean terminated = false;
 
     private Thread thread = new Thread(this, "FaxWatch");
 
     private FaxWatch() {
-        // Nothing necessary here.
+        Runtime.getRuntime().addShutdownHook(new Thread() {
+            public void run() {
+                log.debug("starting shutdown hook");
+                FaxWatch.getInstance().stop();
+            }
+        });
     }
-
-    private String lastHost = null;
-
-    private Object lastHostMutex = new Object();
 
     public synchronized void addStatusEventListener(String host, int port, String user, String timeZone,
             StatusEventListener listener) throws FaxWatchException {
@@ -303,6 +307,7 @@ public class FaxWatch implements Runnable {
             int options = listener.getEventMask();
             if (!isValidMask(options)) throw new FaxWatchException("Invalid Options for StatusEventListener");
 
+            boolean load = false;
             List listeners = new ArrayList();
             int opts = 0;
             Watcher watcher = (Watcher) watchers.remove(host);
@@ -316,17 +321,15 @@ public class FaxWatch implements Runnable {
             }
 
             if (watcher == null) {
+                load = true;
                 watcher = new Watcher(host, port, user, timeZone);
                 watcher.addStatusEventListeners(listeners);
                 watcher.setOptions(opts | listener.getEventMask());
-                synchronized (lastHostMutex) {
-                    lastHost = host;
-                }
-                watcher.load();
             }
 
-            watcher.addStatusEventListener(listener);
             watchers.put(host, watcher);
+            watcher.addStatusEventListener(listener);
+            if (load) watcher.load();
 
             log.debug("Number of Watchers: " + watchers.size());
 
@@ -353,18 +356,20 @@ public class FaxWatch implements Runnable {
      * @see java.lang.Runnable#run()
      */
     public void run() {
+        log.debug("starting server socket");
         try {
             server = new ServerSocket(0);
             try {
                 while (!terminated && !server.isClosed()) {
+                    log.debug("waiting for client connection");
                     Socket socket = server.accept();
-                    Watcher watcher = (Watcher) watchers.get(lastHost);
+                    log.debug("client connected");
+
+                    Watcher watcher = (Watcher) watchers.get(socket.getInetAddress().getHostAddress());
                     if (watcher != null) {
-                        synchronized (lastHostMutex) {
-                            lastHost = null;
-                        }
                         watcher.setSocket(socket);
                     } else {
+                        log.warn("Cannot find watcher for: " + socket.getInetAddress().getHostAddress());
                         if (!socket.isClosed()) socket.close();
                     }
                 }
@@ -381,15 +386,9 @@ public class FaxWatch implements Runnable {
         }
     }
 
-    /**
-     * Start the server or reload the FaxWatcher client.  At any time there 
-     * should be a maximum of 2 FaxWatcher threads running at a time.
-     */
     private synchronized void start() {
         thread.start();
     }
-
-    private boolean terminated = false;
 
     /**
      * Stops the FaxWatchers and FaxWatch thread.
@@ -399,25 +398,29 @@ public class FaxWatch implements Runnable {
             terminated = true;
 
             // Stop the watchers.
-            log.debug("Stopping " + watchers.size() + " watchers");
+            log.debug("stopping " + watchers.size() + " watchers");
 
+            ArrayList keys = new ArrayList();
             Iterator iterator = watchers.keySet().iterator();
             while (iterator.hasNext()) {
-                String key = (String) iterator.next();
-                Watcher watcher = ((Watcher) watchers.remove(key));
+                keys.add(iterator.next());
+            }
+            iterator = keys.iterator();
+            while (iterator.hasNext()) {
+                Watcher watcher = ((Watcher) watchers.remove(iterator.next()));
                 if (watcher != null) watcher.stop();
             }
 
+            log.debug("stopping FaxWatch server");
             if (server != null && !server.isClosed()) {
                 try {
                     server.close();
+                    server = null;
                 } catch (IOException e) {
                     log.warn(e.getMessage(), e);
                 }
             }
-            server = null;
             started = false;
-            faxWatch = new FaxWatch();
         }
     }
 }

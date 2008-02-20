@@ -33,7 +33,7 @@ public interface StatusEventListener extends EventListener {
      * Receives all events from the hylafax server.
      * @param event
      */
-    public void eventReceived(StatusEvent event);
+    public void eventReceived(String eventTxt);
 
     /**
      * Receives only job events from the hylafax server.
