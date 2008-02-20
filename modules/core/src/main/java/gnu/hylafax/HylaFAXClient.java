@@ -75,22 +75,24 @@ public class HylaFAXClient extends HylaFAXClientProtocol implements Client {
 
     private List statusEventListeners = Collections.synchronizedList(new ArrayList());
 
-    public void addStatusEventListener(StatusEventListener listener) {
-        try {
-            FaxWatch.getInstance().addStatusEventListener(hylafaxServerHost, hylafaxServerPort, hylafaxServerUsername,
-                hylafaxServerTimeZone, listener);
-            statusEventListeners.add(listener);
-        } catch (FaxWatchException e) {
-            log.error(e.getMessage(), e);
-        }
+    public void addStatusEventListener(StatusEventListener listener, int type, int events, String id) {
+        //TODO Convert the normal StatusEventListener into an extended 
+        //status event listener with the appropriate type, events, and id. 
     }
 
-    public void addStatusEventListeners(List listeners) {
-        Iterator iterator = listeners.iterator();
-        while (iterator.hasNext()) {
-            addStatusEventListener((StatusEventListener) iterator.next());
-        }
-        statusEventListeners.addAll(listeners);
+    public void addStatusEventListener(StatusEventListener listener, int type, int events) {
+        //TODO Convert the normal StatusEventListener into an extended 
+        //status event listener with the appropriate type, events 
+    }
+
+    public void addStatusEventListener(StatusEventListener listener, int type) {
+        //TODO Convert the normal StatusEventListener into an extended 
+        //status event listener with the appropriate type 
+    }
+
+    public void addStatusEventListener(StatusEventListener listener) {
+        //TODO Convert the normal StatusEventListener into an extended 
+        //status event listener receiving all types and events.
     }
 
     public void removeStatusEventListener(StatusEventListener listener) {

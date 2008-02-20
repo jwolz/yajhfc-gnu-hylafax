@@ -2,7 +2,7 @@
 // Copyright (c) 2008 Steven Jardine, MJN Services, Inc., All Rights Reserved.
 // $Id: FaxWatchException.java 1 Feb 19, 2008 steve $
 // ==============================================================================
-package gnu.hylafax;
+package gnu.hylafax.status;
 
 /**
  * @version $Id: FaxWatchException.java 1 Feb 19, 2008 steve $

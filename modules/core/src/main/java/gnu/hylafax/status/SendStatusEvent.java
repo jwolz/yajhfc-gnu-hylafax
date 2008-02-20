@@ -1,17 +1,18 @@
 // ==============================================================================
 // Copyright (c) 2008 Steven Jardine, MJN Services, Inc., All Rights Reserved.
-// $Id: StatusEvent.java 1 Feb 18, 2008 steve $
+// $Id: JobStatusEvent.java 1 Feb 20, 2008 steve $
 // ==============================================================================
-package gnu.hylafax;
+package gnu.hylafax.status;
 
 /**
- * Represents an event received from the hylafax server.
- *  
- * @version $Id: StatusEvent.java 1 Feb 18, 2008 steve $
+ * @version $Id: JobStatusEvent.java 1 Feb 20, 2008 steve $
  * @author Steven Jardine, MJN Services, Inc., Copyright(c) 2008, All Rights Reserved
+ *
  */
-public interface StatusEvent {
+public class SendStatusEvent implements StatusEvent {
 
-    //TODO  Implement the event code.
+    public SendStatusEvent(String[] event) {
+        //Parse event array and make it into something worth while.
+    }
 
 }
