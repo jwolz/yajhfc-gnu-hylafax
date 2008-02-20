@@ -20,33 +20,28 @@ public class LoggingStatusEventListener implements StatusEventListener {
      * @see gnu.hylafax.StatusEventListener#jobEventReceived(gnu.hylafax.StatusEvent)
      */
     public void jobEventReceived(StatusEvent event) {
-
-        // TODO Auto-generated method stub
-
+        log.debug(event);
     }
 
     /* (non-Javadoc)
      * @see gnu.hylafax.StatusEventListener#modemEventReceived(gnu.hylafax.StatusEvent)
      */
     public void modemEventReceived(StatusEvent event) {
-        // TODO Auto-generated method stub
-
+        log.debug(event);
     }
 
     /* (non-Javadoc)
      * @see gnu.hylafax.StatusEventListener#receiveEventReceived(gnu.hylafax.StatusEvent)
      */
     public void receiveEventReceived(StatusEvent event) {
-        // TODO Auto-generated method stub
-
+        log.debug(event);
     }
 
     /* (non-Javadoc)
      * @see gnu.hylafax.StatusEventListener#sendEventReceived(gnu.hylafax.StatusEvent)
      */
     public void sendEventReceived(StatusEvent event) {
-        // TODO Auto-generated method stub
-
+        log.debug(event);
     }
 
 }

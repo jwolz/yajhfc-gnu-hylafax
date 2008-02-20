@@ -25,6 +25,9 @@
 //
 package gnu.hylafax;
 
+import gnu.hylafax.status.FaxWatch;
+import gnu.hylafax.status.FaxWatchException;
+import gnu.hylafax.status.StatusEventListener;
 import gnu.inet.ftp.ActiveGetter;
 import gnu.inet.ftp.ActivePutter;
 import gnu.inet.ftp.ConnectionListener;
