@@ -32,6 +32,8 @@ package gnu.hylafax.status;
  */
 public class StatusEventType {
 
+    public static final int ALL = Integer.MAX_VALUE;
+
     public static final int MODEM = 0x0001;
 
     public static final int SEND = 0x0002;

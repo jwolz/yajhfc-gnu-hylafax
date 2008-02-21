@@ -24,9 +24,10 @@ package gnu.hylafax.status;
  * @version $Revision$
  * @author Steven Jardine <steve@mjnservices.com>
  */
-public class JobStatusEvent implements StatusEvent {
+public class JobStatusEvent extends BaseStatusEvent {
 
     public JobStatusEvent(String[] event) {
+	super(event);
 	// TODO Parse event array and make it into something worth while.
     }
 
