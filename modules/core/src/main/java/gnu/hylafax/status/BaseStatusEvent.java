@@ -26,9 +26,9 @@ package gnu.hylafax.status;
  */
 public class BaseStatusEvent implements StatusEvent {
 
-    protected String[] event = null;
+    protected String event = null;
 
-    public BaseStatusEvent(String[] event) {
+    public BaseStatusEvent(String event) {
 	this.event = event;
     }
 
@@ -38,11 +38,7 @@ public class BaseStatusEvent implements StatusEvent {
      * @see java.lang.Object#toString()
      */
     public String toString() {
-	String result = "";
-	for (int index = 0; index < event.length; index++) {
-	    result += event[index] + " ";
-	}
-	return result;
+	return event;
     }
 
 }

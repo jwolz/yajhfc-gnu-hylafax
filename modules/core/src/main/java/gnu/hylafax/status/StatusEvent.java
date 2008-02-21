@@ -90,8 +90,6 @@ public interface StatusEvent {
 
     /**
      * Job Parameters Altered
-     * 
-     * @deprecated
      */
     public static final int JOB_ALTERED = 0x1000;
 

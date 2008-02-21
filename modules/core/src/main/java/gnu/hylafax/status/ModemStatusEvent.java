@@ -26,7 +26,7 @@ package gnu.hylafax.status;
  */
 public class ModemStatusEvent extends BaseStatusEvent {
 
-    public ModemStatusEvent(String[] event) {
+    public ModemStatusEvent(String event) {
 	super(event);
 	// TODO Parse event array and make it into something worth while.
     }
