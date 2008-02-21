@@ -18,7 +18,6 @@
  ******************************************************************************/
 package gnu.hylafax.status;
 
-import gnu.hylafax.HylaFAXClient;
 import gnu.hylafax.HylaFAXClientProtocol;
 
 import java.io.BufferedReader;
@@ -46,23 +45,6 @@ import org.apache.commons.logging.LogFactory;
  * @author Steven Jardine <steve@mjnservices.com>
  */
 public class StatusWatcher implements Runnable {
-
-    /**
-     * @return the actual string representation of the events to receive from
-     *         the hylafax server.
-     */
-    public static String getMask(int options) {
-	String mask = "";
-	if ((options & StatusEventType.MODEM) == StatusEventType.MODEM)
-	    mask += "M*";
-	if ((options & StatusEventType.SEND) == StatusEventType.SEND)
-	    mask += "S*";
-	if ((options & StatusEventType.RECEIVE) == StatusEventType.RECEIVE)
-	    mask += "R*";
-	if ((options & StatusEventType.JOB) == StatusEventType.JOB)
-	    mask += "J*";
-	return mask;
-    }
 
     private class ListenerWrapper {
 
@@ -157,42 +139,159 @@ public class StatusWatcher implements Runnable {
 	    statusEventListeners.addAll(listeners);
 	}
 
-	private StatusEvent createEvent(String[] event) {
-	    String type = event[2];
-	    if (type.equals("MODEM")) {
+	private int calcEvent(int eventTypeId, String event) {
+	    if (event != null && !event.equals("")) {
+		int typeId = eventTypeId;
+		if (typeId <= 0) {
+		    typeId = calcEventType(event);
+		}
+
+		switch (typeId) {
+		case StatusEventType.MODEM:
+		    if (event.indexOf("Assigned to job") != -1)
+			return StatusEvent.MODEM_ASSIGN;
+		    if (event.indexOf("Released by job") != -1)
+			return StatusEvent.MODEM_RELEASE;
+		    if (event.indexOf("Marked down") != -1)
+			return StatusEvent.MODEM_DOWN;
+		    if (event.indexOf("Marked ready") != -1)
+			return StatusEvent.MODEM_READY;
+		    if (event.indexOf("Marked busy") != -1)
+			return StatusEvent.MODEM_BUSY;
+		    if (event.indexOf("Considered wedged") != -1)
+			return StatusEvent.MODEM_WEDGED;
+		    if (event.indexOf("In-use by an outbound job") != -1)
+			return StatusEvent.MODEM_INUSE;
+		    if (event.indexOf("Inbound data call begin") != -1)
+			return StatusEvent.MODEM_DATA_BEGIN;
+		    if (event.indexOf("Inbound data call completed") != -1)
+			return StatusEvent.MODEM_DATA_END;
+		    if (event.indexOf("Inbound voice call begin") != -1)
+			return StatusEvent.MODEM_VOICE_BEGIN;
+		    if (event.indexOf("Inbound voice call completed") != -1)
+			return StatusEvent.MODEM_VOICE_END;
+		    if (event.indexOf("Caller-id information: ") != -1)
+			return StatusEvent.MODEM_CID;
+		    log.error("Invalid Modem Event: " + event);
+		    break;
+		case StatusEventType.RECEIVE:
+		    if (event.indexOf("Call started") != -1)
+			return StatusEvent.RECV_BEGIN;
+		    if (event.indexOf("Call ended") != -1)
+			return StatusEvent.RECV_END;
+		    if (event.indexOf("Session started (com") != -1)
+			return StatusEvent.RECV_START;
+		    if (event.indexOf("From ") != -1
+			    && event.indexOf(" (com ") != -1
+			    && event.indexOf("), page ") != -1)
+			return StatusEvent.RECV_PAGE;
+		    if (event.indexOf("From ") != -1
+			    && event.indexOf(" (com ") != -1
+			    && event.indexOf(" pages in ") != -1)
+			return StatusEvent.RECV_DOC;
+		    log.error("Invalid Receive Event: " + event);
+		    break;
+		case StatusEventType.SEND:
+		    if (event.indexOf("Begin attempt") != -1)
+			return StatusEvent.SEND_BEGIN;
+		    if (event.indexOf("Call placed (off-hook)") != -1)
+			return StatusEvent.SEND_CALL;
+		    if (event.indexOf("Connected to remote device") != -1)
+			return StatusEvent.SEND_CONNECTED;
+		    if (event.indexOf("Finished attempt") != -1)
+			return StatusEvent.SEND_END;
+		    if (event.indexOf("Reformat documents ") != -1)
+			return StatusEvent.SEND_REFORMAT;
+		    if (event.indexOf("Requeue job") != -1)
+			return StatusEvent.SEND_REQUEUE;
+		    if (event.indexOf("Job completed successfully") != -1)
+			return StatusEvent.SEND_DONE;
+		    if (event.indexOf("Page ") != -1
+			    && event.indexOf(" sent in ") != -1
+			    && event.indexOf("(file ") != -1)
+			return StatusEvent.SEND_PAGE;
+		    if (event.indexOf("Document sent in ") != -1)
+			return StatusEvent.SEND_DOC;
+		    if (event.indexOf("Poll completed in ") != -1)
+			return StatusEvent.SEND_POLLDONE;
+		    if (event.indexOf("Recv polled document from ") != -1)
+			return StatusEvent.SEND_POLLRCVD;
+		    log.error("Invalid Send Event: " + event);
+		    break;
+		case StatusEventType.JOB:
+		    if (event.indexOf("Created") != -1)
+			return StatusEvent.JOB_CREATE;
+		    if (event.indexOf("Suspended") != -1)
+			return StatusEvent.JOB_SUSPEND;
+		    if (event.indexOf("Ready to send") != -1)
+			return StatusEvent.JOB_READY;
+		    if (event.indexOf("Sleeping awaiting time-to-send") != -1)
+			return StatusEvent.JOB_SLEEP;
+		    if (event.indexOf("Marked dead") != -1)
+			return StatusEvent.JOB_DEAD;
+		    if (event.indexOf("Being processed by scheduler") != -1)
+			return StatusEvent.JOB_PROCESS;
+		    if (event.indexOf("Corpus reaped") != -1)
+			return StatusEvent.JOB_REAP;
+		    if (event.indexOf("Activated") != -1)
+			return StatusEvent.JOB_ACTIVE;
+		    if (event.indexOf("Rejected") != -1)
+			return StatusEvent.JOB_REJECT;
+		    if (event.indexOf("Killed") != -1)
+			return StatusEvent.JOB_KILL;
+		    if (event.indexOf("Blocked by another job") != -1)
+			return StatusEvent.JOB_BLOCKED;
+		    if (event.indexOf("Delayed by time-of-day") != -1)
+			return StatusEvent.JOB_DELAYED;
+		    if (event.indexOf("Parameters altered") != -1)
+			return StatusEvent.JOB_ALTERED;
+		    if (event.indexOf("Timed out") != -1)
+			return StatusEvent.JOB_TIMEDOUT;
+		    if (event.indexOf("Preparation started") != -1)
+			return StatusEvent.JOB_PREP_BEGIN;
+		    if (event.indexOf("Preparation finished") != -1)
+			return StatusEvent.JOB_PREP_END;
+		    log.error("Invalid Job Event: " + event);
+		    break;
+		}
+	    }
+	    log.error("Invalid Event: " + event);
+	    return -1;
+	}
+
+	private int calcEvent(String event) {
+	    return calcEvent(calcEventType(event), event);
+	}
+
+	private int calcEventType(String event) {
+	    if (event != null && !event.equals("")) {
+		String type = event.split(" ")[2];
+		if (type.equals("MODEM"))
+		    return StatusEventType.MODEM;
+		if (type.equals("RECV"))
+		    return StatusEventType.RECEIVE;
+		if (type.equals("JOB")) {
+		    if (event.indexOf(": SEND FAX:") != -1)
+			return StatusEventType.SEND;
+		    return StatusEventType.JOB;
+		}
+	    }
+	    return -1;
+	}
+
+	private StatusEvent createEvent(int eventId, String event) {
+	    switch (eventId) {
+	    case StatusEventType.MODEM:
 		return new ModemStatusEvent(event);
-	    } else if (type.equals("SEND")) {
-		return new SendStatusEvent(event);
-	    } else if (type.equals("RECEIVE")) {
+	    case StatusEventType.RECEIVE:
 		return new ReceiveStatusEvent(event);
-	    } else if (type.equals("JOB")) {
+	    case StatusEventType.SEND:
+		return new SendStatusEvent(event);
+	    case StatusEventType.JOB:
 		return new JobStatusEvent(event);
+	    default:
+		return null;
 	    }
-	    return null;
-	}
-
-	private int getEventType(String[] event) {
-	    String type = event[2];
-	    if (type.equals("MODEM")) {
-		return StatusEventType.MODEM;
-	    } else if (type.equals("SEND")) {
-		return StatusEventType.SEND;
-	    } else if (type.equals("RECEIVE")) {
-		return StatusEventType.RECEIVE;
-	    } else if (type.equals("JOB")) {
-		return StatusEventType.JOB;
-	    }
-	    return -1;
-	}
-
-	private int getEvent(String[] eventArr) {
-	    String event = eventArr[1];
-	    try {
-		return Integer.parseInt(event);
-	    } catch (Exception e) {
-		log.warn("Invalid event: " + event);
-	    }
-	    return -1;
 	}
 
 	public List getListeners() {
@@ -209,6 +308,21 @@ public class StatusWatcher implements Runnable {
 
 	public int getOptions() {
 	    return options;
+	}
+
+	private String getTypeStr(int type) {
+	    switch (type) {
+	    case StatusEventType.MODEM:
+		return "MODEM";
+	    case StatusEventType.RECEIVE:
+		return "RECEIVE";
+	    case StatusEventType.SEND:
+		return "SEND";
+	    case StatusEventType.JOB:
+		return "JOB";
+	    default:
+		return null;
+	    }
 	}
 
 	public void load() throws StatusEventException {
@@ -238,13 +352,15 @@ public class StatusWatcher implements Runnable {
 
 	public synchronized void notify(final String line) {
 
-	    String[] eventArr = line.split(" ");
+	    if (line == null || line.equals(""))
+		return;
 
-	    final String id = eventArr[3];
-	    final int type = getEventType(eventArr);
-	    final int event = getEvent(eventArr);
-	    final StatusEvent statusEvent = createEvent(eventArr);
-	    log.debug(eventArr[2] + " event received: " + line);
+	    final String id = line.split(" ")[3];
+	    final int type = calcEventType(line);
+	    final StatusEvent statusEvent = createEvent(type, line);
+
+	    final int event = calcEvent(line);
+	    log.debug(getTypeStr(type) + " event received");
 
 	    // Notify the listeners.
 	    ArrayList threads = new ArrayList();
@@ -362,14 +478,31 @@ public class StatusWatcher implements Runnable {
 	}
     }
 
-    private static StatusWatcher statusWatcher = new StatusWatcher();
-
     static final Log log = LogFactory.getLog(StatusWatcher.class);
+
+    private static StatusWatcher statusWatcher = new StatusWatcher();
 
     static Map watchers = Collections.synchronizedMap(new HashMap());
 
     public static StatusWatcher getInstance() {
 	return statusWatcher;
+    }
+
+    /**
+     * @return the actual string representation of the events to receive from
+     *         the hylafax server.
+     */
+    public static String getMask(int options) {
+	String mask = "";
+	if ((options & StatusEventType.MODEM) == StatusEventType.MODEM)
+	    mask += "M*";
+	if ((options & StatusEventType.SEND) == StatusEventType.SEND)
+	    mask += "S*";
+	if ((options & StatusEventType.RECEIVE) == StatusEventType.RECEIVE)
+	    mask += "R*";
+	if ((options & StatusEventType.JOB) == StatusEventType.JOB)
+	    mask += "J*";
+	return mask;
     }
 
     public static boolean isValidMask(int mask) {
@@ -390,24 +523,45 @@ public class StatusWatcher implements Runnable {
 	org.apache.log4j.BasicConfigurator.configure();
 	final String host1 = "10.0.0.205";
 	try {
-	    HylaFAXClient client = new HylaFAXClient();
+	    StatusWatcher.getInstance().addStatusEventListener(
+		    host1,
+		    4559,
+		    "autofax",
+		    null,
+		    new FileStatusEventListener(
+			    "/home/steve/Desktop/modem-messages.txt"),
+		    StatusEventType.MODEM, StatusEvent.ALL, null);
 
-	    client.open(host1);
-	    client.user("autofax");
+	    StatusWatcher.getInstance().addStatusEventListener(
+		    host1,
+		    4559,
+		    "autofax",
+		    null,
+		    new FileStatusEventListener(
+			    "/home/steve/Desktop/send-messages.txt"),
+		    StatusEventType.SEND, StatusEvent.ALL, null);
 
-	    client.addStatusEventListener(new FileStatusEventListener(
-		    "/home/steve/Desktop/messages.txt"), StatusEventType.MODEM);
+	    StatusWatcher.getInstance().addStatusEventListener(
+		    "10.0.0.222",
+		    4559,
+		    "autofax",
+		    null,
+		    new FileStatusEventListener(
+			    "/home/steve/Desktop/receive-messages.txt"),
+		    StatusEventType.RECEIVE, StatusEvent.ALL, null);
 
-	    client.addStatusEventListener(new LoggingStatusEventListener());
-
-	    Thread.sleep(240000);
-	    client.quit();
+	    StatusWatcher.getInstance().addStatusEventListener(
+		    host1,
+		    4559,
+		    "autofax",
+		    null,
+		    new FileStatusEventListener(
+			    "/home/steve/Desktop/job-messages.txt"),
+		    StatusEventType.JOB, StatusEvent.ALL, null);
 
 	} catch (Exception e) {
 	    e.printStackTrace();
 	}
-
-	System.exit(-1);
     }
 
     ServerSocket server = null;

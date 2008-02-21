@@ -26,7 +26,7 @@ package gnu.hylafax.status;
  */
 public class ReceiveStatusEvent extends BaseStatusEvent {
 
-    public ReceiveStatusEvent(String[] event) {
+    public ReceiveStatusEvent(String event) {
 	super(event);
 	// Parse event array and make it into something worth while.
     }

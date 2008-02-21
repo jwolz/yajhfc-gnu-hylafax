@@ -19,8 +19,8 @@
 package gnu.hylafax.status;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
+import java.io.IOException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -40,14 +40,14 @@ public class FileStatusEventListener implements StatusEventListener {
 
     private Object mutex = new Object();
 
-    public FileStatusEventListener(String path) throws FileNotFoundException {
+    public FileStatusEventListener(String path) throws IOException {
 	this(new File(path));
     }
 
-    public FileStatusEventListener(File file) throws FileNotFoundException {
-	if (!file.exists())
-	    throw new FileNotFoundException(file.getName() + " not found");
+    public FileStatusEventListener(File file) throws IOException {
 	this.file = file;
+	if (!this.file.exists())
+	    this.file.createNewFile();
     }
 
     /*
