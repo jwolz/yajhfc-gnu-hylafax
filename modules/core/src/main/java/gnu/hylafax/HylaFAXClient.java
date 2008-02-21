@@ -25,8 +25,10 @@
 //
 package gnu.hylafax;
 
+import gnu.hylafax.status.StatusEvent;
 import gnu.hylafax.status.StatusEventException;
 import gnu.hylafax.status.StatusEventListener;
+import gnu.hylafax.status.StatusEventType;
 import gnu.hylafax.status.StatusWatcher;
 import gnu.inet.ftp.ActiveGetter;
 import gnu.inet.ftp.ActivePutter;
@@ -104,7 +106,8 @@ public class HylaFAXClient extends HylaFAXClientProtocol implements Client {
     // indicate whether passive transfers should be used
     private boolean passive;
 
-    private List statusEventListeners = Collections.synchronizedList(new ArrayList());
+    private List statusEventListeners = Collections
+	    .synchronizedList(new ArrayList());
 
     private Vector transferListeners;
 
@@ -112,79 +115,85 @@ public class HylaFAXClient extends HylaFAXClientProtocol implements Client {
      * default constructor. initialize class state.
      */
     public HylaFAXClient() {
-        passive = false; // disable passive transfers by default
-        mode = MODE_STREAM; // default mode is stream mode
-        connectionListeners = new Vector();
-        transferListeners = new Vector();
+	passive = false; // disable passive transfers by default
+	mode = MODE_STREAM; // default mode is stream mode
+	connectionListeners = new Vector();
+	transferListeners = new Vector();
     }
 
     /**
      * Register a connection listener with the event source.
      * 
      * @param listener
-     *            the listener to register with the event source
+     *                the listener to register with the event source
      */
     public void addConnectionListener(ConnectionListener listener) {
-        connectionListeners.addElement(listener);
+	connectionListeners.addElement(listener);
     }
 
     /**
      * Register a set of connection listeners with the event source.
      * 
      * @param listeners
-     *            the listeners to register with the event source
+     *                the listeners to register with the event source
      */
     public void addConnectionListeners(Vector listeners) {
-        Enumeration enumeration = listeners.elements();
+	Enumeration enumeration = listeners.elements();
 
-        while (enumeration.hasMoreElements()) {
-            ConnectionListener listener = (ConnectionListener) enumeration.nextElement();
-            connectionListeners.addElement(listener);
-        }
+	while (enumeration.hasMoreElements()) {
+	    ConnectionListener listener = (ConnectionListener) enumeration
+		    .nextElement();
+	    connectionListeners.addElement(listener);
+	}
     }
 
-    public void addStatusEventListener(StatusEventListener listener) throws StatusEventException {
-        addStatusEventListener(listener, -1);
+    public void addStatusEventListener(StatusEventListener listener)
+	    throws StatusEventException {
+	addStatusEventListener(listener, StatusEventType.ALL);
     }
 
-    public void addStatusEventListener(StatusEventListener listener, int type) throws StatusEventException {
-        addStatusEventListener(listener, type, -1);
+    public void addStatusEventListener(StatusEventListener listener, int type)
+	    throws StatusEventException {
+	addStatusEventListener(listener, type, StatusEvent.ALL);
     }
 
-    public void addStatusEventListener(StatusEventListener listener, int type, int events) throws StatusEventException {
-        addStatusEventListener(listener, type, events, null);
+    public void addStatusEventListener(StatusEventListener listener, int type,
+	    int events) throws StatusEventException {
+	addStatusEventListener(listener, type, events, null);
     }
 
-    public void addStatusEventListener(StatusEventListener listener, int type, int events, String id)
-            throws StatusEventException {
-        StatusWatcher.getInstance().addStatusEventListener(hylafaxServerHost, hylafaxServerPort, hylafaxServerUsername,
-            hylafaxServerTimeZone, listener, type, events, id);
-        statusEventListeners.add(listener);
+    public void addStatusEventListener(StatusEventListener listener, int type,
+	    int events, String id) throws StatusEventException {
+	StatusWatcher.getInstance().addStatusEventListener(hylafaxServerHost,
+		hylafaxServerPort, hylafaxServerUsername,
+		hylafaxServerTimeZone, listener, type, events, id);
+	statusEventListeners.add(listener);
     }
 
     /**
      * Register a transfer listener with the event source.
      * 
      * @param listener
-     *            the listener to register with the event source
+     *                the listener to register with the event source
      */
     public void addTransferListener(TransferListener listener) {
-        transferListeners.addElement(listener);
+	transferListeners.addElement(listener);
     }
 
     /**
      * Register a set of transfer listeners with the event source.
      * 
      * @param listeners
-     *            the listeners to register with the event source
+     *                the listeners to register with the event source
      */
     public void addTransferListeners(Vector listeners) {
-        Enumeration enumeration = listeners.elements();
+	Enumeration enumeration = listeners.elements();
 
-        while (enumeration.hasMoreElements()) {
-            TransferListener listener = (TransferListener) enumeration.nextElement();
-            transferListeners.addElement(listener);
-        }
+	while (enumeration.hasMoreElements()) {
+	    TransferListener listener = (TransferListener) enumeration
+		    .nextElement();
+	    transferListeners.addElement(listener);
+	}
     }
 
     /**
@@ -193,110 +202,113 @@ public class HylaFAXClient extends HylaFAXClientProtocol implements Client {
      * @return a new Job instance on the server
      * @exception ServerResponseException
      * @exception IOException
-     *                an IO error occurred while communicating with the server
+     *                    an IO error occurred while communicating with the
+     *                    server
      */
     public Job createJob() throws ServerResponseException, IOException {
-        return new gnu.hylafax.job.Job(this);
+	return new gnu.hylafax.job.Job(this);
     }
 
     /**
      * Delete the given done or suspended job.
      * 
      * @param job
-     *            the (done or suspended) job to delete
+     *                the (done or suspended) job to delete
      * @exception ServerResponseException
      * @exception IOException
-     *                an IO error occurred while communicating with the server
+     *                    an IO error occurred while communicating with the
+     *                    server
      */
     public void delete(Job job) throws ServerResponseException, IOException {
-        jdele(job.getId());
+	jdele(job.getId());
     }
 
     /**
      * GET the named file, FTP style.
      * 
      * @param path
-     *            the name of the file to GET. This can be a full or partial
-     *            path.
+     *                the name of the file to GET. This can be a full or partial
+     *                path.
      * @param out
-     *            the OutputStream to write the file data to
+     *                the OutputStream to write the file data to
      * @exception IOException
-     *                an IO error occurred
+     *                    an IO error occurred
      * @exception ServerResponseException
-     *                the server reported an error
+     *                    the server reported an error
      * @exception FileNotFoundException
-     *                the given path does not exist
+     *                    the given path does not exist
      */
-    public synchronized void get(String path, OutputStream out) throws IOException, FileNotFoundException,
-            ServerResponseException {
-        get(path, out, GET);
+    public synchronized void get(String path, OutputStream out)
+	    throws IOException, FileNotFoundException, ServerResponseException {
+	get(path, out, GET);
     }
 
-    private synchronized void get(String path, OutputStream out, int type) throws IOException, FileNotFoundException,
-            ServerResponseException {
+    private synchronized void get(String path, OutputStream out, int type)
+	    throws IOException, FileNotFoundException, ServerResponseException {
 
-        Getter getter;
-        if (passive == true) {
-            // do a passive transfer
-            if (connection == null) {
-                connection = new PassiveConnection(pasv());
-            }
-            getter = new PassiveGetter(out, connection);
-        } else {
-            getter = new ActiveGetter(out);
-            // do a non-passive (active) transfer
-            port(getInetAddress(), ((ActiveGetter) getter).getPort());
-        }
+	Getter getter;
+	if (passive == true) {
+	    // do a passive transfer
+	    if (connection == null) {
+		connection = new PassiveConnection(pasv());
+	    }
+	    getter = new PassiveGetter(out, connection);
+	} else {
+	    getter = new ActiveGetter(out);
+	    // do a non-passive (active) transfer
+	    port(getInetAddress(), ((ActiveGetter) getter).getPort());
+	}
 
-        // start transfer
-        getter.addConnectionListeners(connectionListeners);
-        getter.addTransferListeners(transferListeners);
-        getter.start();
+	// start transfer
+	getter.addConnectionListeners(connectionListeners);
+	getter.addTransferListeners(transferListeners);
+	getter.start();
 
-        // start transmission
-        try {
-            switch (type) {
-            case GET:
-                retr(path);
-                break;
-            case LIST:
-                list(path);
-                break;
-            case NAMELIST:
-                nlst(path);
-                break;
-            }
-        } catch (FileNotFoundException fnfe) {
-            getter.cancel();
-            throw fnfe;
-        } catch (IOException ioe) {
-            getter.cancel();
-            throw ioe;
-        } catch (ServerResponseException sree) {
-            getter.cancel();
-            throw sree;
-        } finally {
-            // wait for thread to end
-            try {
-                getter.join();
-            } catch (InterruptedException ie) {
-                // not really an error
-            }
-        }
-        connection = null;
+	// start transmission
+	try {
+	    switch (type) {
+	    case GET:
+		retr(path);
+		break;
+	    case LIST:
+		list(path);
+		break;
+	    case NAMELIST:
+		nlst(path);
+		break;
+	    }
+	} catch (FileNotFoundException fnfe) {
+	    getter.cancel();
+	    throw fnfe;
+	} catch (IOException ioe) {
+	    getter.cancel();
+	    throw ioe;
+	} catch (ServerResponseException sree) {
+	    getter.cancel();
+	    throw sree;
+	} finally {
+	    // wait for thread to end
+	    try {
+		getter.join();
+	    } catch (InterruptedException ie) {
+		// not really an error
+	    }
+	}
+	connection = null;
     }
 
     /**
      * Get a Job instance for the given job id
      * 
      * @param id
-     *            the id of the job to get
+     *                the id of the job to get
      * @exception ServerResponseException
      * @exception IOException
-     *                an IO error occurred while communicating with the server
+     *                    an IO error occurred while communicating with the
+     *                    server
      */
     public Job getJob(long id) throws ServerResponseException, IOException {
-        return new gnu.hylafax.job.Job(this, id);
+	return new gnu.hylafax.job.Job(this, id);
     }
 
     /**
@@ -305,15 +317,16 @@ public class HylaFAXClient extends HylaFAXClientProtocol implements Client {
      * <b>NOTE:</b> this calls the list() method internally with the "." path.
      * 
      * @exception IOException
-     *                an IO error occurred
+     *                    an IO error occurred
      * @exception FileNotFoundException
-     *                the "." path doesn't exist
+     *                    the "." path doesn't exist
      * @exception ServerResponseException
-     *                the server reported an error
+     *                    the server reported an error
      * @return a Vector of Strings containing the list information
      */
-    public synchronized Vector getList() throws IOException, FileNotFoundException, ServerResponseException {
-        return getList(null, false);
+    public synchronized Vector getList() throws IOException,
+	    FileNotFoundException, ServerResponseException {
+	return getList(null, false);
     }
 
     /**
@@ -322,41 +335,43 @@ public class HylaFAXClient extends HylaFAXClientProtocol implements Client {
      * <b>NOTE:</b> this calls the list() method internally.
      * 
      * @param path
-     *            the path that we're interested in finding the contents of
+     *                the path that we're interested in finding the contents of
      * @exception IOException
-     *                an IO error occurred
+     *                    an IO error occurred
      * @exception FileNotFoundException
-     *                the given path doesn't exist
+     *                    the given path doesn't exist
      * @exception ServerResponseException
-     *                the server reported an error
+     *                    the server reported an error
      * @return a Vector of Strings containing the list information
      */
-    public synchronized Vector getList(String path) throws IOException, FileNotFoundException, ServerResponseException {
-        return getList(path, false);
+    public synchronized Vector getList(String path) throws IOException,
+	    FileNotFoundException, ServerResponseException {
+	return getList(path, false);
     }
 
-    private synchronized Vector getList(String path, boolean namelist) throws IOException, FileNotFoundException,
-            ServerResponseException {
+    private synchronized Vector getList(String path, boolean namelist)
+	    throws IOException, FileNotFoundException, ServerResponseException {
 
-        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-        get(path, buffer, namelist ? NAMELIST : LIST);
+	ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+	get(path, buffer, namelist ? NAMELIST : LIST);
 
-        Vector result = new Vector();
-        BufferedReader data = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(buffer.toByteArray())));
-        String line = null;
-        String next = null;
-        while ((next = data.readLine()) != null) {
-            next = next.trim();
-            if (next.endsWith("\\")) {
-                next = next.substring(0, next.lastIndexOf("\\"));
-                line = (line == null ? next : line + " " + next).trim();
-                continue;
-            }
-            line = (line == null ? next : line + " " + next).trim();
-            result.add(line);
-            line = null;
-        }
-        return result;
+	Vector result = new Vector();
+	BufferedReader data = new BufferedReader(new InputStreamReader(
+		new ByteArrayInputStream(buffer.toByteArray())));
+	String line = null;
+	String next = null;
+	while ((next = data.readLine()) != null) {
+	    next = next.trim();
+	    if (next.endsWith("\\")) {
+		next = next.substring(0, next.lastIndexOf("\\"));
+		line = (line == null ? next : line + " " + next).trim();
+		continue;
+	    }
+	    line = (line == null ? next : line + " " + next).trim();
+	    result.add(line);
+	    line = null;
+	}
+	return result;
 
     }
 
@@ -366,15 +381,16 @@ public class HylaFAXClient extends HylaFAXClientProtocol implements Client {
      * information.
      * 
      * @exception IOException
-     *                an IO error occurred
+     *                    an IO error occurred
      * @exception ServerResponseException
-     *                the server reported an error
+     *                    the server reported an error
      * @exception FileNotFoundException
-     *                the requested path does not exist
+     *                    the requested path does not exist
      * @return Vector of Strings containing filenames
      */
-    public synchronized Vector getNameList() throws IOException, ServerResponseException, FileNotFoundException {
-        return getNameList(null);
+    public synchronized Vector getNameList() throws IOException,
+	    ServerResponseException, FileNotFoundException {
+	return getNameList(null);
     }
 
     /**
@@ -383,18 +399,18 @@ public class HylaFAXClient extends HylaFAXClientProtocol implements Client {
      * information.
      * 
      * @param path
-     *            the path of the directory that we want the name list of
+     *                the path of the directory that we want the name list of
      * @exception IOException
-     *                an IO error occurred
+     *                    an IO error occurred
      * @exception ServerResponseException
-     *                the server reported an error
+     *                    the server reported an error
      * @exception FileNotFoundException
-     *                the requested path does not exist
+     *                    the requested path does not exist
      * @return Vector of Strings containing filenames
      */
-    public synchronized Vector getNameList(String path) throws IOException, ServerResponseException,
-            FileNotFoundException {
-        return getList(path, true);
+    public synchronized Vector getNameList(String path) throws IOException,
+	    ServerResponseException, FileNotFoundException {
+	return getList(path, true);
     }
 
     /**
@@ -403,33 +419,35 @@ public class HylaFAXClient extends HylaFAXClientProtocol implements Client {
      * @return true if passive transfers are enabled, false otherwise
      */
     public synchronized boolean getPassive() {
-        return passive;
+	return passive;
     }
 
     /**
      * Interrupt the given job.
      * 
      * @param job
-     *            the job to interrupt
+     *                the job to interrupt
      * @exception ServerResponseException
      * @exception IOException
-     *                an IO error occurred while communicating with the server
+     *                    an IO error occurred while communicating with the
+     *                    server
      */
     public void interrupt(Job job) throws ServerResponseException, IOException {
-        jintr(job.getId());
+	jintr(job.getId());
     }
 
     /**
      * Kill the given job
      * 
      * @param job
-     *            the job to kill
+     *                the job to kill
      * @exception ServerResponseException
      * @exception IOException
-     *                an IO error occurred while communicating with the server
+     *                    an IO error occurred while communicating with the
+     *                    server
      */
     public void kill(Job job) throws ServerResponseException, IOException {
-        jkill(job.getId());
+	jkill(job.getId());
     }
 
     /**
@@ -437,15 +455,16 @@ public class HylaFAXClient extends HylaFAXClientProtocol implements Client {
      * ClientProtocol class.
      * 
      * @param mode
-     *            the new mode setting
+     *                the new mode setting
      * @exception IOException
-     *                an io error occurred talking to the server
+     *                    an io error occurred talking to the server
      * @exception ServerResponseException
-     *                the server replied with an error code
+     *                    the server replied with an error code
      */
-    public synchronized void mode(char newMode) throws IOException, ServerResponseException {
-        super.mode(newMode);
-        this.mode = newMode; // cache the mode for later use
+    public synchronized void mode(char newMode) throws IOException,
+	    ServerResponseException {
+	super.mode(newMode);
+	this.mode = newMode; // cache the mode for later use
     }
 
     /**
@@ -454,13 +473,14 @@ public class HylaFAXClient extends HylaFAXClientProtocol implements Client {
      * <b>NOTE:</b> this calls stou() internally.
      * 
      * @exception IOException
-     *                a socket IO error occurred
+     *                    a socket IO error occurred
      * @exception ServerResponseException
-     *                the server responded with an error code
+     *                    the server responded with an error code
      * @return the name of the file created
      */
-    public synchronized String put(InputStream data) throws IOException, ServerResponseException {
-        return put(data, null, false);
+    public synchronized String put(InputStream data) throws IOException,
+	    ServerResponseException {
+	return put(data, null, false);
     }
 
     /**
@@ -469,15 +489,16 @@ public class HylaFAXClient extends HylaFAXClientProtocol implements Client {
      * <b>NOTE:</b> this calls stor() internally.
      * 
      * @param pathname
-     *            name of file to store on server (where to put the file on the
-     *            server)
+     *                name of file to store on server (where to put the file on
+     *                the server)
      * @exception IOException
-     *                a socket IO error occurred
+     *                    a socket IO error occurred
      * @exception ServerResponseException
-     *                the server responded with an error
+     *                    the server responded with an error
      */
-    public synchronized void put(InputStream in, String pathname) throws IOException, ServerResponseException {
-        put(in, pathname, false);
+    public synchronized void put(InputStream in, String pathname)
+	    throws IOException, ServerResponseException {
+	put(in, pathname, false);
     }
 
     /**
@@ -488,61 +509,61 @@ public class HylaFAXClient extends HylaFAXClientProtocol implements Client {
      * 
      * @param data
      * @param pathname
-     *            the pathname of the file. Should be set to null if file is a
-     *            temporary file or no specific pathname is desired.
+     *                the pathname of the file. Should be set to null if file is
+     *                a temporary file or no specific pathname is desired.
      * @param temporary
-     *            is the file a temporary file?
+     *                is the file a temporary file?
      * @return the filename of the file. Will be NULL when pathname is not null.
      * @throws IOException
-     *             io error occurred talking to the server
+     *                 io error occurred talking to the server
      * @throws ServerResponseException
-     *             server replied with error code
+     *                 server replied with error code
      */
-    private synchronized String put(InputStream data, String pathname, boolean temporary) throws IOException,
-            ServerResponseException {
-        String filename;
-        Putter put;
+    private synchronized String put(InputStream data, String pathname,
+	    boolean temporary) throws IOException, ServerResponseException {
+	String filename;
+	Putter put;
 
-        if (passive == true) {
-            // do a passive transfer
-            if (connection == null) {
-                connection = new PassiveConnection(pasv());
-            }
-            put = new PassivePutter(data, connection);
-        } else {
-            // do a non-passive (active) transfer
-            put = new ActivePutter(data);
-            port(getInetAddress(), ((ActivePutter) put).getPort());
-        }
+	if (passive == true) {
+	    // do a passive transfer
+	    if (connection == null) {
+		connection = new PassiveConnection(pasv());
+	    }
+	    put = new PassivePutter(data, connection);
+	} else {
+	    // do a non-passive (active) transfer
+	    put = new ActivePutter(data);
+	    port(getInetAddress(), ((ActivePutter) put).getPort());
+	}
 
-        put.setMode(mode);
-        put.addConnectionListeners(connectionListeners);
-        put.addTransferListeners(transferListeners);
-        put.start();
+	put.setMode(mode);
+	put.addConnectionListeners(connectionListeners);
+	put.addTransferListeners(transferListeners);
+	put.start();
 
-        // start transmission
-        try {
-            if (pathname != null) {
-                stor(data, pathname);
-                return null;
-            }
-            filename = temporary ? stot(data) : stou(data);
-        } catch (IOException ioe) {
-            put.cancel();
-            throw ioe;
-        } catch (ServerResponseException sree) {
-            put.cancel();
-            throw sree;
-        } finally {
-            // wait for thread to end
-            try {
-                put.join();
-            } catch (InterruptedException ie) {
-                // not really an error
-            }
-        }
-        connection = null;
-        return filename;
+	// start transmission
+	try {
+	    if (pathname != null) {
+		stor(data, pathname);
+		return null;
+	    }
+	    filename = temporary ? stot(data) : stou(data);
+	} catch (IOException ioe) {
+	    put.cancel();
+	    throw ioe;
+	} catch (ServerResponseException sree) {
+	    put.cancel();
+	    throw sree;
+	} finally {
+	    // wait for thread to end
+	    try {
+		put.join();
+	    } catch (InterruptedException ie) {
+		// not really an error
+	    }
+	}
+	connection = null;
+	return filename;
     }
 
     /**
@@ -552,151 +573,162 @@ public class HylaFAXClient extends HylaFAXClientProtocol implements Client {
      * <b>NOTE:</b> this calls stot() internally.
      * 
      * @exception IOException
-     *                io error occurred talking to the server
+     *                    io error occurred talking to the server
      * @exception ServerResponseException
-     *                server replied with error code
+     *                    server replied with error code
      * @return the filename of the temp file
      */
-    public synchronized String putTemporary(InputStream data) throws IOException, ServerResponseException {
-        return put(data, null, true);
+    public synchronized String putTemporary(InputStream data)
+	    throws IOException, ServerResponseException {
+	return put(data, null, true);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see gnu.inet.ftp.FtpClientProtocol#quit()
      */
     public void quit() throws IOException, ServerResponseException {
-        //Remove all status event listeners.  This will shutdown the thread if all listeners are removed.
-        ArrayList listeners = new ArrayList();
-        Iterator iterator = statusEventListeners.iterator();
-        while (iterator.hasNext()) {
-            listeners.add(iterator.next());
-        }
-        iterator = listeners.iterator();
-        while (iterator.hasNext()) {
-            try {
-                removeStatusEventListener((StatusEventListener) iterator.next());
-            } catch (StatusEventException e) {
-                log.error(e.getMessage(), e);
-            }
-        }
+	// Remove all status event listeners. This will shutdown the thread if
+	// all listeners are removed.
+	ArrayList listeners = new ArrayList();
+	Iterator iterator = statusEventListeners.iterator();
+	while (iterator.hasNext()) {
+	    listeners.add(iterator.next());
+	}
+	iterator = listeners.iterator();
+	while (iterator.hasNext()) {
+	    try {
+		removeStatusEventListener((StatusEventListener) iterator.next());
+	    } catch (StatusEventException e) {
+		log.error(e.getMessage(), e);
+	    }
+	}
 
-        super.quit();
+	super.quit();
     }
 
     /**
      * De-register a connection listener with the event source.
      * 
      * @param listener
-     *            the listener to de-register with the event source
+     *                the listener to de-register with the event source
      */
     public void removeConnectionListener(ConnectionListener listener) {
-        connectionListeners.removeElement(listener);
+	connectionListeners.removeElement(listener);
     }
 
-    public void removeStatusEventListener(StatusEventListener listener) throws StatusEventException {
-        StatusWatcher.getInstance().removeStatusEventListener(hylafaxServerHost, listener);
-        statusEventListeners.remove(listener);
+    public void removeStatusEventListener(StatusEventListener listener)
+	    throws StatusEventException {
+	StatusWatcher.getInstance().removeStatusEventListener(
+		hylafaxServerHost, listener);
+	statusEventListeners.remove(listener);
     }
 
     /**
      * De-register a transfer listener with the event source.
      * 
      * @param listener
-     *            the listener to de-register with the event source
+     *                the listener to de-register with the event source
      */
     public void removeTransferListener(TransferListener listener) {
-        transferListeners.removeElement(listener);
+	transferListeners.removeElement(listener);
     }
 
     /**
      * Retry a given job with a default killtime of "now + 3 hours".
      * 
      * @param id
-     *            the job id to retry.
+     *                the job id to retry.
      * @return the job id associated with the new job.
      * @throws ServerResponseException
      * @throws IOException
      */
     public long retry(long id) throws ServerResponseException, IOException {
-        return retry(id, "000259");
+	return retry(id, "000259");
     }
 
     /**
      * Retry a given job.
      * 
      * @param id
-     *            the job id to retry.
+     *                the job id to retry.
      * @param killTime
-     *            the new killTime for the job.
+     *                the new killTime for the job.
      * @return the job id associated with the new job.
      * @throws ServerResponseException
      * @throws IOException
      */
-    public long retry(long id, String killTime) throws ServerResponseException, IOException {
-        job(id);
-        // parse the document names.
-        List documents = new ArrayList();
-        String[] docs = jparm("document").split("\n");
-        for (int count = 0; count < docs.length; count++) {
-            String document = docs[count];
-            if (document.equals("End of documents.")) break;
-            documents.add(document.split(" ")[1]);
-        }
-        jnew();
-        for (int index = 0; index < documents.size(); index++) {
-            jparm("document", documents.get(index));
-        }
-        jparm("lasttime", killTime);
-        return jsubm();
+    public long retry(long id, String killTime) throws ServerResponseException,
+	    IOException {
+	job(id);
+	// parse the document names.
+	List documents = new ArrayList();
+	String[] docs = jparm("document").split("\n");
+	for (int count = 0; count < docs.length; count++) {
+	    String document = docs[count];
+	    if (document.equals("End of documents."))
+		break;
+	    documents.add(document.split(" ")[1]);
+	}
+	jnew();
+	for (int index = 0; index < documents.size(); index++) {
+	    jparm("document", documents.get(index));
+	}
+	jparm("lasttime", killTime);
+	return jsubm();
     }
 
     /**
      * enable or disable passive transfers
      * 
      * @param passive
-     *            indicates whether passive transfers should be used
+     *                indicates whether passive transfers should be used
      */
     public synchronized void setPassive(boolean passive) {
-        this.passive = passive;
+	this.passive = passive;
     }
 
     /**
      * Submit the given job to the scheduler.
      * 
      * @param job
-     *            the Job to submit
+     *                the Job to submit
      * @exception ServerResponseException
      * @exception IOException
-     *                an IO error occurred while communicating with the server
+     *                    an IO error occurred while communicating with the
+     *                    server
      */
     public void submit(Job job) throws ServerResponseException, IOException {
-        jsubm(job.getId());
+	jsubm(job.getId());
     }
 
     /**
      * Suspend the given job from the scheduler.
      * 
      * @param job
-     *            the Job to suspend
+     *                the Job to suspend
      * @exception ServerResponseException
      * @exception IOException
-     *                an IO error occurred while communicating with the server
+     *                    an IO error occurred while communicating with the
+     *                    server
      */
     public void suspend(Job job) throws ServerResponseException, IOException {
-        jsusp(job.getId());
+	jsusp(job.getId());
     }
 
     /**
      * wait for the given job to complete
      * 
      * @param job
-     *            the job to wait for
+     *                the job to wait for
      * @exception ServerResponseException
      * @exception IOException
-     *                an IO error occurred while communicating with the server
+     *                    an IO error occurred while communicating with the
+     *                    server
      */
     public void wait(Job job) throws ServerResponseException, IOException {
-        jwait(job.getId());
+	jwait(job.getId());
     }
 
 }

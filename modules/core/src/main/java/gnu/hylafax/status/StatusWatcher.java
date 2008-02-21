@@ -47,6 +47,23 @@ import org.apache.commons.logging.LogFactory;
  */
 public class StatusWatcher implements Runnable {
 
+    /**
+     * @return the actual string representation of the events to receive from
+     *         the hylafax server.
+     */
+    public static String getMask(int options) {
+	String mask = "";
+	if ((options & StatusEventType.MODEM) == StatusEventType.MODEM)
+	    mask += "M*";
+	if ((options & StatusEventType.SEND) == StatusEventType.SEND)
+	    mask += "S*";
+	if ((options & StatusEventType.RECEIVE) == StatusEventType.RECEIVE)
+	    mask += "R*";
+	if ((options & StatusEventType.JOB) == StatusEventType.JOB)
+	    mask += "J*";
+	return mask;
+    }
+
     private class ListenerWrapper {
 
 	private int eventMask = -1;
@@ -154,6 +171,30 @@ public class StatusWatcher implements Runnable {
 	    return null;
 	}
 
+	private int getEventType(String[] event) {
+	    String type = event[2];
+	    if (type.equals("MODEM")) {
+		return StatusEventType.MODEM;
+	    } else if (type.equals("SEND")) {
+		return StatusEventType.SEND;
+	    } else if (type.equals("RECEIVE")) {
+		return StatusEventType.RECEIVE;
+	    } else if (type.equals("JOB")) {
+		return StatusEventType.JOB;
+	    }
+	    return -1;
+	}
+
+	private int getEvent(String[] eventArr) {
+	    String event = eventArr[1];
+	    try {
+		return Integer.parseInt(event);
+	    } catch (Exception e) {
+		log.warn("Invalid event: " + event);
+	    }
+	    return -1;
+	}
+
 	public List getListeners() {
 	    return statusEventListeners;
 	}
@@ -163,16 +204,7 @@ public class StatusWatcher implements Runnable {
 	 *         from the hylafax server.
 	 */
 	public String getMask() {
-	    String mask = "";
-	    if ((options & StatusEventType.MODEM) == StatusEventType.MODEM)
-		mask += "M*";
-	    if ((options & StatusEventType.SEND) == StatusEventType.SEND)
-		mask += "S*";
-	    if ((options & StatusEventType.RECEIVE) == StatusEventType.RECEIVE)
-		mask += "R*";
-	    if ((options & StatusEventType.JOB) == StatusEventType.JOB)
-		mask += "J*";
-	    return mask;
+	    return StatusWatcher.getMask(options);
 	}
 
 	public int getOptions() {
@@ -205,33 +237,58 @@ public class StatusWatcher implements Runnable {
 	}
 
 	public synchronized void notify(final String line) {
+
 	    String[] eventArr = line.split(" ");
 
-	    final StatusEvent event = createEvent(eventArr);
-	    String type = eventArr[2];
-
-	    log.debug(type + " event received: " + line);
+	    final String id = eventArr[3];
+	    final int type = getEventType(eventArr);
+	    final int event = getEvent(eventArr);
+	    final StatusEvent statusEvent = createEvent(eventArr);
+	    log.debug(eventArr[2] + " event received: " + line);
 
 	    // Notify the listeners.
 	    ArrayList threads = new ArrayList();
 	    Iterator iterator = statusEventListeners.iterator();
 	    while (iterator.hasNext()) {
-		final StatusEventListener listener = (StatusEventListener) iterator
+		final ListenerWrapper wrapper = (ListenerWrapper) iterator
 			.next();
+
+		final int typeMask = wrapper.getTypeMask();
+		if ((typeMask & type) != type) {
+		    continue;
+		}
+
+		final int eventMask = wrapper.getEventMask();
+		if ((eventMask & event) != event) {
+		    continue;
+		}
+
+		final String listenerId = wrapper.getId();
+		if (listenerId != null && !listenerId.equals(id)) {
+		    continue;
+		}
+
 		Thread t = new Thread() {
 		    public void run() {
 			// Notify the listeners.
-			if (event instanceof ModemStatusEvent) {
-			    listener.modemEventReceived(event);
+			if ((typeMask & StatusEventType.MODEM) == StatusEventType.MODEM
+				&& statusEvent instanceof ModemStatusEvent) {
+			    wrapper.getListener().modemEventReceived(
+				    statusEvent);
 			}
-			if (event instanceof SendStatusEvent) {
-			    listener.sendEventReceived(event);
+			if ((typeMask & StatusEventType.SEND) == StatusEventType.SEND
+				&& statusEvent instanceof SendStatusEvent) {
+			    wrapper.getListener()
+				    .sendEventReceived(statusEvent);
 			}
-			if (event instanceof ReceiveStatusEvent) {
-			    listener.receiveEventReceived(event);
+			if ((typeMask & StatusEventType.RECEIVE) == StatusEventType.RECEIVE
+				&& statusEvent instanceof ReceiveStatusEvent) {
+			    wrapper.getListener().receiveEventReceived(
+				    statusEvent);
 			}
-			if (event instanceof JobStatusEvent) {
-			    listener.jobEventReceived(event);
+			if ((typeMask & StatusEventType.JOB) == StatusEventType.JOB
+				&& statusEvent instanceof JobStatusEvent) {
+			    wrapper.getListener().jobEventReceived(statusEvent);
 			}
 		    }
 		};
@@ -331,71 +388,21 @@ public class StatusWatcher implements Runnable {
 
     public static void main(String[] args) {
 	org.apache.log4j.BasicConfigurator.configure();
-	final String host1 = "10.0.0.222";
-	Thread thread1 = new Thread("FAX-" + host1) {
-	    public void run() {
-		try {
-		    HylaFAXClient client = new HylaFAXClient();
-
-		    client.open(host1);
-		    client.user("autofax");
-
-		    client.addStatusEventListener(
-			    new LoggingStatusEventListener(),
-			    StatusEventType.MODEM);
-		    Thread.sleep(5000);
-
-		    client.addStatusEventListener(
-			    new LoggingStatusEventListener(),
-			    StatusEventType.SEND);
-		    Thread.sleep(5000);
-
-		    client.addStatusEventListener(
-			    new LoggingStatusEventListener(),
-			    StatusEventType.RECEIVE);
-		    Thread.sleep(5000);
-
-		    client.addStatusEventListener(
-			    new LoggingStatusEventListener(),
-			    StatusEventType.JOB);
-
-		    Thread.sleep(60000);
-		    client.quit();
-
-		} catch (Exception e) {
-		    e.printStackTrace();
-		}
-	    }
-	};
-	final String host2 = "10.0.0.205";
-	Thread thread2 = new Thread("FAX-" + host2) {
-	    public void run() {
-		try {
-		    HylaFAXClient client = new HylaFAXClient();
-
-		    client.open(host2);
-		    client.user("autofax");
-
-		    client.addStatusEventListener(
-			    new LoggingStatusEventListener(),
-			    StatusEventType.MODEM | StatusEventType.SEND
-				    | StatusEventType.RECEIVE
-				    | StatusEventType.JOB);
-
-		    Thread.sleep(240000);
-		    client.quit();
-
-		} catch (Exception e) {
-		    e.printStackTrace();
-		}
-	    }
-	};
-	thread1.start();
-	thread2.start();
-
+	final String host1 = "10.0.0.205";
 	try {
-	    thread1.join();
-	    thread2.join();
+	    HylaFAXClient client = new HylaFAXClient();
+
+	    client.open(host1);
+	    client.user("autofax");
+
+	    client.addStatusEventListener(new FileStatusEventListener(
+		    "/home/steve/Desktop/messages.txt"), StatusEventType.MODEM);
+
+	    client.addStatusEventListener(new LoggingStatusEventListener());
+
+	    Thread.sleep(240000);
+	    client.quit();
+
 	} catch (Exception e) {
 	    e.printStackTrace();
 	}

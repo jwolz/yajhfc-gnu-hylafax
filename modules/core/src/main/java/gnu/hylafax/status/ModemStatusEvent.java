@@ -24,10 +24,11 @@ package gnu.hylafax.status;
  * @version $Revision$
  * @author Steven Jardine <steve@mjnservices.com>
  */
-public class ModemStatusEvent implements StatusEvent {
+public class ModemStatusEvent extends BaseStatusEvent {
 
     public ModemStatusEvent(String[] event) {
-	// Parse event array and make it into something worth while.
+	super(event);
+	// TODO Parse event array and make it into something worth while.
     }
 
 }

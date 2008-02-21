@@ -1,5 +1,5 @@
 /*******************************************************************************
- * $Id$
+ * $Id: ModemStatusEvent.java 80 2008-02-20 22:55:43Z sjardine $
  * 
  * Copyright 2008, Steven Jardine <steve@mjnservices.com>
  * Copyright 2008, MJN Services, Inc. - http://www.mjnservices.com
@@ -19,16 +19,30 @@
 package gnu.hylafax.status;
 
 /**
- * Represents a SEND event sent by the fax server.
+ * Represents the base functionality of an event sent by the fax server.
  * 
- * @version $Revision$
+ * @version $Revision: 80 $
  * @author Steven Jardine <steve@mjnservices.com>
  */
-public class SendStatusEvent extends BaseStatusEvent {
+public class BaseStatusEvent implements StatusEvent {
 
-    public SendStatusEvent(String[] event) {
-	super(event);
-	// TODO Parse event array and make it into something worth while.
+    protected String[] event = null;
+
+    public BaseStatusEvent(String[] event) {
+	this.event = event;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#toString()
+     */
+    public String toString() {
+	String result = "";
+	for (int index = 0; index < event.length; index++) {
+	    result += event[index] + " ";
+	}
+	return result;
     }
 
 }

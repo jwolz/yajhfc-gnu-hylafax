@@ -26,6 +26,8 @@ package gnu.hylafax.status;
  */
 public interface StatusEvent {
 
+    public static final int ALL = Integer.MAX_VALUE;
+
     /**
      * Job Created
      */
