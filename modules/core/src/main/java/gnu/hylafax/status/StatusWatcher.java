@@ -172,6 +172,8 @@ public class StatusWatcher implements Runnable {
 			return StatusEvent.MODEM_VOICE_END;
 		    if (event.indexOf("Caller-id information: ") != -1)
 			return StatusEvent.MODEM_CID;
+		    // TODO Remove System call. Shouldn't happen anyway.
+		    System.err.println("Invalid Modem Event: " + event);
 		    log.error("Invalid Modem Event: " + event);
 		    break;
 		case StatusEventType.RECEIVE:
@@ -189,6 +191,8 @@ public class StatusWatcher implements Runnable {
 			    && event.indexOf(" (com ") != -1
 			    && event.indexOf(" pages in ") != -1)
 			return StatusEvent.RECV_DOC;
+		    // TODO Remove System call. Shouldn't happen anyway.
+		    System.err.println("Invalid Receive Event: " + event);
 		    log.error("Invalid Receive Event: " + event);
 		    break;
 		case StatusEventType.SEND:
@@ -216,6 +220,8 @@ public class StatusWatcher implements Runnable {
 			return StatusEvent.SEND_POLLDONE;
 		    if (event.indexOf("Recv polled document from ") != -1)
 			return StatusEvent.SEND_POLLRCVD;
+		    // TODO Remove System call. Shouldn't happen anyway.
+		    System.err.println("Invalid Send Event: " + event);
 		    log.error("Invalid Send Event: " + event);
 		    break;
 		case StatusEventType.JOB:
@@ -251,10 +257,14 @@ public class StatusWatcher implements Runnable {
 			return StatusEvent.JOB_PREP_BEGIN;
 		    if (event.indexOf("Preparation finished") != -1)
 			return StatusEvent.JOB_PREP_END;
+		    // TODO Remove System call. Shouldn't happen anyway.
+		    System.err.println("Invalid Job Event: " + event);
 		    log.error("Invalid Job Event: " + event);
 		    break;
 		}
 	    }
+	    // TODO Remove System call. Shouldn't happen anyway.
+	    System.err.println("Invalid Event: " + event);
 	    log.error("Invalid Event: " + event);
 	    return -1;
 	}
