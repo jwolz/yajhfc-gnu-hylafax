@@ -5,6 +5,19 @@
 		<author email="sjardine@users.sourceforge.net">sjardine</author>
 	</properties>
 	<body>
+		<release version="1.0.0" date="2008-02-25">
+			<action dev="sjardine" type="fix" due-to="Lieven Poelman" due-to-email="dorpsidioot@gmail.com">
+				Fixed a number of memory leaks and socket issues. This should fix the rampant use of file
+				descriptors and sockets.
+			</action>
+			<action dev="sjardine" type="add" due-to="Jonas Wolz" due-to-email="jonas.wolz@freenet.de">
+				Added setDebug method to HylaFAXClientProtocol.
+			</action>
+			<action dev="sjardine" type="add">
+				Addis site and config methods to the Client interface and HylaFAXClientProtocol. This allows
+				for setting site and site config parameters on the server.
+			</action>
+		</release>
 		<release version="1.0.0-rc2" date="2008-02-14">
 			<action dev="sjardine" type="fix" due-to="Lieven Poelman" due-to-email="dorpsidioot@gmail.com">
 				Added setSoLinger call to prevent CLOSE_WAIT and TIME_WAIT socket states.
