@@ -1,30 +1,30 @@
-// ClientProtocol.java - a HylaFAX client protocol implementation in Java
-// $Id: HylaFAXClientProtocol.java,v 1.11 2007/05/07 18:26:54 sjardine Exp $
-//
-// Copyright 1999, 2000 Joe Phillips <jaiger@innovationsw.com>
-// Copyright 2001 Innovation Software Group, LLC - http://www.innovationsw.com
-//
-// for information on the HylaFAX FAX server see
-//  http://www.hylafax.org/
-//
-// This library is free software; you can redistribute it and/or
-// modify it under the terms of the GNU Library General Public
-// License as published by the Free Software Foundation; either
-// version 2 of the License, or (at your option) any later version.
-//
-// This library is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-// Library General Public License for more details.
-//
-// You should have received a copy of the GNU Library General Public
-// License along with this library; if not, write to the Free
-// Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
-//
+/*******************************************************************************
+ * $Id: ModemStatusEvent.java 80 2008-02-20 22:55:43Z sjardine $
+ * 
+ * Copyright 1999, 2000 Joe Phillips <jaiger@innovationsw.com>
+ * Copyright 2001 Innovation Software Group, LLC - http://www.innovationsw.com
+ * Copyright 2005-2008 Steven JArdine <steve@mjnservices.com>
+ * 
+ * All rights reserved. This program and the accompanying materials are made
+ * available under the terms of the GNU Lesser Public License v2.1 which 
+ * accompanies this distribution, and is available at
+ *  http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html
+ *
+ * For more information on the HylaFAX Fax Server please see
+ *  HylaFAX  - http://www.hylafax.org or 
+ *  Hylafax+ - http://hylafax.sourceforge.net
+ * 
+ * Contributors:
+ *  Joe Phillips - Initial API and implementation
+ *  Steven Jardine - Misc bug fixes
+ *  Jonas Wolz - Added setDebug method  
+ *  
+ ******************************************************************************/
 package gnu.hylafax;
 
 import gnu.inet.ftp.FtpClientProtocol;
 import gnu.inet.ftp.ServerResponseException;
+import gnu.inet.logging.ConsoleLogger;
 import gnu.inet.logging.Logger;
 import gnu.inet.logging.LoggingFactory;
 
@@ -64,8 +64,6 @@ public class HylaFAXClientProtocol extends FtpClientProtocol implements ClientPr
      * use the GMT timezone for date fields.
      */
     public static final String TZONE_GMT = "GMT";
-
-    // public methods
 
     /**
      * use the local timezone for date fields.
@@ -664,6 +662,17 @@ public class HylaFAXClientProtocol extends FtpClientProtocol implements ClientPr
 
         StringTokenizer st = new StringTokenizer(response);
         if (!st.nextToken().equals("200")) { throw (new ServerResponseException(response)); }
+    }
+
+    /* (non-Javadoc)
+     * @see gnu.inet.ftp.FtpClientProtocol#setDebug(boolean)
+     */
+    public void setDebug(boolean value) {
+        if (log instanceof ConsoleLogger) {
+            ConsoleLogger cl = (ConsoleLogger) log;
+            cl.setDebugEnabled(value);
+        }
+        super.setDebug(value);
     }
 
     /* (non-Javadoc)
