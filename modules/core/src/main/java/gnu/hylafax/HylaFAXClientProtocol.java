@@ -1,9 +1,9 @@
 /*******************************************************************************
- * $Id: ModemStatusEvent.java 80 2008-02-20 22:55:43Z sjardine $
+ * $Id$
  * 
  * Copyright 1999, 2000 Joe Phillips <jaiger@innovationsw.com>
  * Copyright 2001 Innovation Software Group, LLC - http://www.innovationsw.com
- * Copyright 2005-2008 Steven JArdine <steve@mjnservices.com>
+ * Copyright 2005-2008 Steven Jardine <steve@mjnservices.com>
  * 
  * All rights reserved. This program and the accompanying materials are made
  * available under the terms of the GNU Lesser Public License v2.1 which 
