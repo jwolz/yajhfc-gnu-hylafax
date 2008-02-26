@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>gnu-hylafax</groupId>
@@ -7,6 +8,10 @@
 	<version>1.0.0-SNAPSHOT</version>
 	<name>Inet-FTP Module</name>
 	<url>http://gnu-hylafax.sourceforge.net/gnu-hylafax-inet-ftp</url>
+	<description>
+		This is an implementation of an FTP Client. We've worked to make this library compliant with the FTP
+		RFC, RFC0959.
+	</description>
 
 	<parent>
 		<groupId>gnu-hylafax</groupId>
