@@ -1,0 +1,67 @@
+ ------
+ A HylaFAX Client for Java
+ ------
+  Steven Jardine
+ ------
+  February 25, 2008
+
+Welcome to GNU-Hylafax
+
+	The GNU-HylaFAX package is a pure Java API designed to implement the client protocol portion of the 
+	hfaxd client-server protocol server.
+	
+	The are 4 modules in this project:
+		
+		[[1]] {{{ gnu-hylafax-inet-ftp/index.html } INET-FTP Module }}:
+		
+			This is an implementation of an FTP Client.  We've worked to make this library compliant 
+			with the FTP RFC, {{{ http://tools.ietf.org/html/rfc0959 } RFC0959 }}.
+		
+		[[2]] {{{ gnu-hylafax-core/index.html  } Core Module }}:
+			
+			The core module contains everything necessary to interface with HylaFAX server.  This 
+			module is dependent on the inet-ftp module.
+			
+		[[3]] {{{ gnu-hylafax-pool/index.html } Client Pool Module }}:
+		
+			The client pool module contains a client pool implementation that allows for pooling 
+			clients for quick access.  This module is dependent on the inet-ftp and core modules.
+			
+		[[4]] {{{ gnu-hylafax-utils/index.html } Utilities Module }}: 
+		
+			The utilities module contains some utility classes that show some of the uses of the API.  
+			They give some examples about how to use the API.  This module is dependent on inet-ftp,
+			core and pool modules. 
+ 
+	The HylaFAX server is being actively developed in 2 forks,  HylaFAX ({{http://www.hylafax.org}}) 
+	and HylaFAX+ ({{http://hylafax.sourceforge.net}}).  GNU-HylaFAX is currently compatible with both
+	servers.  While compatibility is not guaranteed we will strive to continue to provide a viable 
+	API for both choices.
+ 
+	The available parameters and commands that can be sent to the hfaxd server can be can be found in
+	the hfaxd manpage
+ 
+		[[1]] {{{ http://www.hylafax.org/man/4.4.4/hfaxd.1m.html } Hylafax HFAXD Manual Page }}
+
+		[[2]] {{{ http://hylafax.sourceforge.net/man/hfaxd.php } Hylafax+ HFAXD Manual page }} 
+
+Learing about GNU-HylaFAX
+
+	Documentation for the most part is non-existent.  Some examples can be viewed in the Utilities module.
+	Any help in documenting the package would be greatly appreciated.
+ 
+ 	<<Examples>>
+
+ 		[[1]] {{{ client-example.html } Client Example }}
+
+ 		[[2]] {{{ client-pool-example.html } Client Pool Example }}
+ 		
+ 		[[3]] {{{ status.html } Fax Status Example (List Method) }}
+
+How to Get Support
+
+	Many questions can be answered by reviewing th hfaxd manual pages (links above) and by looking at the examples in
+	the Utilities modules.  Other questions can be submitted to the {{{ mail-lists.html } Mailing Lists}}.
+	
+	Please file bug reports on the Sourceforge {{{ https://sourceforge.net/tracker/?group_id=160285&atid=815234 } Issue Tracker}}. 
+
