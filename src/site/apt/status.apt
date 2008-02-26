@@ -1,0 +1,15 @@
+ ------
+ A HylaFAX Client for Java
+ ------
+  Steven Jardine
+ ------
+  February 25, 2008
+
+Client Example
+
+	The following is an example of how to get the status of current and complete faxes
+	on the server.
+	
++--
+TODO:  Add example code.
++--
