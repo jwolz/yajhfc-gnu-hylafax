@@ -23,70 +23,66 @@
 //
 package gnu.hylafax.job;
 
-
-import java.util.List;
 import java.util.ArrayList;
 import java.util.Iterator;
-
+import java.util.List;
 
 /**
- * This interface defines what a class should implement in order to notify others of job related events.
+ * This interface defines what a class should implement in order to notify
+ * others of job related events.
+ * 
  * @author $Author: sjardine $
- * @version $Id: BasicReceiveNotifier.java,v 1.2 2006/02/20 04:52:10 sjardine Exp $
+ * @version $Id: BasicReceiveNotifier.java,v 1.2 2006/02/20 04:52:10 sjardine
+ *          Exp $
  * @see gnu.hylafax.job.ReceiveListener
  * @see gnu.hylafax.job.ReceiveEvent
- **/
-public class BasicReceiveNotifier implements ReceiveNotifier
-{
-	private List listeners= null;
+ */
+public class BasicReceiveNotifier implements ReceiveNotifier {
+    private List listeners = null;
 
-	public BasicReceiveNotifier()
-	{
-		listeners= new ArrayList();
+    public BasicReceiveNotifier() {
+	listeners = new ArrayList();
+    }
+
+    /**
+     * This method is called when Job state changes.
+     */
+    public void notifyReceiveListeners(ReceiveEvent details) {
+	if (details == null) {
+	    return;
 	}
-
-	/**
-	 * This method is called when Job state changes.
-	 */
-	public void notifyReceiveListeners(ReceiveEvent details)
-	{
-		if(details == null){
-			return;
-		}
-		synchronized(listeners){
-			Iterator i= listeners.iterator();
-			while(i.hasNext()){
-				ReceiveListener l= (ReceiveListener)i.next();
-				l.onReceiveEvent(details);
-			}
-		}
-	}// notifyListeners
-
-	/**
-	 * This method is called to register a Job Listener.
-	 */
-	public void addReceiveListener(ReceiveListener l)
-	{
-		if(l == null){
-			return;
-		}
-		synchronized(listeners){
-			listeners.add(l);
-		}
+	synchronized (listeners) {
+	    Iterator i = listeners.iterator();
+	    while (i.hasNext()) {
+		ReceiveListener l = (ReceiveListener) i.next();
+		l.onReceiveEvent(details);
+	    }
 	}
+    }
 
-	/**
-	 * This method is used to deregister a Job Listener.
-	 */
-	public void removeReceiveListener(ReceiveListener l)
-	{
-		if(l == null){
-			return;
-		}
-		synchronized(listeners){
-			listeners.remove(l);
-		}
+    /**
+     * This method is called to register a Job Listener.
+     */
+    public void addReceiveListener(ReceiveListener l) {
+	if (l == null) {
+	    return;
 	}
+	synchronized (listeners) {
+	    listeners.add(l);
+	}
+    }
 
-}// BasicReceiveNotifier class
+    /**
+     * This method is used to deregister a Job Listener.
+     */
+    public void removeReceiveListener(ReceiveListener l) {
+	if (l == null) {
+	    return;
+	}
+	synchronized (listeners) {
+	    listeners.remove(l);
+	}
+    }
+
+}
 // BasicReceiveNotifier.java

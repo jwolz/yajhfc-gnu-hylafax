@@ -24,30 +24,31 @@ import java.util.EventListener;
 
 /**
  * This describes the interface used to get transfer status events.
- **/
+ */
 public interface TransferListener extends EventListener {
 
-   /**
-    * indicates the data transfer has begun
-    **/
-   public void transferStarted();
+    /**
+     * Indicates the data transfer has begun.
+     */
+    void transferStarted();
 
-   /**
-    * indicates the data transfer has completed
-    **/
-   public void transferCompleted();
+    /**
+     * Indicates the data transfer has completed.
+     */
+    void transferCompleted();
 
-   /**
-    * indicates some data has been transfered
-    * @param amount the amount of data transfered since transferStarted() was called
-    **/
-   public void transfered(long amount);
+    /**
+     * Indicates some data has been transfered.
+     * 
+     * @param amount
+     *                the amount of data transfered since transferStarted() was
+     *                called
+     */
+    void transfered(long amount);
 
-   /**
-    * indicates some error occurred during transfer
-    **/
-   public void transferFailed();
+    /**
+     * Indicates some error occurred during transfer.
+     */
+    void transferFailed();
 
-}// TransferListener
-
-// TransferListener.java
+}

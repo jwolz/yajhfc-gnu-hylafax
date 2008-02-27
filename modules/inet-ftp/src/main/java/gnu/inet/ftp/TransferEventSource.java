@@ -24,29 +24,31 @@ import java.util.Vector;
 
 public abstract interface TransferEventSource {
 
-   /**
-    * register a transfer listener with the event source.  Each 
-    * transfer listener registered with the event source will be notified
-    * whenever a transfer event occurs.
-    * @param listener the TransferListener to register with this event source
-    **/
-   public abstract void addTransferListener(TransferListener listener);
+    /**
+     * register a transfer listener with the event source. Each transfer
+     * listener registered with the event source will be notified whenever a
+     * transfer event occurs.
+     * 
+     * @param listener
+     *                the TransferListener to register with this event source
+     */
+    public abstract void addTransferListener(TransferListener listener);
 
-   /**
-    * register a set of transfer listeners with the event source.  Each 
-    * transfer listener registered with the event source will be notified
-    * whenever a transfer event occurs.
-    * @param listeners the TransferListeners to register with this event source
-    **/
-   public abstract void addTransferListeners(Vector listeners);
+    /**
+     * register a set of transfer listeners with the event source. Each transfer
+     * listener registered with the event source will be notified whenever a
+     * transfer event occurs.
+     * 
+     * @param listeners
+     *                the TransferListeners to register with this event source
+     */
+    public abstract void addTransferListeners(Vector listeners);
 
-   /**
-    * De-register a transfer listener with the event source.  Once a
-    * listener has been de-registered, it should not receive any more
-    * transfer events from the event source however this is not guaranteed.
-    **/
-   public abstract void removeTransferListener(TransferListener listener);
+    /**
+     * De-register a transfer listener with the event source. Once a listener
+     * has been de-registered, it should not receive any more transfer events
+     * from the event source however this is not guaranteed.
+     */
+    public abstract void removeTransferListener(TransferListener listener);
 
-}// TransferEventSource
-
-// TransferEventSource.java
+}

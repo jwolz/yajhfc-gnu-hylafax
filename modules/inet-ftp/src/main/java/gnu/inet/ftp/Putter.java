@@ -20,10 +20,6 @@
 //
 package gnu.inet.ftp;
 
-import gnu.inet.logging.ConsoleLogger;
-import gnu.inet.logging.Logger;
-import gnu.inet.logging.LoggingFactory;
-
 import java.io.InputStream;
 import java.util.Enumeration;
 import java.util.Vector;
@@ -37,8 +33,6 @@ public class Putter extends Thread implements ConnectionEventSource,
 		TransferEventSource {
 
 	public static final int BUFFER_SIZE = 1024;
-
-	private final static Logger log = LoggingFactory.getLogger(Putter.class);
 
 	protected InputStream istream;
 
@@ -57,12 +51,11 @@ public class Putter extends Thread implements ConnectionEventSource,
 	 */
 	public Putter() {
 		super();
-		this.setDebug(false);
 		connectionListeners = new Vector();
 		transferListeners = new Vector();
 		this.mode = FtpClientProtocol.MODE_STREAM;
 		this.type = FtpClientProtocol.TYPE_IMAGE;
-	}// end of default constructor
+	}
 
 	//
 	// public methods
@@ -81,7 +74,7 @@ public class Putter extends Thread implements ConnectionEventSource,
 	 */
 	public synchronized void setInputStream(InputStream istream) {
 		this.istream = istream;
-	}// setInputStream
+	}
 
 	/**
 	 * set the mode value. valid mode settings (MODE_*) can be found in the
@@ -92,7 +85,7 @@ public class Putter extends Thread implements ConnectionEventSource,
 	 */
 	public synchronized void setMode(char mode) {
 		this.mode = mode;
-	}// setMode
+	}
 
 	/**
 	 * set the type value. valid type settings (TYPE_*) can be found in the
@@ -103,21 +96,7 @@ public class Putter extends Thread implements ConnectionEventSource,
 	 */
 	public synchronized void setType(char type) {
 		this.type = type;
-	}// setType
-
-	/**
-	 * Sets the ConsoleLogger's debug output. Does nothing for log4j. Log4j
-	 * needs to be configured using log4j.properties
-	 * 
-	 * @param value
-	 *            new debug flag value
-	 */
-	public void setDebug(boolean value) {
-		if (log instanceof ConsoleLogger) {
-			ConsoleLogger cl = (ConsoleLogger) log;
-			cl.setDebugEnabled(value);
-		}
-	}// end of debug method
+	}
 
 	/**
 	 * cancel a running transfer sets a flag and calls interrupt() can only be
@@ -128,7 +107,7 @@ public class Putter extends Thread implements ConnectionEventSource,
 			cancelled = true;
 			interrupt();
 		}
-	}// cancel
+	}
 
 	/**
 	 * add a ConnectionListener to the list of connectionListeners
@@ -138,7 +117,7 @@ public class Putter extends Thread implements ConnectionEventSource,
 	 */
 	public void addConnectionListener(ConnectionListener listener) {
 		connectionListeners.addElement(listener);
-	}// addConnectionListener
+	}
 
 	/**
 	 * add a set of ConnectionListeners to the list of connectionListeners
@@ -152,7 +131,7 @@ public class Putter extends Thread implements ConnectionEventSource,
 			ConnectionListener listener = (ConnectionListener) e.nextElement();
 			connectionListeners.addElement(listener);
 		}
-	}// addConnectionListeners
+	}
 
 	/**
 	 * De-register a ConnectionListener with the event source
@@ -162,7 +141,7 @@ public class Putter extends Thread implements ConnectionEventSource,
 	 */
 	public void removeConnectionListener(ConnectionListener listener) {
 		connectionListeners.removeElement(listener);
-	}// removeConnectionListener
+	}
 
 	/**
 	 * register a TransferListener to the list of transfer listeners. Each
@@ -174,7 +153,7 @@ public class Putter extends Thread implements ConnectionEventSource,
 	 */
 	public void addTransferListener(TransferListener listener) {
 		transferListeners.addElement(listener);
-	}// addTransferListener
+	}
 
 	/**
 	 * add a set of TransferListeners to the list of transfer listeners
@@ -188,7 +167,7 @@ public class Putter extends Thread implements ConnectionEventSource,
 			TransferListener listener = (TransferListener) e.nextElement();
 			transferListeners.addElement(listener);
 		}
-	}// addTransferListeners
+	}
 
 	/**
 	 * De-register a TransferListener with the event source.
@@ -198,7 +177,7 @@ public class Putter extends Thread implements ConnectionEventSource,
 	 */
 	public void removeTransferListener(TransferListener listener) {
 		transferListeners.removeElement(listener);
-	}// removeTransferListener
+	}
 
 	/**
 	 * signal that a connection has been opened
@@ -213,7 +192,7 @@ public class Putter extends Thread implements ConnectionEventSource,
 					.nextElement();
 			listener.connectionOpened(event);
 		}
-	}// signalConnectionOpened
+	}
 
 	/**
 	 * signal that a connection has been closed
@@ -228,7 +207,7 @@ public class Putter extends Thread implements ConnectionEventSource,
 					.nextElement();
 			listener.connectionClosed(event);
 		}
-	}// signalConnectionClosed
+	}
 
 	/**
 	 * signal that a connection has encountered an error
@@ -243,7 +222,7 @@ public class Putter extends Thread implements ConnectionEventSource,
 					.nextElement();
 			listener.connectionFailed(exception);
 		}
-	}// signalConnectionFailed
+	}
 
 	/**
 	 * signal that a transfer has started
@@ -255,7 +234,7 @@ public class Putter extends Thread implements ConnectionEventSource,
 					.nextElement();
 			listener.transferStarted();
 		}
-	}// signalTransferStarted
+	}
 
 	/**
 	 * signal that a transfer has completed
@@ -267,7 +246,7 @@ public class Putter extends Thread implements ConnectionEventSource,
 					.nextElement();
 			listener.transferCompleted();
 		}
-	}// signalTransferCompleted
+	}
 
 	/**
 	 * signal that a transfer has completed
@@ -282,8 +261,8 @@ public class Putter extends Thread implements ConnectionEventSource,
 					.nextElement();
 			listener.transfered(amount);
 		}
-	}// signalTransfered
+	}
 
-}// Putter
+}
 
 // Putter.java

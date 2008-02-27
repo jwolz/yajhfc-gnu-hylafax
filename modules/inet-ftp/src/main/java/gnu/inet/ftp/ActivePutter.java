@@ -1,5 +1,5 @@
 // ActivePutter.java
-// $Id: ActivePutter.java,v 1.6 2007/02/21 00:07:50 sjardine Exp $
+// $Id:ActivePutter.java 77 2008-02-20 21:54:51Z sjardine $
 //
 // Copyright 2000, Joe Phillips <jaiger@innovationsw.com>
 // Copyright 2001, 2002 Innovation Software Group, LLC - http://www.innovationsw.com
@@ -19,9 +19,6 @@
 // Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 package gnu.inet.ftp;
 
-import gnu.inet.logging.Logger;
-import gnu.inet.logging.LoggingFactory;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InterruptedIOException;
@@ -31,6 +28,9 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.zip.DeflaterOutputStream;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 /**
  * This class implements an FTP-style data connection server thread for PUTing
  * in a non-passive files/data.
@@ -38,8 +38,8 @@ import java.util.zip.DeflaterOutputStream;
  * This class is used internally to the FtpClient class.
  */
 public class ActivePutter extends Putter {
-    // private data
-    private final static Logger log = LoggingFactory.getLogger(ActivePutter.class);
+
+    private final static Log log = LogFactory.getLog(ActivePutter.class);
 
     private InetAddress address;
 
@@ -68,7 +68,7 @@ public class ActivePutter extends Putter {
         this.address = this.server.getInetAddress();
 
         this.istream = in;
-    }// end of default constructor
+    }
 
     //
     // public methods
@@ -81,7 +81,7 @@ public class ActivePutter extends Putter {
      */
     public InetAddress getInetAddress() {
         return address;
-    }// getInetAddress
+    }
 
     /**
      * get the port this ActivePutter is listening on
@@ -90,7 +90,7 @@ public class ActivePutter extends Putter {
      */
     public synchronized int getPort() {
         return port;
-    }// getPort
+    }
 
     /**
      * implements thread behavior. Put data to server using given parameters.
@@ -98,7 +98,7 @@ public class ActivePutter extends Putter {
     public void run() {
         boolean signalClosure = false;
         Socket sock = null;
-        OutputStream ostream = null;
+        OutputStream ostream;
         long amount = 0;
         int buffer_size = 0;
         byte buffer[] = new byte[BUFFER_SIZE];
@@ -125,7 +125,7 @@ public class ActivePutter extends Putter {
                 default:
                     ostream = sock.getOutputStream();
                     break;
-                }// switch
+                }
 
                 // handle different mode settings
                 switch (mode) {
@@ -135,7 +135,7 @@ public class ActivePutter extends Putter {
                 case FtpClientProtocol.MODE_STREAM:
                 default:
                     break;
-                }// switch
+                }
 
                 int len;
                 while ((len = istream.read(buffer)) != -1) {
@@ -148,6 +148,9 @@ public class ActivePutter extends Putter {
                     }
                     yield();
                 }
+
+                ostream.close();
+                sock.close();
             } catch (InterruptedIOException iioe) {
                 if (!cancelled) {
                     log.error(iioe.getMessage(), iioe);
@@ -155,33 +158,16 @@ public class ActivePutter extends Putter {
             } catch (Exception e) {
                 log.error(e.getMessage(), e);
             } finally {
-                log.debug("Closing inputstream");
-                if (ostream != null) {
-                    ostream.close();
-                }
-
-                log.debug("Setting socket to 0 lingering");
-                sock.setSoLinger(true, 0);
-                sock.close();
-
                 signalTransferCompleted();
             }
         } catch (Exception ee) {
             signalConnectionFailed(ee);
             log.error(ee.getMessage(), ee);
-        } finally {
-            try {
-                log.debug("Closing server socket");
-                server.close();
-            } catch (IOException ex) {
-                // don't care
-            }
         }
-
         if (signalClosure == true && sock != null) {
             signalConnectionClosed(new ConnectionEvent(sock.getInetAddress(), sock.getPort()));
         }
-    }// run
+    }
 
     /**
      * set connection timeout in milliseconds. must be called before
@@ -193,8 +179,8 @@ public class ActivePutter extends Putter {
      */
     public void setTimeout(int milliseconds) {
         timeout = milliseconds;
-    }// setTimeout
+    }
 
-}// ActivePutter
+}
 
 // ActivePutter.java

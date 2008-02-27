@@ -20,52 +20,55 @@
 //
 package gnu.inet.ftp;
 
-import java.lang.String;
+public class ServerResponseException extends Exception {
+    private long code;
+    private String message;
 
-public class ServerResponseException extends Exception{
-   private long code;
-   private String message;
+    /**
+     * basic constructor. creates a new ServerResponseException given the server
+     * error message. The input string must be in the format of 3 digits, a
+     * space and the error message. This is the default format of the server
+     * responses.
+     * 
+     * @param str
+     *                the server error message in the form
+     */
+    public ServerResponseException(java.lang.String str) {
+	code = -1; // not set yet
+	message = str;
+    }
 
-   /**
-    * basic constructor.  creates a new ServerResponseException
-    * given the server error message.  The input string must be in the
-    * format of 3 digits, a space and the error message.  This is the
-    * default format of the server responses.
-    * @param str the server error message in the form 
-    */
-   public ServerResponseException(java.lang.String str){
-      code= -1;	// not set yet
-      message= str;
-   }
+    /**
+     * get the server response code.
+     * 
+     * @exception NumberFormatException
+     *                    the first 3 characters of the message are <i>not</i>
+     *                    a number as they should be in a normal server response
+     * @return server response code as long value
+     */
+    public long getCode() throws NumberFormatException {
+	code = Integer.parseInt(message.substring(0, 3));
+	return code;
+    }
 
-   /**
-    * get the server response code.
-    * @exception NumberFormatException the first 3 characters of the message are <i>not</i> a number as they should be in a normal server response
-    * @return server response code as long value
-    */
-   public long getCode()
-      throws NumberFormatException
-   {
-      code= Integer.parseInt(message.substring(0,3));
-      return code;
-   }// getCode
+    /**
+     * get the server message.
+     * 
+     * @return the full server response message string
+     */
+    public String getMessage() {
+	return message;
+    }
 
-   /**
-    * get the server message.
-    * @return the full server response message string
-    */
-   public String getMessage(){
-      return message;
-   }// getMessage
+    /**
+     * get a string representing this ServerResponseException
+     * 
+     * @return this ServerResponseException as a String
+     */
+    public String toString() {
+	return message;
+    }
 
-   /**
-    * get a string representing this ServerResponseException
-    * @return this ServerResponseException as a String
-    */
-   public String toString(){
-      return message;
-   }// toString
-
-}// ServerResponseException
+}
 
 // ServerResponseException.java

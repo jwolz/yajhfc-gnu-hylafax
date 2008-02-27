@@ -37,51 +37,50 @@ import java.util.List;
  * @see gnu.hylafax.job.SendEvent
  */
 public class BasicSendNotifier implements SendNotifier {
-	private List listeners = null;
 
-	public BasicSendNotifier() {
-		listeners = new ArrayList();
+    private List listeners = null;
+
+    public BasicSendNotifier() {
+	listeners = new ArrayList();
+    }
+
+    /**
+     * This method is called when Job state changes.
+     */
+    public void notifySendListeners(SendEvent details) {
+	if (details == null) {
+	    return;
 	}
-
-	/**
-	 * This method is called when Job state changes.
-	 */
-	public void notifySendListeners(SendEvent details) {
-		if (details == null) {
-			return;
-		}
-		synchronized (listeners) {
-			Iterator i = listeners.iterator();
-			while (i.hasNext()) {
-				SendListener l = (SendListener) i.next();
-				l.onSendEvent(details);
-			}
-		}
-	}// notifyListeners
-
-	/**
-	 * This method is called to register a Job Listener.
-	 */
-	public void addSendListener(SendListener l) {
-		if (l == null) {
-			return;
-		}
-		synchronized (listeners) {
-			listeners.add(l);
-		}
+	synchronized (listeners) {
+	    Iterator i = listeners.iterator();
+	    while (i.hasNext()) {
+		SendListener l = (SendListener) i.next();
+		l.onSendEvent(details);
+	    }
 	}
+    }
 
-	/**
-	 * This method is used to deregister a Job Listener.
-	 */
-	public void removeSendListener(SendListener l) {
-		if (l == null) {
-			return;
-		}
-		synchronized (listeners) {
-			listeners.remove(l);
-		}
+    /**
+     * This method is called to register a Job Listener.
+     */
+    public void addSendListener(SendListener l) {
+	if (l == null) {
+	    return;
 	}
+	synchronized (listeners) {
+	    listeners.add(l);
+	}
+    }
 
-}// BasicSendNotifier class
-// BasicSendNotifier.java
+    /**
+     * This method is used to deregister a Job Listener.
+     */
+    public void removeSendListener(SendListener l) {
+	if (l == null) {
+	    return;
+	}
+	synchronized (listeners) {
+	    listeners.remove(l);
+	}
+    }
+}
