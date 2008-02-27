@@ -37,8 +37,6 @@ import java.util.Enumeration;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
-import org.apache.log4j.BasicConfigurator;
-
 /**
  * This class implements most of the faxstat program as supplied with the
  * HylaFAX distribution. The following command line options are supported.
@@ -64,7 +62,6 @@ import org.apache.log4j.BasicConfigurator;
 public class FaxStat {
 
 	public static void main(String arguments[]) {
-		BasicConfigurator.configure();
 		Vector list = new Vector();
 		HylaFAXClient c = new HylaFAXClient();
 		try {

@@ -25,8 +25,6 @@ package gnu.hylafax.pool;
 import gnu.hylafax.HylaFAXClient;
 import gnu.hylafax.Job;
 import gnu.inet.ftp.ServerResponseException;
-import gnu.inet.logging.Logger;
-import gnu.inet.logging.LoggingFactory;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -35,6 +33,9 @@ import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Vector;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * This is an extension of the <code>gnu.hylafax.HylaFAXClient</code>
@@ -46,8 +47,7 @@ import java.util.Vector;
 public class HylaFAXPooledClient extends HylaFAXClient implements PooledClient,
 		Runnable {
 
-	private static final Logger log = LoggingFactory
-			.getLogger(HylaFAXPooledClient.class);
+    private final static Log log = LogFactory.getLog(HylaFAXPooledClient.class);
 
 	private ClientPool clientPool;
 
@@ -885,18 +885,6 @@ public class HylaFAXPooledClient extends HylaFAXClient implements PooledClient,
 			}
 
 		}
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see gnu.inet.ftp.FtpClientProtocol#setDebug(boolean)
-	 */
-	public void setDebug(boolean value) {
-
-		if (valid && working)
-			super.setDebug(value);
 
 	}
 

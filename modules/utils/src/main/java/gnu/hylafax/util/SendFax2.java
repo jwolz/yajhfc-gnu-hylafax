@@ -39,14 +39,14 @@ import gnu.hylafax.ClientProtocol;
 import gnu.hylafax.HylaFAXClient;
 import gnu.hylafax.Job;
 import gnu.hylafax.Pagesize;
-import gnu.inet.logging.Logger;
-import gnu.inet.logging.LoggingFactory;
+
 import java.awt.Dimension;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.util.Iterator;
 import java.util.Vector;
+
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.GnuParser;
@@ -55,7 +55,8 @@ import org.apache.commons.cli.Option;
 import org.apache.commons.cli.OptionBuilder;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
-import org.apache.log4j.BasicConfigurator;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * This class implements most of the sendfax program as supplied with the
@@ -99,15 +100,13 @@ import org.apache.log4j.BasicConfigurator;
  */
 public class SendFax2 {
 
-	private static final Logger log = LoggingFactory.getLogger(SendFax2.class);
+    private final static Log log = LogFactory.getLog(SendFax2.class);
 
 	private static Options options = new Options();
 
 	private static HelpFormatter hf = new HelpFormatter();
 
 	public static void main(String[] args) {
-		BasicConfigurator.configure();
-
 		String user = "fax"; // -u
 		String host = "localhost"; // -h
 		String destination = null; // -d
@@ -275,7 +274,7 @@ public class SendFax2 {
 				priority = Integer.parseInt(o.getValue());
 				break;
 			case 's':
-				pagesize = (Dimension) Pagesize.getPagesize(o.getValue());
+				pagesize = Pagesize.getPagesize(o.getValue());
 				if (pagesize == null) {
 					// no good
 					System.err.println(o.getValue()
@@ -328,8 +327,6 @@ public class SendFax2 {
 
 		// get down to business, send the FAX already
 		try {
-			c.setDebug(verbose); // enable debug messages for the
-			// ConsoleLogger only.
 			c.open(host);
 
 			if (c.user(user)) {

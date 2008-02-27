@@ -20,62 +20,68 @@
 //
 package gnu.inet.ftp;
 
-import java.net.*;
-import java.io.*;
+import java.io.IOException;
+import java.net.Socket;
+import java.net.UnknownHostException;
 
 /**
  * This class encapsulates the parameters of a passive data connection.
- **/
-public class PassiveConnection extends Object{
+ */
+public class PassiveConnection extends Object {
 
-   // private data members
-   private PassiveParameters parameters;
-   private Socket sock;
+    // private data members
+    private PassiveParameters parameters;
+    private Socket sock;
 
-   //
-   // public methods
-   //
+    //
+    // public methods
+    //
 
-   /**
-    * create a new instance of PassiveParameters
-    * @param parameters passive connection parameters
-    */
-   public PassiveConnection(PassiveParameters parameters)
-      throws UnknownHostException,
-      IOException
-   {
-      this.parameters= parameters;
-      this.sock= new Socket(parameters.getInetAddress(), parameters.getPort());
-   }// constructor
+    /**
+     * create a new instance of PassiveParameters
+     * 
+     * @param parameters
+     *                passive connection parameters
+     */
+    public PassiveConnection(PassiveParameters parameters)
+	    throws UnknownHostException, IOException {
+	this.parameters = parameters;
+	this.sock = new Socket(parameters.getInetAddress(), parameters
+		.getPort());
+    }
 
-   /**
-    * get the passive parameters
-    * @return passive parameter data
-    */
-   public PassiveParameters getPassiveParameters(){
-         return parameters;
-   }// getPort
+    /**
+     * get the passive parameters
+     * 
+     * @return passive parameter data
+     */
+    public PassiveParameters getPassiveParameters() {
+	return parameters;
+    }
+    /**
+     * get the socket for this passive connection
+     * 
+     * @return the socket for this passive connection
+     */
+    public Socket getSocket() {
+	return this.sock;
+    }
 
-   /**
-    * get the socket for this passive connection
-    * @return the socket for this passive connection
-    **/
-    public Socket getSocket(){
-       return this.sock;
-    }// getSocket
+    /**
+     * compare another PassiveConnection instance to this one.
+     * 
+     * @param other
+     *                the other instance to compare this one with
+     * @return true if the other instance equals this one, false if they are not
+     *         equal
+     */
+    public boolean equals(PassiveConnection other) {
+	if (this.parameters.equals(other.parameters)) {
+	    return true;
+	}
+	return false;
+    }
 
-   /**
-    * compare another PassiveConnection instance to this one.
-    * @param other the other instance to compare this one with
-    * @return true if the other instance equals this one, false if they are not equal
-    **/
-   public boolean equals(PassiveConnection other){
-      if(this.parameters.equals(other.parameters)){
-         return true;
-      }
-      return false;
-   }// equals
-
-}// PassiveConnection
+}
 
 // PassiveConnection.java

@@ -19,14 +19,14 @@
 // Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 package gnu.inet.ftp;
 
-import gnu.inet.logging.Logger;
-import gnu.inet.logging.LoggingFactory;
-
 import java.io.InputStream;
 import java.io.InterruptedIOException;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.util.zip.DeflaterOutputStream;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * This class implements an FTP-style data connection server thread for PUTing
@@ -36,7 +36,7 @@ import java.util.zip.DeflaterOutputStream;
  */
 public class PassivePutter extends Putter {
 
-    private final static Logger log = LoggingFactory.getLogger(PassivePutter.class);
+    private final static Log log = LogFactory.getLog(PassivePutter.class);
 
     private PassiveConnection connection;
 
@@ -45,21 +45,20 @@ public class PassivePutter extends Putter {
      * PssiveParameters to use to connect to the server.
      * 
      * @param in
-     *            data source
+     *                data source
      * @param connection
-     *            the passive connection to the server
+     *                the passive connection to the server
      */
     /**
      * @param in
      * @param connection
      */
     public PassivePutter(InputStream in, PassiveConnection connection) {
-        super();
+	super();
 
-        this.istream = in;
-        this.connection = connection;
-
-    }// end of default constructor
+	this.istream = in;
+	this.connection = connection;
+    }
 
     //
     // public methods
@@ -69,83 +68,86 @@ public class PassivePutter extends Putter {
      * implements thread behavior. Put data to server using given parameters.
      */
     public void run() {
-        boolean signalClosure = false;
-        Socket sock = null;
-        OutputStream ostream = null;
-        long amount = 0;
-        int buffer_size = 0;
-        byte buffer[] = new byte[BUFFER_SIZE];
-        // this.cancelled= false; // reset cancelled flag
-        PassiveParameters parameters = connection.getPassiveParameters();
+	boolean signalClosure = false;
+	Socket sock = null;
+	OutputStream ostream = null;
+	long amount = 0;
+	int buffer_size = 0;
+	byte buffer[] = new byte[BUFFER_SIZE];
+	// this.cancelled= false; // reset cancelled flag
+	PassiveParameters parameters = connection.getPassiveParameters();
 
-        try {
-            // make connection
-            sock = connection.getSocket();
-            if (cancelled) throw new InterruptedIOException("Transfer cancelled");
-            signalConnectionOpened(new ConnectionEvent(parameters.getInetAddress(), parameters.getPort()));
-            signalClosure = true;
-            signalTransferStarted();
+	try {
+	    // make connection
+	    sock = connection.getSocket();
+	    if (cancelled)
+		throw new InterruptedIOException("Transfer cancelled");
+	    signalConnectionOpened(new ConnectionEvent(parameters
+		    .getInetAddress(), parameters.getPort()));
+	    signalClosure = true;
+	    signalTransferStarted();
 
-            try {
+	    try {
 
-                // handle different type settings
-                switch (type) {
-                case FtpClientProtocol.TYPE_ASCII:
-                    ostream = new AsciiOutputStream(sock.getOutputStream());
-                    break;
-                default:
-                    ostream = sock.getOutputStream();
-                    break;
-                }// switch
+		// handle different type settings
+		switch (type) {
+		case FtpClientProtocol.TYPE_ASCII:
+		    ostream = new AsciiOutputStream(sock.getOutputStream());
+		    break;
+		default:
+		    ostream = sock.getOutputStream();
+		    break;
+		}
 
-                // handle different mode settings
-                switch (mode) {
-                case FtpClientProtocol.MODE_ZLIB:
-                    ostream = new DeflaterOutputStream(ostream);
-                    break;
-                case FtpClientProtocol.MODE_STREAM:
-                default:
-                    break;
-                }// switch
+		// handle different mode settings
+		switch (mode) {
+		case FtpClientProtocol.MODE_ZLIB:
+		    ostream = new DeflaterOutputStream(ostream);
+		    break;
+		case FtpClientProtocol.MODE_STREAM:
+		default:
+		    break;
+		}
 
-                int len;
-                while ((len = istream.read(buffer)) != -1) {
-                    ostream.write(buffer, 0, len);
-                    amount += len;
-                    buffer_size += len;
-                    if (buffer_size >= BUFFER_SIZE) {
-                        buffer_size = buffer_size % BUFFER_SIZE;
-                        signalTransfered(amount);
-                    }
-                    yield();
-                }
-            } catch (InterruptedIOException iioe) {
-                if (!cancelled) {
-                    log.error(iioe.getMessage(), iioe);
-                }
-            } catch (Exception e) {
-                log.error(e.getMessage(), e);
-            } finally {
-                log.debug("Closing inputstream");
-                if (ostream != null) {
-                    ostream.close();
-                }
+		int len;
+		while ((len = istream.read(buffer)) != -1) {
+		    ostream.write(buffer, 0, len);
+		    amount += len;
+		    buffer_size += len;
+		    if (buffer_size >= BUFFER_SIZE) {
+			buffer_size = buffer_size % BUFFER_SIZE;
+			signalTransfered(amount);
+		    }
+		    yield();
+		}
+	    } catch (InterruptedIOException iioe) {
+		if (!cancelled) {
+		    log.error(iioe.getMessage(), iioe);
+		}
+	    } catch (Exception e) {
+		log.error(e.getMessage(), e);
+	    } finally {
+		log.debug("Closing inputstream");
+		if (ostream != null) {
+		    ostream.close();
+		}
 
-                log.debug("Setting socket to 0 lingering");
-                sock.setSoLinger(true, 0);
-                sock.close();
+		log.debug("Setting socket to 0 lingering");
+		sock.setSoLinger(true, 0);
+		sock.close();
 
-                signalTransferCompleted();
-            }
-        } catch (Exception ee) {
-            signalConnectionFailed(ee);
-            log.error(ee.getMessage(), ee);
-        }
+		signalTransferCompleted();
+	    }
+	} catch (Exception ee) {
+	    signalConnectionFailed(ee);
+	    log.error(ee.getMessage(), ee);
+	}
 
-        if (signalClosure == true) {
-            signalConnectionClosed(new ConnectionEvent(parameters.getInetAddress(), parameters.getPort()));
-        }
-    }// run
-}// PassivePutter
+	if (signalClosure == true) {
+	    signalConnectionClosed(new ConnectionEvent(parameters
+		    .getInetAddress(), parameters.getPort()));
+	}
+    }
+}
 
 // PassivePutter.java

@@ -20,38 +20,43 @@
 //
 package gnu.inet.ftp;
 
-import java.net.*;
+import java.net.InetAddress;
 
 public class ConnectionEvent extends Object {
-   protected InetAddress address= null;
-   protected int port= 0;
+    protected InetAddress address = null;
+    protected int port = 0;
 
-   /**
-    * constructor.
-    * @param address the remote system IP address
-    * @param port the remote system port
-    **/
-   public ConnectionEvent(InetAddress address, int port){
-      this.address= address;
-      this.port= port;
-   }// constructor
+    /**
+     * constructor.
+     * 
+     * @param address
+     *                the remote system IP address
+     * @param port
+     *                the remote system port
+     */
+    public ConnectionEvent(InetAddress address, int port) {
+	this.address = address;
+	this.port = port;
+    }
 
-   /**
-    * get the remote ip address
-    * @return remote ip
-    **/
-   public InetAddress getRemoteInetAddress(){
-      return address;
-   }// getRemoteInetAddress
+    /**
+     * get the remote ip address
+     * 
+     * @return remote ip
+     */
+    public InetAddress getRemoteInetAddress() {
+	return address;
+    }
 
-   /**
-    * get remote port
-    * @return remote port
-    **/
-   public int getRemotePort(){
-      return port;
-   }// getRemotePort
+    /**
+     * get remote port
+     * 
+     * @return remote port
+     */
+    public int getRemotePort() {
+	return port;
+    }
 
-}// ConnectionEvent
+}
 
 // ConnectionEvent.java

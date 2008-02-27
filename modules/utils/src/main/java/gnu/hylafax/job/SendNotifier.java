@@ -1,5 +1,5 @@
-// Event.java - a HylaFAX Job representation
-// $Id: Event.java,v 1.2 2006/02/20 04:52:10 sjardine Exp $
+// SendNotifier.java - a HylaFAX Job representation
+// $Id: SendNotifier.java,v 1.2 2006/02/20 04:52:10 sjardine Exp $
 //
 // Copyright 2003 Innovation Software Group, LLC - http://www.innovationsw.com
 //                Joe Phillips <joe.phillips@innovationsw.com>
@@ -24,24 +24,30 @@
 package gnu.hylafax.job;
 
 /**
- * This class contains the information available on a basic job notification.
+ * This interface defines what a class should implement in order to notify
+ * others of job related events.
+ * 
  * @author $Author: sjardine $
- * @version $Id: Event.java,v 1.2 2006/02/20 04:52:10 sjardine Exp $
- **/
-public class Event
-{
+ * @version $Id: SendNotifier.java,v 1.2 2006/02/20 04:52:10 sjardine Exp $
+ * @see gnu.hylafax.job.SendListener
+ * @see gnu.hylafax.job.SendEvent
+ */
+public interface SendNotifier {
 
-	private String queueFile;
+    /**
+     * This method is called when Job state changes.
+     */
+    public void notifySendListeners(SendEvent details);
 
-	public String getFilename()
-	{
-		return queueFile;
-	}
+    /**
+     * This method is called to register a Job SendListener.
+     */
+    public void addSendListener(SendListener l);
 
-	public void setFilename(String fn)
-	{
-		queueFile= fn;
-	}
+    /**
+     * This method is used to deregister a Job SendListener.
+     */
+    public void removeSendListener(SendListener l);
 
-}// Event class
-// Event.java
+}// SendNotifier class
+// SendNotifier.java

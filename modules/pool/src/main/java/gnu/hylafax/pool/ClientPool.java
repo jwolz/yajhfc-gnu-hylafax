@@ -23,20 +23,20 @@
 package gnu.hylafax.pool;
 
 import gnu.hylafax.Client;
-import gnu.inet.logging.Logger;
-import gnu.inet.logging.LoggingFactory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import EDU.oswego.cs.dl.util.concurrent.LinkedQueue;
 
 public class ClientPool implements gnu.hylafax.ClientPool {
 
-	private static final Logger log = LoggingFactory
-			.getLogger(ClientPool.class);
+    private final static Log log = LogFactory.getLog(ClientPool.class);
 
 	private boolean blocked = false;
 

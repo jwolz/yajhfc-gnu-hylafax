@@ -36,8 +36,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
 
-import org.apache.log4j.BasicConfigurator;
-
 import gnu.getopt.*;
 
 
@@ -86,8 +84,6 @@ public class Notifier extends SendAndReceiveNotifier {
 	public static void main(String arguments[]) throws ClassNotFoundException,
 			InstantiationException, IllegalAccessException,
 			FileNotFoundException, IOException {
-		BasicConfigurator.configure();
-
 		String file = null;
 		String reason = null;
 		String time = null;

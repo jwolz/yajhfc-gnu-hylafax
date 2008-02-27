@@ -30,15 +30,17 @@
 package gnu.hylafax.util;
 
 
-import java.sql.*;
-
-
-import gnu.inet.logging.Logger;
-import gnu.inet.logging.LoggingFactory;
-import gnu.hylafax.job.SendListener;
-import gnu.hylafax.job.SendEvent;
-import gnu.hylafax.job.ReceiveListener;
 import gnu.hylafax.job.ReceiveEvent;
+import gnu.hylafax.job.ReceiveListener;
+import gnu.hylafax.job.SendEvent;
+import gnu.hylafax.job.SendListener;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * This class implements an example fax job listener.
@@ -52,8 +54,8 @@ import gnu.hylafax.job.ReceiveEvent;
  * @see gnu.hylafax.util.Notifier
  */
 public class SampleListener implements SendListener, ReceiveListener {
-	private final static Logger log = LoggingFactory
-			.getLogger(SampleListener.class);
+    
+    private final static Log log = LogFactory.getLog(SampleListener.class);
 
 	public final static String KEY_DBUSER = "notifier.db.user";
 

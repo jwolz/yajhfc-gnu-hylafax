@@ -20,61 +20,66 @@
 //
 package gnu.inet.ftp;
 
-import java.net.*;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 /**
  * This class encapsulates the parameters of a passive data connection.
- **/
-public class PassiveParameters extends Object{
-   // private data members
-   private InetAddress address;
-   private Integer port;
+ */
+public class PassiveParameters extends Object {
+    // private data members
+    private InetAddress address;
+    private Integer port;
 
-   //
-   // public methods
-   //
+    //
+    // public methods
+    //
 
-   /**
-    * create a new instance of PassiveParameters
-    * @param address IP address
-    * @param port TCP/IP port value
-    */
-   public PassiveParameters(String address, int port)
-      throws UnknownHostException
-   {
-      this.address= InetAddress.getByName(address);
-      this.port= new Integer(port);
-   }// constructor
+    /**
+     * create a new instance of PassiveParameters
+     * 
+     * @param address
+     *                IP address
+     * @param port
+     *                TCP/IP port value
+     */
+    public PassiveParameters(String address, int port)
+	    throws UnknownHostException {
+	this.address = InetAddress.getByName(address);
+	this.port = new Integer(port);
+    }
 
-   /**
-    * get the port value
-    * @return port value as int
-    */
-   public int getPort(){
-         return port.intValue();
-   }// getPort
+    /**
+     * get the port value
+     * 
+     * @return port value as int
+     */
+    public int getPort() {
+	return port.intValue();
+    }
 
-   /**
-    * get the IP address
-    * @return IP address
-    */
-   public InetAddress getInetAddress(){
-         return address;
-   }// getInetAddress
+    /**
+     * get the IP address
+     * 
+     * @return IP address
+     */
+    public InetAddress getInetAddress() {
+	return address;
+    }
 
-   /**
-    * compare another PassiveParameters instance to this one.
-    * @param other the other instance to compare this one with
-    * @return true if the other instance equals this one, false if they are not equal
-    **/
-   public boolean equals(PassiveParameters other){
-      if((this.port == other.port) && 
-         (this.address.equals(other.address))){
-         return true;
-      }
-      return false;
-   }// equals
+    /**
+     * compare another PassiveParameters instance to this one.
+     * 
+     * @param other
+     *                the other instance to compare this one with
+     * @return true if the other instance equals this one, false if they are not
+     *         equal
+     */
+    public boolean equals(PassiveParameters other) {
+	if ((this.port == other.port) && (this.address.equals(other.address))) {
+	    return true;
+	}
+	return false;
+    }
 
-}// PassiveParameters
-
-// PassiveParameters.java
+}

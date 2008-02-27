@@ -23,28 +23,32 @@ package gnu.inet.ftp;
 import java.util.EventListener;
 
 /**
- *
- **/
+ * 
+ */
 public abstract interface ConnectionListener extends EventListener {
 
-   /**
-    * called when a connection has been opened
-    * @param event data for the connection open event
-    **/
-   public abstract void connectionOpened(ConnectionEvent event);
+    /**
+     * called when a connection has been opened
+     * 
+     * @param event
+     *                data for the connection open event
+     */
+    public abstract void connectionOpened(ConnectionEvent event);
 
-   /**
-    * called when a connection has been closed
-    * @param event data for the connection close event
-    **/
-   public abstract void connectionClosed(ConnectionEvent event);
+    /**
+     * called when a connection has been closed
+     * 
+     * @param event
+     *                data for the connection close event
+     */
+    public abstract void connectionClosed(ConnectionEvent event);
 
-   /**
-    * called when an error occurs while setting up the connection
-    * @param exception the exception that was thrown
-    **/
-   public abstract void connectionFailed(Exception exception);
+    /**
+     * called when an error occurs while setting up the connection
+     * 
+     * @param exception
+     *                the exception that was thrown
+     */
+    public abstract void connectionFailed(Exception exception);
 
-}// ConnectionListener
-
-// ConnectionListener.java
+}

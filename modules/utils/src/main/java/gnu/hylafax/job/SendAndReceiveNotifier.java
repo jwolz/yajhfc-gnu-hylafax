@@ -23,54 +23,47 @@
 //
 package gnu.hylafax.job;
 
-
-
-
-
 /**
- * This class is a convenience class implementing both a SendNotifier and ReceiveNotifier.
+ * This class is a convenience class implementing both a SendNotifier and
+ * ReceiveNotifier.
+ * 
  * @author $Author: sjardine $
- * @version $Id: SendAndReceiveNotifier.java,v 1.3 2006/02/20 04:52:10 sjardine Exp $
+ * @version $Id: SendAndReceiveNotifier.java,v 1.3 2006/02/20 04:52:10 sjardine
+ *          Exp $
  * @see gnu.hylafax.job.SendListener
  * @see gnu.hylafax.job.ReceiveListener
  * @see gnu.hylafax.job.SendEvent
  * @see gnu.hylafax.job.ReceiveEvent
- **/
-public class SendAndReceiveNotifier 
-		extends BasicSendNotifier 
-		implements ReceiveNotifier
-{
-	private BasicReceiveNotifier rn;
+ */
+public class SendAndReceiveNotifier extends BasicSendNotifier implements
+	ReceiveNotifier {
+    private BasicReceiveNotifier rn;
 
-	public SendAndReceiveNotifier()
-	{
-		super();
-		rn= new BasicReceiveNotifier();
-	}
+    public SendAndReceiveNotifier() {
+	super();
+	rn = new BasicReceiveNotifier();
+    }
 
-	/**
-	 * This method is called when Job state changes.
-	 */
-	public void notifyReceiveListeners(ReceiveEvent details)
-	{
-		rn.notifyReceiveListeners(details); // delegate
-	}// notifyReceiveListeners
+    /**
+     * This method is called when Job state changes.
+     */
+    public void notifyReceiveListeners(ReceiveEvent details) {
+	rn.notifyReceiveListeners(details); // delegate
+    }// notifyReceiveListeners
 
-	/**
-	 * This method is called to register a Job Listener.
-	 */
-	public void addReceiveListener(ReceiveListener l)
-	{
-		rn.addReceiveListener(l); // delegate
-	}
+    /**
+     * This method is called to register a Job Listener.
+     */
+    public void addReceiveListener(ReceiveListener l) {
+	rn.addReceiveListener(l); // delegate
+    }
 
-	/**
-	 * This method is used to deregister a Job Listener.
-	 */
-	public void removeReceiveListener(ReceiveListener l)
-	{
-		rn.removeReceiveListener(l); // delegate
-	}
+    /**
+     * This method is used to deregister a Job Listener.
+     */
+    public void removeReceiveListener(ReceiveListener l) {
+	rn.removeReceiveListener(l); // delegate
+    }
 
 }// SendAndReceiveNotifier class
 // SendAndReceiveNotifier.java

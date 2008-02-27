@@ -25,64 +25,57 @@ package gnu.hylafax.job;
 
 /**
  * This class contains the information available on a receive job notification.
+ * 
  * @author $Author: sjardine $
  * @version $Id: ReceiveEvent.java,v 1.2 2006/02/20 04:52:10 sjardine Exp $
- **/
-public class ReceiveEvent extends Event
-{
+ */
+public class ReceiveEvent extends Event {
 
-	private String modem;
-	private String message;
-	private String cidNumber;
-	private String cidName;
-	private String commid;
-	
+    private String modem;
+    private String message;
+    private String cidNumber;
+    private String cidName;
+    private String commid;
 
-	public String getModem()
-	{
-		return modem;
-	}
+    public String getModem() {
+	return modem;
+    }
 
-	public void setModem(String m)
-	{
-		modem= m;
-	}
+    public void setModem(String m) {
+	modem = m;
+    }
 
-	public void setMessage(String msg)
-	{
-		message= msg;
-	}
+    public void setMessage(String msg) {
+	message = msg;
+    }
 
-	public String getMessage(){
-		return message;
-	}
+    public String getMessage() {
+	return message;
+    }
 
-	public void setCidNumber(String cid)
-	{
-		cidNumber= cid;
-	}
+    public void setCidNumber(String cid) {
+	cidNumber = cid;
+    }
 
-	public String getCidNumber(){
-		return cidNumber;
-	}
+    public String getCidNumber() {
+	return cidNumber;
+    }
 
-	public void setCidName(String cid)
-	{
-		cidName= cid;
-	}
+    public void setCidName(String cid) {
+	cidName = cid;
+    }
 
-	public String getCidName(){
-		return cidName;
-	}
+    public String getCidName() {
+	return cidName;
+    }
 
-	public void setCommunicationIdentifier(String cid)
-	{
-		commid= cid;
-	}
+    public void setCommunicationIdentifier(String cid) {
+	commid = cid;
+    }
 
-	public String getCommunicationIdentifier(){
-		return commid;
-	}
+    public String getCommunicationIdentifier() {
+	return commid;
+    }
 
 }// ReceiveEvent class
 // ReceiveEvent.java

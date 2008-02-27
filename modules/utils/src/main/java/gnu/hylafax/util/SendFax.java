@@ -35,17 +35,21 @@
 package gnu.hylafax.util;
 
 
-import java.lang.String;
-import java.io.*;
-import java.util.*;
-import gnu.getopt.*;
-import java.awt.*;
-import org.apache.log4j.*;
+import gnu.getopt.Getopt;
+import gnu.hylafax.ClientProtocol;
+import gnu.hylafax.HylaFAXClient;
+import gnu.hylafax.Job;
+import gnu.hylafax.Pagesize;
 
+import java.awt.Dimension;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
+import java.io.PrintStream;
+import java.util.Vector;
 
-import gnu.hylafax.*;
-import gnu.inet.logging.Logger;
-import gnu.inet.logging.LoggingFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * This class implements most of the sendfax program as supplied with the
@@ -87,10 +91,9 @@ import gnu.inet.logging.LoggingFactory;
  */
 public class SendFax {
 
-	private final static Logger log = LoggingFactory.getLogger(SendFax.class);
+    private final static Log log = LogFactory.getLog(SendFax.class);
 
 	public static void main(String arguments[]) {
-		BasicConfigurator.configure();
 
 		String user = "fax"; // -u
 		String host = "localhost"; // -h
@@ -214,9 +217,6 @@ public class SendFax {
 
 		HylaFAXClient c = new HylaFAXClient();
 		try {
-			c.setDebug(verbose); // enable debug messages for the
-									// ConsoleLogger only.
-
 			c.open(host);
 
 			if (c.user(user)) {

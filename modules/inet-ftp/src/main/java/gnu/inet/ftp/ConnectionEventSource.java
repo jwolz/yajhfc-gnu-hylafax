@@ -24,30 +24,33 @@ import java.util.Vector;
 
 public abstract interface ConnectionEventSource {
 
-   /**
-    * register a connection listener with the event source.  Each 
-    * ConnectionListener registered with the event source will be
-    * notified when a connection event occurs.
-    * @param listener the ConnectionListener to register with the event source
-    **/
-   public abstract void addConnectionListener(ConnectionListener listener);
+    /**
+     * register a connection listener with the event source. Each
+     * ConnectionListener registered with the event source will be notified when
+     * a connection event occurs.
+     * 
+     * @param listener
+     *                the ConnectionListener to register with the event source
+     */
+    public abstract void addConnectionListener(ConnectionListener listener);
 
-   /**
-    * register a set of connection listenesr with the event source.  Each 
-    * ConnectionListener registered with the event source will be
-    * notified when a connection event occurs.
-    * @param listeners the ConnectionListeners to register with the event source
-    **/
-   public abstract void addConnectionListeners(Vector listeners);
+    /**
+     * register a set of connection listenesr with the event source. Each
+     * ConnectionListener registered with the event source will be notified when
+     * a connection event occurs.
+     * 
+     * @param listeners
+     *                the ConnectionListeners to register with the event source
+     */
+    public abstract void addConnectionListeners(Vector listeners);
 
-   /**
-    * deregister a connection listener with the event source.  Once a
-    * listener has been de-registered, it should not receive any
-    * more connection events.
-    * @param listener the ConnectionListener to de-register
-    **/
-   public abstract void removeConnectionListener(ConnectionListener listener);
+    /**
+     * deregister a connection listener with the event source. Once a listener
+     * has been de-registered, it should not receive any more connection events.
+     * 
+     * @param listener
+     *                the ConnectionListener to de-register
+     */
+    public abstract void removeConnectionListener(ConnectionListener listener);
 
-}// ConnectionEventSource
-
-// ConnectionEventSource.java
+}

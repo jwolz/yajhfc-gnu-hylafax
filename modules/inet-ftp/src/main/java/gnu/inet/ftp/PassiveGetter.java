@@ -22,16 +22,15 @@
 
 package gnu.inet.ftp;
 
-import gnu.inet.logging.ConsoleLogger;
-import gnu.inet.logging.Logger;
-import gnu.inet.logging.LoggingFactory;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InterruptedIOException;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.util.zip.InflaterInputStream;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * This class implements an FTP-style data connection thread for GETing
@@ -43,7 +42,7 @@ public class PassiveGetter extends Getter {
 
     private Socket sock = null;
 
-    private final static Logger log = LoggingFactory.getLogger(PassiveGetter.class);
+    private final static Log log = LogFactory.getLog(PassiveGetter.class);
 
     //
 
@@ -58,29 +57,14 @@ public class PassiveGetter extends Getter {
      */
     public PassiveGetter(OutputStream out, PassiveConnection connection) {
         super();
-        this.setDebug(false);
 
         this.ostream = out;
         this.connection = connection;
-    }// end of default constructor
+    }
 
     //
     // public methods
     //
-
-    /**
-     * Sets the ConsoleLogger's debug output. Does nothing for log4j. Log4j
-     * needs to be configured using log4j.properties
-     * 
-     * @param value
-     *            new debug flag value
-     */
-    public void setDebug(boolean value) {
-        if (log instanceof ConsoleLogger) {
-            ConsoleLogger cl = (ConsoleLogger) log;
-            cl.setDebugEnabled(value);
-        }
-    }// end of debug method
 
     /**
      * cancel a running transfer sets a flag and calls interrupt() can only be
@@ -96,7 +80,7 @@ public class PassiveGetter extends Getter {
                 // do nothing
             }
         }
-    }// cancel
+    }
 
     /**
      * get data from server using given parameters.
@@ -129,7 +113,7 @@ public class PassiveGetter extends Getter {
                 default:
                     istream = sock.getInputStream();
                     break;
-                }// switch
+                }
 
                 // handle different mode settings
                 switch (mode) {
@@ -139,7 +123,7 @@ public class PassiveGetter extends Getter {
                 case FtpClientProtocol.MODE_STREAM:
                 default:
                     break;
-                }// switch
+                }
 
                 int len;
                 while (!cancelled && ((len = istream.read(buffer)) > 0)) {
@@ -180,7 +164,7 @@ public class PassiveGetter extends Getter {
             signalConnectionClosed(new ConnectionEvent(parameters.getInetAddress(), parameters.getPort()));
         }
         sock = null;
-    }// run
-}// PassiveGetter
+    }
+}
 
 // PassiveGetter.java

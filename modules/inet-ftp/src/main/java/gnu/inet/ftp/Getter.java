@@ -20,10 +20,6 @@
 //
 package gnu.inet.ftp;
 
-import gnu.inet.logging.ConsoleLogger;
-import gnu.inet.logging.Logger;
-import gnu.inet.logging.LoggingFactory;
-
 import java.io.OutputStream;
 import java.util.Enumeration;
 import java.util.Vector;
@@ -39,9 +35,6 @@ public class Getter extends Thread implements ConnectionEventSource,
 
 	public static final int BUFFER_SIZE = 1024;
 
-	private final static Logger log = LoggingFactory.getLogger(Getter.class);
-
-	// protected boolean debug;
 	protected OutputStream ostream;
 
 	protected boolean cancelled = false;
@@ -59,13 +52,12 @@ public class Getter extends Thread implements ConnectionEventSource,
 	 */
 	public Getter() {
 		super();
-		this.setDebug(false);
 		this.cancelled = false;
 		this.connectionListeners = new Vector();
 		this.transferListeners = new Vector();
 		this.mode = FtpClientProtocol.MODE_STREAM;
 		this.type = FtpClientProtocol.TYPE_IMAGE;
-	}// end of default constructor
+	}
 
 	//
 	// public methods
@@ -79,7 +71,7 @@ public class Getter extends Thread implements ConnectionEventSource,
 	 */
 	public synchronized void setOutputStream(OutputStream ostream) {
 		this.ostream = ostream;
-	}// setOutputStream
+	}
 
 	/**
 	 * set the mode value
@@ -91,7 +83,7 @@ public class Getter extends Thread implements ConnectionEventSource,
 	 */
 	public synchronized void setMode(char mode) {
 		this.mode = mode;
-	}// setMode
+	}
 
 	/**
 	 * set the type value
@@ -103,21 +95,7 @@ public class Getter extends Thread implements ConnectionEventSource,
 	 */
 	public synchronized void setType(char type) {
 		this.type = type;
-	}// setType
-
-	/**
-	 * Sets the ConsoleLogger's debug output. Does nothing for log4j. Log4j
-	 * needs to be configured using log4j.properties
-	 * 
-	 * @param value
-	 *            new debug flag value
-	 */
-	public void setDebug(boolean value) {
-		if (log instanceof ConsoleLogger) {
-			ConsoleLogger cl = (ConsoleLogger) log;
-			cl.setDebugEnabled(value);
-		}
-	}// end of debug method
+	}
 
 	/**
 	 * cancel a running transfer sets a flag and calls interrupt() can only be
@@ -128,7 +106,7 @@ public class Getter extends Thread implements ConnectionEventSource,
 			cancelled = true;
 			interrupt();
 		}
-	}// cancel
+	}
 
 	public synchronized void start() {
 		this.cancelled = false; // Reset cancelled flag here and not in run!
@@ -143,7 +121,7 @@ public class Getter extends Thread implements ConnectionEventSource,
 	 */
 	public void addConnectionListener(ConnectionListener listener) {
 		connectionListeners.addElement(listener);
-	}// addConnectionListener
+	}
 
 	/**
 	 * add a set of ConnectionListener to the list of connectionListeners
@@ -157,7 +135,7 @@ public class Getter extends Thread implements ConnectionEventSource,
 			ConnectionListener listener = (ConnectionListener) e.nextElement();
 			connectionListeners.addElement(listener);
 		}
-	}// addConnectionListeners
+	}
 
 	/**
 	 * De-register a ConnectionListener from the event source. The listener
@@ -168,7 +146,7 @@ public class Getter extends Thread implements ConnectionEventSource,
 	 */
 	public void removeConnectionListener(ConnectionListener listener) {
 		connectionListeners.removeElement(listener);
-	}// removeConnectionListener
+	}
 
 	/**
 	 * add a TransferListener to the list of transfer listeners. All
@@ -180,7 +158,7 @@ public class Getter extends Thread implements ConnectionEventSource,
 	 */
 	public void addTransferListener(TransferListener listener) {
 		transferListeners.addElement(listener);
-	}// addTransferListener
+	}
 
 	/**
 	 * add a set of TransferListener to the list of transfer listeners
@@ -194,7 +172,7 @@ public class Getter extends Thread implements ConnectionEventSource,
 			TransferListener listener = (TransferListener) e.nextElement();
 			transferListeners.addElement(listener);
 		}
-	}// addTransferListeners
+	}
 
 	/**
 	 * De-register a TransferListener from the event source. The listener should
@@ -205,7 +183,7 @@ public class Getter extends Thread implements ConnectionEventSource,
 	 */
 	public void removeTransferListener(TransferListener listener) {
 		transferListeners.removeElement(listener);
-	}// removeTransferListener
+	}
 
 	/**
 	 * signal that a connection has been opened
@@ -220,7 +198,7 @@ public class Getter extends Thread implements ConnectionEventSource,
 					.nextElement();
 			listener.connectionOpened(event);
 		}
-	}// signalConnectionOpened
+	}
 
 	/**
 	 * signal that a connection has been closed
@@ -235,7 +213,7 @@ public class Getter extends Thread implements ConnectionEventSource,
 					.nextElement();
 			listener.connectionClosed(event);
 		}
-	}// signalConnectionClosed
+	}
 
 	/**
 	 * signal that a connection has encountered an error
@@ -250,7 +228,7 @@ public class Getter extends Thread implements ConnectionEventSource,
 					.nextElement();
 			listener.connectionFailed(exception);
 		}
-	}// signalConnectionFailed
+	}
 
 	/**
 	 * signal that a transfer has begun
@@ -262,7 +240,7 @@ public class Getter extends Thread implements ConnectionEventSource,
 					.nextElement();
 			listener.transferStarted();
 		}
-	}// signalTransferStarted
+	}
 
 	/**
 	 * signal that a transfer has completed
@@ -274,7 +252,7 @@ public class Getter extends Thread implements ConnectionEventSource,
 					.nextElement();
 			listener.transferCompleted();
 		}
-	}// signalTransferCompleted
+	}
 
 	/**
 	 * signal that a transfer has completed
@@ -289,8 +267,8 @@ public class Getter extends Thread implements ConnectionEventSource,
 					.nextElement();
 			listener.transfered(amount);
 		}
-	}// signalTransferCompleted
+	}
 
-}// Getter
+}
 
 // Getter.java

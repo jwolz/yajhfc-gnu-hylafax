@@ -24,29 +24,30 @@
 package gnu.hylafax.job;
 
 /**
- * This interface defines what a class should implement in order to notify others of job related events.
+ * This interface defines what a class should implement in order to notify
+ * others of job related events.
+ * 
  * @author $Author: sjardine $
  * @version $Id: ReceiveNotifier.java,v 1.2 2006/02/20 04:52:10 sjardine Exp $
  * @see gnu.hylafax.job.ReceiveListener
  * @see gnu.hylafax.job.ReceiveEvent
- **/
-public interface ReceiveNotifier
-{
+ */
+public interface ReceiveNotifier {
 
-	/**
-	 * This method is called when Job state changes.
-	 */
-	public void notifyReceiveListeners(ReceiveEvent details);
+    /**
+     * This method is called when Job state changes.
+     */
+    public void notifyReceiveListeners(ReceiveEvent details);
 
-	/**
-	 * This method is called to register a Job ReceiveListener.
-	 */
-	public void addReceiveListener(ReceiveListener l);
+    /**
+     * This method is called to register a Job ReceiveListener.
+     */
+    public void addReceiveListener(ReceiveListener l);
 
-	/**
-	 * This method is used to deregister a Job ReceiveListener.
-	 */
-	public void removeReceiveListener(ReceiveListener l);
+    /**
+     * This method is used to deregister a Job ReceiveListener.
+     */
+    public void removeReceiveListener(ReceiveListener l);
 
 }// ReceiveNotifier class
 // ReceiveNotifier.java
