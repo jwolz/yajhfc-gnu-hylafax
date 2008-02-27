@@ -4,7 +4,7 @@
 	<groupId>gnu-hylafax</groupId>
 	<artifactId>gnu-hylafax-utils</artifactId>
 	<packaging>jar</packaging>
-	<version>1.0.0</version>
+	<version>1.0.1-SNAPSHOT</version>
 	<name>Utilities Module</name>
 	<url>http://gnu-hylafax.sourceforge.net/gnu-hylafax-utils</url>
 	<description>
@@ -15,7 +15,7 @@
 	<parent>
 		<groupId>gnu-hylafax</groupId>
 		<artifactId>gnu-hylafax</artifactId>
-		<version>1.0.0</version>
+		<version>1.0.1-SNAPSHOT</version>
 		<relativePath>../../pom.xml</relativePath>
 	</parent>
 
