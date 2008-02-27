@@ -10,5 +10,106 @@ Client Example
 	The following is an example of how to create a HylaFAX client.
 	
 +--
-TODO:  Add example code.
+Client c = new HylaFAXClient();
+try {
+
+	//Open the host. 
+	c.open(host);
+	c.user(user);
+
+	//Set the transfer mode and type.  This is important if you are 
+	//having problems getting the HylaFAX server recognize the files
+	//you are sending.
+	c.mode(FtpClientProtocol.MODE_ZLIB);
+	c.type(FtpClientProtocol.TYPE_IMAGE);
+	
+	//Do this only is a password is required in the hosts.hfaxd 
+	//file on the server.
+	//c.pass(password);
+	
+	//Do this if you want to do admin functions.  Must be configured
+	//correctly in the hosts.hfaxd file.
+	//c.admin(password);
+	
+	//PERFORM CLIENT ACTIVITIES
+	
+} catch (Exception e) {
+	e.printStackTrace();
+} finally {
+	//Close the client.
+	try {
+		c.quit();
+	} catch (Exception e) {
+		e.printStackTrace();
+	}
+}
 +--
+
+Job Example
+	
+	The following is an example of how to create a client, create a job, and submit that job to the HylaFAX server.
+
++--
+Client c = new HylaFAXClient();
+try {
+
+	//Open the host. 
+	c.open(host);
+	c.user(user);
+
+	//Set the transfer mode and type.  This is important if you are 
+	//having problems getting the HylaFAX server recognize the files
+	//you are sending.
+	c.mode(FtpClientProtocol.MODE_ZLIB);
+	c.type(FtpClientProtocol.TYPE_IMAGE);
+	
+	//Do this only is a password is required in the hosts.hfaxd 
+	//file on the server.
+	//c.pass(password);
+	
+	//Do this if you want to do admin functions.  Must be configured
+	//correctly in the hosts.hfaxd file.
+	//c.admin(password);
+	
+	//Create a new job.
+	Job job = c.createJob();
+	
+	//Set the job properties.  This can be any jparm property specified 
+	//in the hfaxd manual page.  If there is not a native function for
+	//the property you are trying to set, use the setProperty function 
+	//to set it. 
+	job.setFromUser(from);
+	job.setNotifyAddress(from);
+	job.setKilltime(killtime);
+	job.setMaximumDials(maxdials);
+	job.setMaximumTries(maxtries);
+	job.setPriority(priority);
+	job.setDialstring(destination);
+	job.setVerticalResolution(resolution);
+	job.setPageDimension(pagesize);
+	job.setNotifyType(notify);
+	job.setChopThreshold(chopthreshold);
+
+	//Add any documents to send.  As long as the HylaFAX server is setup
+	//properly you should be able to send PS, PDF, and TIFF documents.
+	//The HylaFAX server always converts them to PS before sending them.
+	for (i = 0; i < documents.size(); i++) {
+		String document = (String) documents.elementAt(i);
+		job.addDocument(document);
+	}
+
+	//Submit the job to the scheduler.
+	c.submit(job);
+
+} catch (Exception e) {
+	e.printStackTrace();
+} finally {
+	//Close the client.
+	try {
+		c.quit();
+	} catch (Exception e) {
+		e.printStackTrace();
+	}
+}
++--
+	

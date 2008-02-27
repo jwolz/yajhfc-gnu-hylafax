@@ -76,6 +76,7 @@ public class FaxStat {
 				c.tzone(HylaFAXClientProtocol.TZONE_LOCAL);
 				for (int i = 1; i <= 2; i++) {
 					list = c.getList(i == 1 ? "sendq" : "doneq");
+					list.addAll(c.getList(""));
 					Enumeration lines = list.elements();
 					String line;
 					long jobidL = -1;
