@@ -5,7 +5,11 @@
 		<author email="sjardine@users.sourceforge.net">sjardine</author>
 	</properties>
 	<body>
-		<release version="1.0.0" date="2008-02-25">
+		<release version="1.0.0" date="2008-02-26">
+			<action dev="sjardine" type="add">
+				Revised web site documentation. Added global menu items. Added code examples. Site should now
+				function properly and fairly intuitively.
+			</action>
 			<action dev="sjardine" type="fix" due-to="Lieven Poelman" due-to-email="dorpsidioot@gmail.com">
 				Fixed a number of memory leaks and socket issues. This should fix the rampant use of file
 				descriptors and sockets.
