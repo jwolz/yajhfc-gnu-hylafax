@@ -18,7 +18,7 @@
 			<item name="Team / Contributors" href="team-list.html" />
 			<item name="Mailing Lists" href="mail-lists.html" />
 			<item name="Issue Tracking" href="issue-tracking.html" />
-			<item name="Java Docs" href="apidocs/index.html" />
+			<item name="Javadoc" href="apidocs/index.html" />
 		</menu>
 
 		<menu name="Reports">
