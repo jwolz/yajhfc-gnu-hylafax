@@ -10,6 +10,64 @@ Client Example
 	The following is an example of how to get the status of current and complete faxes
 	on the server.
 	
+	In order to customize this procedure you need to set the jobfmt to something you want. 
+	The hfaxd manual page has instructions on how to format this parameter.
+	
+	See:
+	
+		[[1]] {{{ http://www.hylafax.org/man/4.4.4/hfaxd.1m.html } Hylafax HFAXD Manual Page }} or
+
+		[[2]] {{{ http://hylafax.sourceforge.net/man/hfaxd.php } Hylafax+ HFAXD Manual page }} 
+	
 +--
-TODO:  Add example code.
+Client c = new HylaFAXClient();
+try {
+
+	//Open the host. 
+	c.open(host);
+	c.user(user);
+
+	//Set the transfer mode and type.  This is important if you are 
+	//having problems getting the HylaFAX server recognize the files
+	//you are sending.
+	c.mode(FtpClientProtocol.MODE_ZLIB);
+	c.type(FtpClientProtocol.TYPE_IMAGE);
+	
+	//Do this only is a password is required in the hosts.hfaxd 
+	//file on the server.
+	//c.pass(password);
+	
+	//Do this if you want to do admin functions.  Must be configured
+	//correctly in the hosts.hfaxd file.
+	//c.admin(password);
+	
+	//Set the jobfmt to whatever suits your particular need.
+	c.jobfmt(jobfmt);
+	
+	//Get status of the sendq and the doneq
+	Vector list = new Vector();
+	
+	//Get the list of faxes that have not completed yet.
+	list.addAll(c.getList("sendq"));
+	
+	//Get the list of faxes that have completed but not been cleaned 
+	//up by faxcron or similar.
+	list.addAll(c.getList("doneq"));
+	
+	//Print out each faxes status, 1 per line.
+	Enumeration faxes = list.elements();
+	while (faxes.hasMoreElements()) {
+		System.out.println(faxes.nextElement());
+	}
+
+} catch (Exception e) {
+	e.printStackTrace();
+} finally {
+	//Close the client.
+	try {
+		c.quit();
+	} catch (Exception e) {
+		e.printStackTrace();
+	}
+}
 +--

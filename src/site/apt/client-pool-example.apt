@@ -9,6 +9,51 @@ Client Example
 
 	The following is an example of how to create a HylaFAX client pool.
 	
+	First create a static class or singleton that sets up the client pool.
+	
 +--
-TODO:  Add example code.
+ClientPoolConfiguration config = new ClientPoolConfiguration();
+config.setHost(host);
+config.setUserName(user);
+config.setPassword(password);
+config.setTimeZone(ClientProtocol.TZONE_LOCAL);
+config.setBlockingTimeout(1000);
+config.setMinPoolSize(5);
+config.setMaxPoolSize(10);
+
+ClientPool clientPool = ClientPool(config);
+try {
+	clientPool.start();
+} catch (ClientPoolException e) {
+	e.printStackTrace();
+}
++--
+
+	At this point you can get a client from the pool by calling the getClient method
+	
++--
+Client c = clientPool.getClient();
+try {
+
+	//PERFORM CLIENT ACTIVITIES
+
+} catch (Exception e) {
+	e.printStackTrace();
+} finally {
+	try {
+		c.quit();
+	} catch (Exception e) {
+		e.printStackTrace();
+	}
+}
++--
+
+	Don't forget to shutdown the client pool when done.
+	
++--
+try {
+	clientPool.stop();
+} catch (ClientPoolException e) {
+	e.printStackTrace();
+}
 +--
