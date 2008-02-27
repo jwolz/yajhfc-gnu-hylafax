@@ -12,22 +12,22 @@ Welcome to GNU-Hylafax
 	
 	The are 4 modules in this project:
 		
-		[[1]] {{{ gnu-hylafax-inet-ftp/index.html } INET-FTP Module }}:
+		[[1]] {{{ gnu-hylafax-inet-ftp/index.html } INET-FTP Module}}:
 		
 			This is an implementation of an FTP Client.  We've worked to make this library compliant 
-			with the FTP RFC, {{{ http://tools.ietf.org/html/rfc0959 } RFC0959 }}.
+			with the FTP RFC, {{{ http://tools.ietf.org/html/rfc0959 } RFC0959}}.
 		
-		[[2]] {{{ gnu-hylafax-core/index.html  } Core Module }}:
+		[[2]] {{{ gnu-hylafax-core/index.html  } Core Module}}:
 			
 			The core module contains everything necessary to interface with HylaFAX server.  This 
 			module is dependent on the inet-ftp module.
 			
-		[[3]] {{{ gnu-hylafax-pool/index.html } Client Pool Module }}:
+		[[3]] {{{ gnu-hylafax-pool/index.html } Client Pool Module}}:
 		
 			The client pool module contains a client pool implementation that allows for pooling 
 			clients for quick access.  This module is dependent on the inet-ftp and core modules.
 			
-		[[4]] {{{ gnu-hylafax-utils/index.html } Utilities Module }}: 
+		[[4]] {{{ gnu-hylafax-utils/index.html } Utilities Module}}: 
 		
 			The utilities module contains some utility classes that show some of the uses of the API.  
 			They give some examples about how to use the API.  This module is dependent on inet-ftp,
