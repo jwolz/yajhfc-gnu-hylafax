@@ -26,8 +26,8 @@ package gnu.hylafax.status;
  */
 public class JobStatusEvent extends BaseStatusEvent {
 
-    public JobStatusEvent(String event) {
-	super(event);
+    public JobStatusEvent(Event event, String serverStr) {
+	super(event, serverStr);
 	// TODO Parse event array and make it into something worth while.
     }
 

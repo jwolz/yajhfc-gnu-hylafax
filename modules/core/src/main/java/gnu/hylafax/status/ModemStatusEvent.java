@@ -26,9 +26,31 @@ package gnu.hylafax.status;
  */
 public class ModemStatusEvent extends BaseStatusEvent {
 
-    public ModemStatusEvent(String event) {
-	super(event);
-	// TODO Parse event array and make it into something worth while.
+    private String device = null;
+
+    public ModemStatusEvent(Event event, String serverStr) {
+	super(event, serverStr);
+	if (serverStr != null) {
+	    // Set the device name.
+	    device = serverStr.split(" |: ")[3];
+	    // Set the description.
+	    description = (serverStr.split(": ")[1]).trim().toUpperCase();
+	}
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see gnu.hylafax.status.BaseStatusEvent#toString()
+     */
+    public String toString() {
+	String result = "Event Type:\t" + event.getTypeStr() + "\n";
+	result += "Event Name:\t" + event.getName() + "\n";
+	result += "Modem Device:\t" + device + "\n";
+	result += "Server Time:\t" + serverTime + "\n";
+	result += "Client Time:\t" + clientTime + "\n";
+	result += "Description:\t" + description + "\n";
+	return result;
     }
 
 }
