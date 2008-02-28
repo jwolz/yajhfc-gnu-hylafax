@@ -22,10 +22,10 @@
  ******************************************************************************/
 package gnu.hylafax;
 
+import gnu.hylafax.status.Event;
 import gnu.hylafax.status.StatusEvent;
 import gnu.hylafax.status.StatusEventException;
 import gnu.hylafax.status.StatusEventListener;
-import gnu.hylafax.status.StatusEventType;
 import gnu.hylafax.status.StatusWatcher;
 import gnu.inet.ftp.ActiveGetter;
 import gnu.inet.ftp.ActivePutter;
@@ -149,12 +149,12 @@ public class HylaFAXClient extends HylaFAXClientProtocol implements Client {
 
     public void addStatusEventListener(StatusEventListener listener)
 	    throws StatusEventException {
-	addStatusEventListener(listener, StatusEventType.ALL);
+	addStatusEventListener(listener, Event.ALL);
     }
 
     public void addStatusEventListener(StatusEventListener listener, int type)
 	    throws StatusEventException {
-	addStatusEventListener(listener, type, StatusEvent.ALL);
+	addStatusEventListener(listener, type, Event.ALL);
     }
 
     public void addStatusEventListener(StatusEventListener listener, int type,

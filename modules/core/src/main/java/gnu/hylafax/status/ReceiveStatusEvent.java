@@ -18,6 +18,13 @@
  ******************************************************************************/
 package gnu.hylafax.status;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.BasicConfigurator;
+
 /**
  * Represents a RECEIVE event sent by the fax server.
  * 
@@ -26,9 +33,65 @@ package gnu.hylafax.status;
  */
 public class ReceiveStatusEvent extends BaseStatusEvent {
 
-    public ReceiveStatusEvent(String event) {
-	super(event);
-	// Parse event array and make it into something worth while.
+    private static final Log log = LogFactory.getLog(ReceiveStatusEvent.class);
+
+    private String sender = null;
+    private String commId = null;
+
+    public ReceiveStatusEvent(Event event, String serverStr) {
+	super(event, serverStr);
+	if (serverStr != null) {
+	    String details = (serverStr.split("RECV FAX: ")[1]).trim()
+		    .toUpperCase();
+
+	    // Parse the details.
+	    if (details.startsWith("CALL")) {
+		description = details;
+		return;
+	    }
+
+	    if (details.startsWith("SESSION STARTED")) {
+		String tmp = details.substring(details.indexOf(" (COM ") + 6,
+			details.indexOf("), ")).trim();
+		if (!tmp.equals(""))
+		    commId = tmp;
+		return;
+	    }
+
+	    if (details.startsWith("FROM")) {
+		String tmp = details.substring(details.indexOf("FROM ") + 5,
+			details.indexOf(" (COM ")).trim();
+		if (!tmp.equals(""))
+		    sender = tmp;
+
+		tmp = details.substring(details.indexOf(" (COM ") + 6,
+			details.indexOf("), ")).trim();
+		if (!tmp.equals(""))
+		    commId = tmp;
+
+		System.err.println(sender + " | " + commId);
+	    }
+	    // log.debug("Receive Event Details: " + details);
+
+	}
+    }
+
+    public static void main(String[] args) {
+	try {
+	    BasicConfigurator.configure();
+	    String line = null;
+	    BufferedReader in = new BufferedReader(new FileReader(
+		    "/home/steve/Desktop/receive-messages.txt"));
+	    while ((line = in.readLine()) != null) {
+		int eventId = Integer.parseInt(line.split(" ")[1]);
+		Event event = Event.getEvent(eventId);
+
+		StatusEvent statusEvent = new ReceiveStatusEvent(event, line);
+		// System.out.println(statusEvent.toString());
+	    }
+	} catch (Exception e) {
+	    e.printStackTrace();
+	}
     }
 
 }
