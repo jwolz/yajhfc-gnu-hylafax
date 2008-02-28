@@ -18,6 +18,7 @@
  ******************************************************************************/
 package gnu.hylafax.status;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -65,7 +66,6 @@ public class BaseStatusEvent implements StatusEvent {
 	} else {
 	    log.warn("Cannot determine server time of event.");
 	}
-
     }
 
     /*
@@ -74,7 +74,12 @@ public class BaseStatusEvent implements StatusEvent {
      * @see java.lang.Object#toString()
      */
     public String toString() {
-	return serverStr;
+	SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+	String result = "CTIME: " + df.format(clientTime) + "; ";
+	result += "STIME: " + df.format(serverTime) + "; ";
+	result += "EVENT: " + event.getName() + "; ";
+	result += "DESC: " + description + "; ";
+	return result;
     }
 
 }
