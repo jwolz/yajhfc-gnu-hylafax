@@ -55,8 +55,6 @@ public class ReceiveStatusEvent extends BaseStatusEvent {
 
     private String bitRate = null;
 
-    private String commId = null;
-
     private String dataFormat = null;
 
     private String pageLength = null;
@@ -144,18 +142,6 @@ public class ReceiveStatusEvent extends BaseStatusEvent {
 
     public String getVerticalResolution() {
 	return verticalResolution;
-    }
-
-    private String parseCommId(String details) {
-	try {
-	    String tmp = details.substring(details.indexOf(" (COM ") + 6,
-		    details.indexOf("), ")).trim();
-	    if (!tmp.equals(""))
-		return tmp;
-	} catch (Exception e) {
-	    log.warn(errorMsg("Cannot Parse CommId", details, e));
-	}
-	return null;
     }
 
     private Integer parsePageNumber(String details) {
@@ -257,7 +243,15 @@ public class ReceiveStatusEvent extends BaseStatusEvent {
      */
     public String toString() {
 	String result = super.toString();
-	// TODO Do more.
+	result += "SENDER: " + sender + "; ";
+	result += "TOT PAGES: " + totalPages + "; ";
+	result += "PAGE: " + pageNumber + "; ";
+	result += "PAGE TIME: " + pageSeconds + "; ";
+	result += "PAGE LEN: " + pageLength + "; ";
+	result += "BIT RATE: " + bitRate + "; ";
+	result += "DATA FMT: " + dataFormat + "; ";
+	result += "SCANLINE TIME: " + scanlineTime + "; ";
+	result += "VERT RES: " + verticalResolution + "; ";
 	return result;
     }
 }
