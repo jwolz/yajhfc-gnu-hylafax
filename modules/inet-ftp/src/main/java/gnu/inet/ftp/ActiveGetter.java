@@ -1,23 +1,25 @@
-/*******************************************************************************
- * $Id: ModemStatusEvent.java 80 2008-02-20 22:55:43Z sjardine $
- * 
- * Copyright 2000 Joe Phillips <jaiger@innovationsw.com>
- * Copyright 2001, 2002 Innovation Software Group, LLC - http://www.innovationsw.com
- * Copyright 2008 Steven Jardine, MJN Services, Inc. <steve@mjnservices.com>
- * 
- * All rights reserved. This program and the accompanying materials are made
- * available under the terms of the GNU Lesser Public License v2.1 which 
- * accompanies this distribution, and is available at
- * 	http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html
- *
- * For more information on the HylaFAX Fax Server please see
- * 	HylaFAX  - http://www.hylafax.org or 
- * 	Hylafax+ - http://hylafax.sourceforge.net
- * 
- * Contributors:
- * 	Joe Phillips - Initial API and implementation
- * 	Steven Jardine 
- ******************************************************************************/
+// ActiveGetter.java
+// $Id: ActiveGetter.java,v 1.6 2007/02/21 00:07:50 sjardine Exp $
+//
+// Copyright 2000, Joe Phillips <jaiger@innovationsw.com>
+// Copyright 2001, 2002 Innovation Software Group, LLC - http://www.innovationsw.com
+//
+// This library is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Library General Public
+// License as published by the Free Software Foundation; either
+// version 2 of the License, or (at your option) any later version.
+//
+// This library is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+// Library General Public License for more details.
+//
+// You should have received a copy of the GNU Library General Public
+// License along with this library; if not, write to the Free
+// Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+//
+// TODO implement compressed streams
+
 package gnu.inet.ftp;
 
 import java.io.IOException;
@@ -35,12 +37,8 @@ import org.apache.commons.logging.LogFactory;
 /**
  * This class implements an FTP-style data connection server thread for GETing
  * files/data non-passively.
- * 
+ * <P>
  * This class is used internally to the FtpClient class.
- * 
- * @version $Revision: 80 $
- * @author Joe Phillips <jaiger@innovationsw.com>
- * @author Steven Jardine <steve@mjnservices.com>
  */
 public class ActiveGetter extends Getter {
 
@@ -71,16 +69,11 @@ public class ActiveGetter extends Getter {
 	this.address = this.server.getInetAddress();
 
 	this.ostream = out;
-    }
+    }// end of default constructor
 
-    /**
-     * get the local IP address that this ActiveGetter is listening on
-     * 
-     * @return server socket IP address
-     */
-    public InetAddress getInetAddress() {
-	return address;
-    }
+    //
+    // public methods
+    //
 
     /**
      * get the local port this ActiveGetter is listening on
@@ -89,7 +82,27 @@ public class ActiveGetter extends Getter {
      */
     public synchronized int getPort() {
 	return port;
-    }
+    }// getPort
+
+    /**
+     * get the local IP address that this ActiveGetter is listening on
+     * 
+     * @return server socket IP address
+     */
+    public InetAddress getInetAddress() {
+	return address;
+    }// getInetAddress
+
+    /**
+     * Set the connection timeout in milliseconds. This method must be called
+     * before start()/run() for the value to take affect.
+     * 
+     * @param milliseconds
+     *                the socket timeout value in milliseconds
+     */
+    public void setTimeout(int milliseconds) {
+	timeout = milliseconds;
+    }// setTimeout
 
     /**
      * get data from server using given parameters.
@@ -97,17 +110,20 @@ public class ActiveGetter extends Getter {
     public void run() {
 	boolean signalClosure = false;
 	Socket sock = null;
-	InputStream istream;
+	InputStream istream = null;
 	long amount = 0;
 	long buffer_size = 0;
 	byte buffer[] = new byte[BUFFER_SIZE];
+	// this.cancelled= false; // reset cancelled flag
 
 	try {
-	    // Wait for connection until timeout
-	    server.setSoTimeout(timeout);
+	    // wait for connection
+	    server.setSoTimeout(timeout); // can only wait so long
 	    if (cancelled)
-		// Small race condition here
-		throw new InterruptedIOException("Transfer cancelled");
+		throw new InterruptedIOException("Transfer cancelled"); // small
+									// race
+									// condition
+	    // here
 	    sock = server.accept();
 	    signalConnectionOpened(new ConnectionEvent(sock.getInetAddress(),
 		    sock.getPort()));
@@ -115,6 +131,7 @@ public class ActiveGetter extends Getter {
 	    signalTransferStarted();
 
 	    try {
+
 		// handle different type settings
 		switch (type) {
 		case FtpClientProtocol.TYPE_ASCII:
@@ -123,7 +140,7 @@ public class ActiveGetter extends Getter {
 		default:
 		    istream = sock.getInputStream();
 		    break;
-		}
+		}// switch
 
 		// handle different mode settings
 		switch (mode) {
@@ -133,7 +150,7 @@ public class ActiveGetter extends Getter {
 		case FtpClientProtocol.MODE_STREAM:
 		default:
 		    break;
-		}
+		}// switch
 
 		int len;
 		while (!cancelled && ((len = istream.read(buffer)) > 0)) {
@@ -155,7 +172,15 @@ public class ActiveGetter extends Getter {
 	    } catch (Exception e) {
 		log.error(e.getMessage(), e);
 	    } finally {
+		log.debug("Closing inputstream");
+		if (istream != null) {
+		    istream.close();
+		}
+
+		log.debug("Setting socket to 0 lingering");
+		sock.setSoLinger(true, 0);
 		sock.close(); // make sure the socket is closed
+
 		signalTransferCompleted();
 	    }
 	} catch (InterruptedIOException eiioe) {
@@ -166,22 +191,21 @@ public class ActiveGetter extends Getter {
 	} catch (Exception ee) {
 	    signalConnectionFailed(ee);
 	    log.error(ee.getMessage(), ee);
+	} finally {
+	    try {
+		log.debug("Closing server socket");
+		server.close();
+	    } catch (IOException ex) {
+		// don't care
+	    }
 	}
+
 	if (signalClosure == true && sock != null) {
 	    signalConnectionClosed(new ConnectionEvent(sock.getInetAddress(),
 		    sock.getPort()));
 	}
-    }
+    }// run
 
-    /**
-     * Set the connection timeout in milliseconds. This method must be called
-     * before start()/run() for the value to take affect.
-     * 
-     * @param milliseconds
-     *                the socket timeout value in milliseconds
-     */
-    public void setTimeout(int milliseconds) {
-	timeout = milliseconds;
-    }
+}// ActiveGetter
 
-}
+// ActiveGetter.java
