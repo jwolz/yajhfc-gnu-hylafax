@@ -44,12 +44,8 @@ public class ModemStatusEvent extends BaseStatusEvent {
      * @see gnu.hylafax.status.BaseStatusEvent#toString()
      */
     public String toString() {
-	String result = "Event Type:\t" + event.getTypeStr() + "\n";
-	result += "Event Name:\t" + event.getName() + "\n";
-	result += "Modem Device:\t" + device + "\n";
-	result += "Server Time:\t" + serverTime + "\n";
-	result += "Client Time:\t" + clientTime + "\n";
-	result += "Description:\t" + description + "\n";
+	String result = super.toString();
+	result += "DEV: " + device;
 	return result;
     }
 

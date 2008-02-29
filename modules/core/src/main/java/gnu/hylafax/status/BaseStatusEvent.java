@@ -37,13 +37,13 @@ public class BaseStatusEvent implements StatusEvent {
 
     protected Date clientTime;
 
+    protected String description = null;
+
     protected Event event = null;
 
     protected String serverStr = null;
 
     protected Date serverTime;
-
-    protected String description = null;
 
     public BaseStatusEvent(Event event, String serverStr) {
 	this.event = event;
@@ -68,13 +68,45 @@ public class BaseStatusEvent implements StatusEvent {
 	}
     }
 
+    protected String errorMsg(String message, String info, Exception e) {
+	String result = "";
+	String tmpMessage = prepStr(message);
+	if (tmpMessage != null)
+	    result += tmpMessage;
+
+	String tmpInfo = prepStr(info);
+	if (tmpMessage != null && tmpInfo != null)
+	    result += ": ";
+	if (tmpInfo != null)
+	    result += tmpInfo;
+
+	if (e != null) {
+	    String tmpExcept = prepStr(e.getMessage());
+	    if (tmpExcept != null && !result.equals(""))
+		result += "; Exception: ";
+	    if (tmpExcept != null)
+		result += tmpExcept;
+	}
+	return prepStr(result);
+    }
+
+    protected String prepStr(String str) {
+	if (str != null) {
+	    String tmp = str.trim();
+	    if (!tmp.equals("")) {
+		return tmp;
+	    }
+	}
+	return null;
+    }
+
     /*
      * (non-Javadoc)
      * 
      * @see java.lang.Object#toString()
      */
     public String toString() {
-	SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+	SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss");
 	String result = "CTIME: " + df.format(clientTime) + "; ";
 	result += "STIME: " + df.format(serverTime) + "; ";
 	result += "EVENT: " + event.getName() + "; ";

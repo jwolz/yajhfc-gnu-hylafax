@@ -81,8 +81,7 @@ public class ReceiveStatusEvent extends BaseStatusEvent {
 		details = (serverStr.split("RECV FAX: ")[1]).trim()
 			.toUpperCase();
 	    } catch (Exception e) {
-		log.warn("Cannot parse server string: " + serverStr
-			+ "; Exception: " + e.getMessage());
+		log.warn(errorMsg("Cannot Parse Server String", serverStr, e));
 	    }
 	    if (details != null) {
 		// Parse the details.
@@ -154,7 +153,7 @@ public class ReceiveStatusEvent extends BaseStatusEvent {
 	    if (!tmp.equals(""))
 		return tmp;
 	} catch (Exception e) {
-	    log.warn(e.getMessage(), e);
+	    log.warn(errorMsg("Cannot Parse CommId", details, e));
 	}
 	return null;
     }
@@ -164,8 +163,7 @@ public class ReceiveStatusEvent extends BaseStatusEvent {
 	    return new Integer(Integer.parseInt(details.substring(details
 		    .indexOf("), PAGE ") + 8, details.indexOf(" IN "))));
 	} catch (Exception e) {
-	    log.warn("Cannot parse total pages: " + details + "; Exception: "
-		    + e.getMessage());
+	    log.warn(errorMsg("Cannot Parse Total Pages", details, e));
 	}
 	return null;
     }
@@ -181,8 +179,7 @@ public class ReceiveStatusEvent extends BaseStatusEvent {
 			details.indexOf(", FILE")).trim().split(":");
 	    }
 	} catch (Exception e) {
-	    log.warn("Cannot parse time string: " + details + "; Exception: "
-		    + e.getMessage());
+	    log.warn(errorMsg("Cannot Parse Time String", details, e));
 	}
 
 	try {
@@ -194,8 +191,7 @@ public class ReceiveStatusEvent extends BaseStatusEvent {
 	    }
 	    throw new Exception("Time String is null or wrong size");
 	} catch (Exception e) {
-	    log.warn("Cannot calculate time: " + details + "; Exception: "
-		    + e.getMessage());
+	    log.warn(errorMsg("Cannot Calculate Time", details, e));
 	}
 	return null;
     }
@@ -211,8 +207,7 @@ public class ReceiveStatusEvent extends BaseStatusEvent {
 			details.indexOf(" (COM ")).trim();
 	    }
 	} catch (Exception e) {
-	    log.warn("Cannot parse sender: " + details + "; Exception: "
-		    + e.getMessage());
+	    log.warn(errorMsg("Cannot Parse Sender", details, e));
 	}
 	if (result != null) {
 	    result = result.trim();
@@ -226,34 +221,9 @@ public class ReceiveStatusEvent extends BaseStatusEvent {
 	    return new Integer(Integer.parseInt(details.substring(details
 		    .indexOf("), ") + 3, details.indexOf(" PAGES IN "))));
 	} catch (Exception e) {
-	    log.warn("Cannot parse total pages: " + details + "; Exception: "
-		    + e.getMessage());
+	    log.warn(errorMsg("Cannot Parse Total Pages", details, e));
 	}
 	return null;
-    }
-
-    private String prepStr(String str) {
-	if (str != null) {
-	    String tmp = str.trim();
-	    if (!tmp.equals("")) {
-		return tmp;
-	    }
-	}
-	return null;
-    }
-
-    private String errorMsg(String message, String info, Exception e) {
-	String result = "";
-	if (prepStr(message) != null) {
-	    result += prepStr(message);
-	    if (prepStr(info) != null) {
-		result += ": " + prepStr(info);
-		if (e != null && prepStr(e.getMessage()) != null) {
-		    result += "; Exception: " + prepStr(e.getMessage());
-		}
-	    }
-	}
-	return result;
     }
 
     private void setParams(String details) {
@@ -262,14 +232,12 @@ public class ReceiveStatusEvent extends BaseStatusEvent {
 	    info = details.substring(details.lastIndexOf("<") + 1, details
 		    .lastIndexOf(">"));
 	} catch (Exception e) {
-	    log.warn("Cannot Parse Info From Details: " + details
-		    + "; Exception: " + e.getMessage());
+	    log.warn(errorMsg("Cannot Parse Info From Details", details, e));
 	    return;
 	}
 
 	if (info != null) {
 	    try {
-		log.debug("Event Info:\t" + info);
 		String[] params = info.split(", ");
 		pageLength = prepStr(params[0]);
 		verticalResolution = prepStr(params[1]);
@@ -277,7 +245,7 @@ public class ReceiveStatusEvent extends BaseStatusEvent {
 		bitRate = prepStr(params[3]);
 		scanlineTime = prepStr(params[4]);
 	    } catch (Exception e) {
-		log.warn("Cannot Parse Info: " + info + ", " + e.getMessage());
+		log.warn(errorMsg("Cannot Parse Info", info, e));
 	    }
 	}
     }
