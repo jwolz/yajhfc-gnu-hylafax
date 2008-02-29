@@ -18,6 +18,13 @@
  ******************************************************************************/
 package gnu.hylafax.status;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.BasicConfigurator;
+
 /**
  * Represents a JOB event sent by the fax server.
  * 
@@ -26,9 +33,107 @@ package gnu.hylafax.status;
  */
 public class JobStatusEvent extends BaseStatusEvent {
 
-    public JobStatusEvent(Event event, String serverStr) {
-	super(event, serverStr);
-	// TODO Parse event array and make it into something worth while.
+    private static final Log log = LogFactory.getLog(JobStatusEvent.class);
+
+    public static void main(String[] args) {
+	try {
+	    BasicConfigurator.configure();
+	    String line = null;
+	    BufferedReader in = new BufferedReader(new FileReader(
+		    "/home/steve/Desktop/job-messages.txt"));
+	    while ((line = in.readLine()) != null) {
+		int eventId = Integer.parseInt(line.split(" ")[1]);
+		Event event = Event.getEvent(eventId);
+
+		StatusEvent statusEvent = new JobStatusEvent(event, line);
+		log.debug(statusEvent.toString());
+	    }
+	} catch (Exception e) {
+	    e.printStackTrace();
+	}
     }
 
+    protected String destination = null;
+
+    protected Integer jobId = null;
+
+    private String pri = null;
+
+    public JobStatusEvent(Event event, String serverStr) {
+	super(event, serverStr);
+	if (serverStr != null) {
+	    String details = null;
+	    try {
+		details = prepStr(serverStr.split(" JOB ")[1]).toUpperCase();
+	    } catch (Exception e) {
+		log.warn(errorMsg("Cannot Parse Job Details", details, e));
+	    }
+
+	    if (details != null) {
+		jobId = parseJobId(details);
+		destination = parseDestination(details);
+		pri = parsePri(details);
+		commId = parseCommId(details);
+		description = parseDescription(details);
+	    }
+	}
+    }
+
+    public String getDestination() {
+	return destination;
+    }
+
+    public Integer getJobId() {
+	return jobId;
+    }
+
+    public String getPri() {
+	return pri;
+    }
+
+    protected String parseDescription(String details) {
+	try {
+	    return prepStr(details.substring(details.indexOf("): ") + 3));
+	} catch (Exception e) {
+	    log.warn(errorMsg("Cannot Parse Description", details, e));
+	}
+	return null;
+    }
+
+    private String parseDestination(String details) {
+	try {
+	    return prepStr(details.substring(details.indexOf(" (DEST ") + 7,
+		    details.indexOf(" PRI ")));
+	} catch (Exception e) {
+	    log.warn(errorMsg("Cannot Parse Destination", details, e));
+	}
+	return null;
+    }
+
+    private Integer parseJobId(String details) {
+	try {
+	    return Integer.valueOf(details.substring(0, details.indexOf(" ")));
+	} catch (Exception e) {
+	    log.warn(errorMsg("Cannot Parse Job Id", details, e));
+	}
+	return null;
+    }
+
+    protected String parsePri(String details) {
+	try {
+	    return prepStr(details.substring(details.indexOf(" PRI ") + 5,
+		    details.indexOf(" COM ")));
+	} catch (Exception e) {
+	    log.warn(errorMsg("Cannot Parse PRI", details, e));
+	}
+	return null;
+    }
+
+    public String toString() {
+	String result = super.toString();
+	result += "JOB ID: " + jobId + "; ";
+	result += "DEST: " + destination + "; ";
+	result += "PRI: " + pri + "; ";
+	return result;
+    }
 }

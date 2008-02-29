@@ -37,6 +37,20 @@ public class BaseStatusEvent implements StatusEvent {
 
     protected Date clientTime;
 
+    protected String commId = null;
+
+    protected String parseCommId(String details) {
+	try {
+	    String tmp = prepStr(details.substring(details.indexOf("COM ") + 4,
+		    details.indexOf(")")));
+	    if (tmp != null)
+		return tmp;
+	} catch (Exception e) {
+	    log.warn(errorMsg("Cannot Parse CommId", details, e));
+	}
+	return null;
+    }
+
     protected String description = null;
 
     protected Event event = null;
@@ -110,6 +124,7 @@ public class BaseStatusEvent implements StatusEvent {
 	String result = "CTIME: " + df.format(clientTime) + "; ";
 	result += "STIME: " + df.format(serverTime) + "; ";
 	result += "EVENT: " + event.getName() + "; ";
+	result += "COMM ID: " + commId + "; ";
 	result += "DESC: " + description + "; ";
 	return result;
     }

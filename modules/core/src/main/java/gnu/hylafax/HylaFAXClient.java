@@ -23,7 +23,6 @@
 package gnu.hylafax;
 
 import gnu.hylafax.status.Event;
-import gnu.hylafax.status.StatusEvent;
 import gnu.hylafax.status.StatusEventException;
 import gnu.hylafax.status.StatusEventListener;
 import gnu.hylafax.status.StatusWatcher;
