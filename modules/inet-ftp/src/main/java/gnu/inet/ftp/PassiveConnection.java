@@ -58,6 +58,7 @@ public class PassiveConnection extends Object {
     public PassiveParameters getPassiveParameters() {
 	return parameters;
     }
+
     /**
      * get the socket for this passive connection
      * 

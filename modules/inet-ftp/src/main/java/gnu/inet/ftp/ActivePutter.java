@@ -26,6 +26,7 @@ import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.zip.DeflaterOutputStream;
 
 import org.apache.commons.logging.Log;
@@ -161,11 +162,15 @@ public class ActivePutter extends Putter {
 		if (ostream != null) {
 		    ostream.close();
 		}
-
-		log.debug("Setting socket to 0 lingering");
-		sock.setSoLinger(true, 0);
-		sock.close();
-
+		if (!sock.isClosed()) {
+		    try {
+			log.debug("Setting socket to 0 lingering");
+			sock.setSoLinger(true, 0);
+			sock.close();
+		    } catch (SocketException e) {
+			// Don't care.
+		    }
+		}
 		signalTransferCompleted();
 	    }
 	} catch (Exception ee) {

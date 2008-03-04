@@ -27,6 +27,7 @@ import java.io.InputStream;
 import java.io.InterruptedIOException;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.zip.InflaterInputStream;
 
 import org.apache.commons.logging.Log;
@@ -51,15 +52,15 @@ public class PassiveGetter extends Getter {
      * output and using the given PassiveParameters to connect to the server.
      * 
      * @param out
-     *            the OutputStream where retrieved data will be written
+     *                the OutputStream where retrieved data will be written
      * @param connection
-     *            the PassiveConnection to the server
+     *                the PassiveConnection to the server
      */
     public PassiveGetter(OutputStream out, PassiveConnection connection) {
-        super();
+	super();
 
-        this.ostream = out;
-        this.connection = connection;
+	this.ostream = out;
+	this.connection = connection;
     }
 
     //
@@ -71,99 +72,107 @@ public class PassiveGetter extends Getter {
      * called once
      */
     public void cancel() {
-        if (!cancelled) {
-            cancelled = true;
-            interrupt();
-            if (sock != null) try {
-                sock.close(); // Interrupt I/O
-            } catch (IOException e) {
-                // do nothing
-            }
-        }
+	if (!cancelled) {
+	    cancelled = true;
+	    interrupt();
+	    if (sock != null)
+		try {
+		    sock.close(); // Interrupt I/O
+		} catch (IOException e) {
+		    // do nothing
+		}
+	}
     }
 
     /**
      * get data from server using given parameters.
      */
     public void run() {
-        boolean signalClosure = false;
-        // Socket sock= null;
-        InputStream istream = null;
-        long amount = 0;
-        int buffer_size = 0;
-        byte buffer[] = new byte[BUFFER_SIZE];
-        // this.cancelled= false; // reset cancelled flag
-        PassiveParameters parameters = connection.getPassiveParameters();
+	boolean signalClosure = false;
+	// Socket sock= null;
+	InputStream istream = null;
+	long amount = 0;
+	int buffer_size = 0;
+	byte buffer[] = new byte[BUFFER_SIZE];
+	// this.cancelled= false; // reset cancelled flag
+	PassiveParameters parameters = connection.getPassiveParameters();
 
-        try {
-            // make connection
-            sock = connection.getSocket();
-            if (cancelled) throw new InterruptedIOException("Transfer cancelled");
-            signalConnectionOpened(new ConnectionEvent(parameters.getInetAddress(), parameters.getPort()));
-            signalClosure = true;
-            signalTransferStarted();
+	try {
+	    // make connection
+	    sock = connection.getSocket();
+	    if (cancelled)
+		throw new InterruptedIOException("Transfer cancelled");
+	    signalConnectionOpened(new ConnectionEvent(parameters
+		    .getInetAddress(), parameters.getPort()));
+	    signalClosure = true;
+	    signalTransferStarted();
 
-            try {
+	    try {
 
-                // handle different type settings
-                switch (type) {
-                case FtpClientProtocol.TYPE_ASCII:
-                    istream = new AsciiInputStream(sock.getInputStream());
-                    break;
-                default:
-                    istream = sock.getInputStream();
-                    break;
-                }
+		// handle different type settings
+		switch (type) {
+		case FtpClientProtocol.TYPE_ASCII:
+		    istream = new AsciiInputStream(sock.getInputStream());
+		    break;
+		default:
+		    istream = sock.getInputStream();
+		    break;
+		}
 
-                // handle different mode settings
-                switch (mode) {
-                case FtpClientProtocol.MODE_ZLIB:
-                    istream = new InflaterInputStream(istream);
-                    break;
-                case FtpClientProtocol.MODE_STREAM:
-                default:
-                    break;
-                }
+		// handle different mode settings
+		switch (mode) {
+		case FtpClientProtocol.MODE_ZLIB:
+		    istream = new InflaterInputStream(istream);
+		    break;
+		case FtpClientProtocol.MODE_STREAM:
+		default:
+		    break;
+		}
 
-                int len;
-                while (!cancelled && ((len = istream.read(buffer)) > 0)) {
-                    ostream.write(buffer, 0, len);
-                    amount += len;
-                    buffer_size += len;
-                    if (buffer_size >= BUFFER_SIZE) {
-                        buffer_size = buffer_size % BUFFER_SIZE;
-                        signalTransfered(amount);
-                    }
-                    yield();
-                }
+		int len;
+		while (!cancelled && ((len = istream.read(buffer)) > 0)) {
+		    ostream.write(buffer, 0, len);
+		    amount += len;
+		    buffer_size += len;
+		    if (buffer_size >= BUFFER_SIZE) {
+			buffer_size = buffer_size % BUFFER_SIZE;
+			signalTransfered(amount);
+		    }
+		    yield();
+		}
 
-                ostream.flush();
-            } catch (InterruptedIOException iioe) {
-                if (!cancelled) {
-                    log.error(iioe.getMessage(), iioe);
-                }
-            } catch (Exception e) {
-                log.error(e.getMessage(), e);
-            } finally {
-                log.debug("Closing inputstream");
-                if (istream != null) {
-                    istream.close();
-                }
-
-                log.debug("Setting socket to 0 lingering");
-                sock.setSoLinger(true, 0);
-                sock.close(); // make sure the socket is closed
-
-                signalTransferCompleted();
-            }
-        } catch (Exception ee) {
-            signalConnectionFailed(ee);
-            log.error(ee.getMessage(), ee);
-        }
-        if (signalClosure == true) {
-            signalConnectionClosed(new ConnectionEvent(parameters.getInetAddress(), parameters.getPort()));
-        }
-        sock = null;
+		ostream.flush();
+	    } catch (InterruptedIOException iioe) {
+		if (!cancelled) {
+		    log.error(iioe.getMessage(), iioe);
+		}
+	    } catch (Exception e) {
+		log.error(e.getMessage(), e);
+	    } finally {
+		log.debug("Closing inputstream");
+		if (istream != null) {
+		    istream.close();
+		}
+		if (!sock.isClosed()) {
+		    try {
+			log.debug("Setting socket to 0 lingering");
+			sock.setSoLinger(true, 0);
+			sock.close();
+		    } catch (SocketException e) {
+			// Don't care.
+		    }
+		}
+		signalTransferCompleted();
+	    }
+	} catch (Exception ee) {
+	    signalConnectionFailed(ee);
+	    log.error(ee.getMessage(), ee);
+	}
+	if (signalClosure == true) {
+	    signalConnectionClosed(new ConnectionEvent(parameters
+		    .getInetAddress(), parameters.getPort()));
+	}
+	sock = null;
     }
 }
 
