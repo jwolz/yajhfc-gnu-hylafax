@@ -39,6 +39,7 @@ import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
+import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -1405,8 +1406,15 @@ public class FtpClientProtocol extends Object {
 		throw (new ServerResponseException(response));
 	    }
 	} finally {
-	    sock.setSoLinger(true, 0); // Thanks Lieven!
-	    sock.close();
+	    if (sock != null && !sock.isClosed()) {
+		try {
+		    log.debug("Setting socket to 0 lingering");
+		    sock.setSoLinger(true, 0);
+		    sock.close();
+		} catch (SocketException e) {
+		    // Don't care.
+		}
+	    }
 	}
     }
 

@@ -29,6 +29,7 @@ import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.zip.InflaterInputStream;
 
 import org.apache.commons.logging.Log;
@@ -121,8 +122,8 @@ public class ActiveGetter extends Getter {
 	    server.setSoTimeout(timeout); // can only wait so long
 	    if (cancelled)
 		throw new InterruptedIOException("Transfer cancelled"); // small
-									// race
-									// condition
+	    // race
+	    // condition
 	    // here
 	    sock = server.accept();
 	    signalConnectionOpened(new ConnectionEvent(sock.getInetAddress(),
@@ -176,11 +177,15 @@ public class ActiveGetter extends Getter {
 		if (istream != null) {
 		    istream.close();
 		}
-
-		log.debug("Setting socket to 0 lingering");
-		sock.setSoLinger(true, 0);
-		sock.close(); // make sure the socket is closed
-
+		if (!sock.isClosed()) {
+		    try {
+			log.debug("Setting socket to 0 lingering");
+			sock.setSoLinger(true, 0);
+			sock.close();
+		    } catch (SocketException e) {
+			// Don't care.
+		    }
+		}
 		signalTransferCompleted();
 	    }
 	} catch (InterruptedIOException eiioe) {
