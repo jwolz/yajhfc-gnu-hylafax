@@ -158,6 +158,7 @@ public class StatusWatcher implements Runnable {
 	public void load() throws StatusEventException {
 	    try {
 		open(host, port);
+
 		if (user != null && !user.equals(""))
 		    user(user);
 
@@ -276,6 +277,8 @@ public class StatusWatcher implements Runnable {
 			    log.debug("message received: " + line);
 			    notify(line);
 			}
+			log.debug("input stream closed");
+			log.debug("thread is terminated? " + terminated);
 		    } finally {
 			in.close();
 		    }
@@ -306,6 +309,7 @@ public class StatusWatcher implements Runnable {
 	}
 
 	public void stop() {
+	    log.debug("faxwatcher stop called");
 	    if (!terminated) {
 		terminated = true;
 		try {
@@ -363,7 +367,7 @@ public class StatusWatcher implements Runnable {
 
     public static void main(String[] args) {
 	org.apache.log4j.BasicConfigurator.configure();
-	final String host1 = "10.0.0.205";
+	final String host1 = "10.0.0.121";
 	try {
 	    StatusWatcher.getInstance().addStatusEventListener(
 		    host1,
@@ -384,7 +388,7 @@ public class StatusWatcher implements Runnable {
 		    Event.SEND, Event.ALL, null);
 
 	    StatusWatcher.getInstance().addStatusEventListener(
-		    "10.0.0.222",
+		    host1,
 		    4559,
 		    "autofax",
 		    null,
@@ -502,6 +506,8 @@ public class StatusWatcher implements Runnable {
 		while (!terminated && !server.isClosed()) {
 		    log.debug("waiting for client connection");
 		    Socket socket = server.accept();
+		    socket.setKeepAlive(true);
+		    socket.setSoLinger(true, 0);
 		    log.debug("client connected");
 
 		    Watcher watcher = (Watcher) watchers.get(socket
