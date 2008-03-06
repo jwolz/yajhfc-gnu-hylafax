@@ -77,6 +77,10 @@ public class HylaFAXClientProtocol extends FtpClientProtocol implements
      */
     public static final String TZONE_LOCAL = "LOCAL";
 
+    protected String hylafaxServerTimeZone = null;
+
+    protected String version = null;
+
     /**
      * default constructor. sets up the initial class state.
      */
@@ -206,6 +210,27 @@ public class HylaFAXClientProtocol extends FtpClientProtocol implements
 	if (!response.substring(0, 3).equals("200")) {
 	    throw (new ServerResponseException(response));
 	}
+    }
+
+    /**
+     * @return the hylafax server version.
+     */
+    public String getServerVersion() {
+	if (version == null) {
+	    try {
+		String tmp = getGreeting();
+		if (tmp == null || tmp.equals(""))
+		    version = null;
+		else if (tmp.startsWith("220")) {
+		    version = tmp.substring(tmp.indexOf("(") + 1, tmp
+			    .lastIndexOf(")"));
+		}
+	    } catch (Exception e) {
+		version = null;
+		log.error("Cannot parse version from greeting", e);
+	    }
+	}
+	return version;
     }
 
     /*
@@ -734,7 +759,7 @@ public class HylaFAXClientProtocol extends FtpClientProtocol implements
      */
     public synchronized void open() throws UnknownHostException, IOException,
 	    ServerResponseException {
-	connect("localhost", DEFAULT_PORT);
+	open("localhost");
     }
 
     /*
@@ -744,7 +769,18 @@ public class HylaFAXClientProtocol extends FtpClientProtocol implements
      */
     public synchronized void open(String host) throws UnknownHostException,
 	    IOException, ServerResponseException {
-	connect(host, DEFAULT_PORT); // connect to default port
+	open(host, DEFAULT_PORT); // connect to default port
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see gnu.inet.ftp.FtpClientProtocol#open(java.lang.String, int)
+     */
+    public synchronized void open(String host, int p)
+	    throws UnknownHostException, IOException, ServerResponseException {
+	connect(host, p); // connect to default port
+	log.debug("Connected to: " + getServerVersion());
     }
 
     /*
@@ -915,8 +951,6 @@ public class HylaFAXClientProtocol extends FtpClientProtocol implements
 
 	return filename;
     }
-
-    protected String hylafaxServerTimeZone = null;
 
     /*
      * (non-Javadoc)
