@@ -39,18 +39,6 @@ public class BaseStatusEvent implements StatusEvent {
 
     protected String commId = null;
 
-    protected String parseCommId(String details) {
-	try {
-	    String tmp = prepStr(details.substring(details.indexOf("COM ") + 4,
-		    details.indexOf(")")));
-	    if (tmp != null)
-		return tmp;
-	} catch (Exception e) {
-	    log.warn(errorMsg("Cannot Parse CommId", details, e));
-	}
-	return null;
-    }
-
     protected String description = null;
 
     protected Event event = null;
@@ -102,6 +90,42 @@ public class BaseStatusEvent implements StatusEvent {
 		result += tmpExcept;
 	}
 	return prepStr(result);
+    }
+
+    public Date getClientTime() {
+	return clientTime;
+    }
+
+    public String getCommId() {
+	return commId;
+    }
+
+    public String getDescription() {
+	return description;
+    }
+
+    public Event getEvent() {
+	return event;
+    }
+
+    public String getServerStr() {
+	return serverStr;
+    }
+
+    public Date getServerTime() {
+	return serverTime;
+    }
+
+    protected String parseCommId(String details) {
+	try {
+	    String tmp = prepStr(details.substring(details.indexOf("COM ") + 4,
+		    details.indexOf(")")));
+	    if (tmp != null)
+		return tmp;
+	} catch (Exception e) {
+	    log.warn(errorMsg("Cannot Parse CommId", details, e));
+	}
+	return null;
     }
 
     protected String prepStr(String str) {

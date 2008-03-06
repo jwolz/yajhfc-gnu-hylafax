@@ -27,6 +27,6 @@ package gnu.hylafax.status;
  */
 public interface StatusEvent {
 
-    // TODO Add status event items here.
+    public String getServerStr();
 
 }

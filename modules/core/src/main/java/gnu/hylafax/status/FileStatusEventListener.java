@@ -60,7 +60,7 @@ public class FileStatusEventListener implements StatusEventListener {
 	    try {
 		FileWriter out = new FileWriter(file, true);
 		try {
-		    out.write(event.toString() + "\n");
+		    out.write(event.getServerStr() + "\n");
 		    out.flush();
 		} finally {
 		    out.close();
