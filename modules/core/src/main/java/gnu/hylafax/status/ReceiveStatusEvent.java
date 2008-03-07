@@ -154,6 +154,16 @@ public class ReceiveStatusEvent extends BaseStatusEvent {
 	return null;
     }
 
+    /**
+     * Parses the time to send a page or total time for a document.
+     * 
+     * @param details
+     *                the details of the event.
+     * @return the seconds it took to receive the fax.
+     * 
+     * @since HylaFAX v4.4.4
+     * @since HylaFAX+ v5.2.2
+     */
     private Integer parsePageSeconds(String details) {
 	String[] time = null;
 	try {
@@ -169,10 +179,13 @@ public class ReceiveStatusEvent extends BaseStatusEvent {
 	}
 
 	try {
-	    if (time != null && time.length == 3) {
-		int seconds = Integer.parseInt(time[0]) * 60 * 60;
-		seconds += Integer.parseInt(time[1]) * 60;
-		seconds += Integer.parseInt(time[2]);
+	    if (time != null && (time.length == 3 || time.length == 2)) {
+		int seconds = 0;
+		int index = 0;
+		if (time.length == 3)
+		    seconds += Integer.parseInt(time[index++]) * 60 * 60;
+		seconds += Integer.parseInt(time[index++].trim()) * 60;
+		seconds += Integer.parseInt(time[index++].trim());
 		return new Integer(seconds);
 	    }
 	    throw new Exception("Time String is null or wrong size");
