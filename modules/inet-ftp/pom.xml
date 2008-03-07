@@ -2,7 +2,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>gnu-hylafax</groupId>
+	<groupId>net.sf.gnu-hylafax</groupId>
 	<artifactId>gnu-hylafax-inet-ftp</artifactId>
 	<packaging>jar</packaging>
 	<version>1.0.1-SNAPSHOT</version>
@@ -14,7 +14,7 @@
 	</description>
 
 	<parent>
-		<groupId>gnu-hylafax</groupId>
+		<groupId>net.sf.gnu-hylafax</groupId>
 		<artifactId>gnu-hylafax</artifactId>
 		<version>1.0.1-SNAPSHOT</version>
 		<relativePath>../../pom.xml</relativePath>

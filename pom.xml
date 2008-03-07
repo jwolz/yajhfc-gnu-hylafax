@@ -1,7 +1,8 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>gnu-hylafax</groupId>
+	<groupId>net.sf.gnu-hylafax</groupId>
 	<artifactId>gnu-hylafax</artifactId>
 	<packaging>pom</packaging>
 	<version>1.0.1-SNAPSHOT</version>
@@ -72,20 +73,24 @@
 		</site>
 		<repository>
 			<id>inhouse</id>
-			<name>MJN Services, Inc. - Private Repository</name>
-			<url>dav:http://file:8080/proximity/dav/inhouse</url>
+			<name>GNU-HylaFAX Repository</name>
+			<url>scp://sjardine@shell.sourceforge.net/home/groups/g/gn/gnu-hylafax/m2repo</url>
 		</repository>
 		<snapshotRepository>
 			<id>inhouse.snapshot</id>
-			<name>MJN Services, Inc. - Private Snapshot Repository</name>
-			<url>dav:http://file:8080/proximity/dav/inhouse.snapshot</url>
+			<name>GNU-HylaFAX Snapshot Repository</name>
+			<url>scp://sjardine@shell.sourceforge.net/home/groups/g/gn/gnu-hylafax/m2repo.snapshot</url>
 		</snapshotRepository>
 	</distributionManagement>
 
 	<scm>
 		<url>https://gnu-hylafax.svn.sourceforge.net/svnroot/gnu-hylafax/tags/1.0.0-b1</url>
-		<connection>scm:svn:https://gnu-hylafax.svn.sourceforge.net/svnroot/gnu-hylafax/tags/1.0.0-b1</connection>
-		<developerConnection>scm:svn:https://gnu-hylafax.svn.sourceforge.net/svnroot/gnu-hylafax/tags/1.0.0-b1</developerConnection>
+		<connection>
+			scm:svn:https://gnu-hylafax.svn.sourceforge.net/svnroot/gnu-hylafax/tags/1.0.0-b1
+		</connection>
+		<developerConnection>
+			scm:svn:https://gnu-hylafax.svn.sourceforge.net/svnroot/gnu-hylafax/tags/1.0.0-b1
+		</developerConnection>
 	</scm>
 
 	<organization>
