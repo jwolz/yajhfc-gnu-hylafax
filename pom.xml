@@ -32,13 +32,6 @@
 	</modules>
 
 	<build>
-		<extensions>
-			<extension>
-				<groupId>org.apache.maven.wagon</groupId>
-				<artifactId>wagon-webdav</artifactId>
-				<version>1.0-beta-2</version>
-			</extension>
-		</extensions>
 		<plugins>
 			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
@@ -68,28 +61,23 @@
 
 	<distributionManagement>
 		<site>
-			<id>website</id>
-			<url>scp://sjardine@shell.sourceforge.net/home/groups/g/gn/gnu-hylafax/htdocs/</url>
+			<id>sourceforge</id>
+			<url>scp://shell.sourceforge.net/home/groups/g/gn/gnu-hylafax/htdocs</url>
 		</site>
 		<repository>
-			<id>inhouse</id>
+			<id>sourceforge</id>
 			<name>GNU-HylaFAX Repository</name>
-			<url>scp://sjardine@shell.sourceforge.net/home/groups/g/gn/gnu-hylafax/m2repo</url>
+			<url></url>
 		</repository>
-		<snapshotRepository>
-			<id>inhouse.snapshot</id>
-			<name>GNU-HylaFAX Snapshot Repository</name>
-			<url>scp://sjardine@shell.sourceforge.net/home/groups/g/gn/gnu-hylafax/m2repo.snapshot</url>
-		</snapshotRepository>
 	</distributionManagement>
 
 	<scm>
-		<url>https://gnu-hylafax.svn.sourceforge.net/svnroot/gnu-hylafax/tags/1.0.0-b1</url>
+		<url>https://gnu-hylafax.svn.sourceforge.net/svnroot/gnu-hylafax/tags/${project.version}</url>
 		<connection>
-			scm:svn:https://gnu-hylafax.svn.sourceforge.net/svnroot/gnu-hylafax/tags/1.0.0-b1
+			scm:svn:https://gnu-hylafax.svn.sourceforge.net/svnroot/gnu-hylafax/tags/${project.version}
 		</connection>
 		<developerConnection>
-			scm:svn:https://gnu-hylafax.svn.sourceforge.net/svnroot/gnu-hylafax/tags/1.0.0-b1
+			scm:svn:https://gnu-hylafax.svn.sourceforge.net/svnroot/gnu-hylafax/tags/${project.version}
 		</developerConnection>
 	</scm>
 
