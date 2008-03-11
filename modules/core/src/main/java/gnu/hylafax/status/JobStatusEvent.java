@@ -18,12 +18,8 @@
  ******************************************************************************/
 package gnu.hylafax.status;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.log4j.BasicConfigurator;
 
 /**
  * Represents a JOB event sent by the fax server.
@@ -34,24 +30,6 @@ import org.apache.log4j.BasicConfigurator;
 public class JobStatusEvent extends BaseStatusEvent {
 
     private static final Log log = LogFactory.getLog(JobStatusEvent.class);
-
-    public static void main(String[] args) {
-	try {
-	    BasicConfigurator.configure();
-	    String line = null;
-	    BufferedReader in = new BufferedReader(new FileReader(
-		    "/home/steve/Desktop/job-messages.txt"));
-	    while ((line = in.readLine()) != null) {
-		int eventId = Integer.parseInt(line.split(" ")[1]);
-		Event event = Event.getEvent(eventId);
-
-		StatusEvent statusEvent = new JobStatusEvent(event, line);
-		log.debug(statusEvent.toString());
-	    }
-	} catch (Exception e) {
-	    e.printStackTrace();
-	}
-    }
 
     protected String destination = null;
 

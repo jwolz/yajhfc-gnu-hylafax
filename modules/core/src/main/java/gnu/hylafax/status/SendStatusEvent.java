@@ -18,11 +18,6 @@
  ******************************************************************************/
 package gnu.hylafax.status;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-
-import org.apache.log4j.BasicConfigurator;
-
 /**
  * Represents a SEND event sent by the fax server.
  * 
@@ -30,25 +25,6 @@ import org.apache.log4j.BasicConfigurator;
  * @author Steven Jardine <steve@mjnservices.com>
  */
 public class SendStatusEvent extends JobStatusEvent {
-
-    public static void main(String[] args) {
-	try {
-	    BasicConfigurator.configure();
-	    String line = null;
-	    BufferedReader in = new BufferedReader(new FileReader(
-		    "/home/steve/Desktop/send-messages.txt"));
-	    while ((line = in.readLine()) != null) {
-		int eventId = Integer.parseInt(line.split(" ")[1]);
-		Event event = Event.getEvent(eventId);
-
-		StatusEvent statusEvent = new SendStatusEvent(event, line);
-		// System.out.println(line);
-		System.out.println(statusEvent.toString());
-	    }
-	} catch (Exception e) {
-	    e.printStackTrace();
-	}
-    }
 
     public SendStatusEvent(Event event, String serverStr) {
 	super(event, serverStr);

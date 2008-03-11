@@ -30,7 +30,8 @@ import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
 import java.util.TimeZone;
 
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * This class parses hylafax time Strings as used in hfaxd.conf for example to
@@ -85,7 +86,7 @@ public class TimeParser {
      */
     private static Map daysOfWeek = new HashMap();
 
-    private static final Logger logger = Logger.getLogger(TimeParser.class);
+    private static final Log logger = LogFactory.getLog(TimeParser.class);
 
     /**
      * HashMap containing valid month values and the corresponding Calendar
