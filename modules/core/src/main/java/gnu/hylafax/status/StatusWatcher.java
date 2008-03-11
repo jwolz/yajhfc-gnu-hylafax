@@ -366,7 +366,22 @@ public class StatusWatcher implements Runnable {
     }
 
     public static void main(String[] args) {
-	org.apache.log4j.BasicConfigurator.configure();
+
+	// configure log4j if present.
+	try {
+	    Class log4j = Class.forName("org.apache.log4j.BasicConfigurator");
+	    if (log4j != null) {
+		java.lang.reflect.Method method = log4j.getMethod("configure",
+			null);
+		if (method != null) {
+		    method.invoke(null, null);
+		}
+	    }
+	} catch (Exception e) {
+	    e.printStackTrace();
+	}
+
+	// Run status watcher.
 	final String host1 = "10.0.0.121";
 	try {
 	    StatusWatcher.getInstance().addStatusEventListener(

@@ -18,12 +18,8 @@
  ******************************************************************************/
 package gnu.hylafax.status;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.log4j.BasicConfigurator;
 
 /**
  * Represents a RECEIVE event sent by the fax server.
@@ -34,24 +30,6 @@ import org.apache.log4j.BasicConfigurator;
 public class ReceiveStatusEvent extends BaseStatusEvent {
 
     private static final Log log = LogFactory.getLog(ReceiveStatusEvent.class);
-
-    public static void main(String[] args) {
-	try {
-	    BasicConfigurator.configure();
-	    String line = null;
-	    BufferedReader in = new BufferedReader(new FileReader(
-		    "/home/steve/Desktop/receive-messages.txt"));
-	    while ((line = in.readLine()) != null) {
-		int eventId = Integer.parseInt(line.split(" ")[1]);
-		Event event = Event.getEvent(eventId);
-
-		StatusEvent statusEvent = new ReceiveStatusEvent(event, line);
-		System.err.println(statusEvent.toString());
-	    }
-	} catch (Exception e) {
-	    e.printStackTrace();
-	}
-    }
 
     private String bitRate = null;
 
