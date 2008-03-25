@@ -1,0 +1,48 @@
+ ------
+ A HylaFAX Client for Java
+ ------
+  Steven Jardine
+ ------
+  March 24, 2008
+
+Maven 2
+	
+	The easiest way to include gnu-hylafax into you Maven 2 enabled project 
+	is by including the	appropriate Maven 2 artifacts into your pom.xml.
+	
+	Simple GNU-HylaFAX client:	
+	
++--
+	<dependencies>
+		...
+		<dependency>
+			<groupId>net.sf.gnu-hylafax</groupId>
+			<artifactId>gnu-hylafax-core</artifactId>
+			<!-- Substitute appropriate version below -->
+			<version>1.0.1</version>
+			<scope>compile</scope>
+		</dependency>
+		...
+	</dependencies>
++--
+
+	Pooled GNU-HylaFAX client.
+
++--
+	<dependencies>
+		...
+		<dependency>
+			<groupId>net.sf.gnu-hylafax</groupId>
+			<artifactId>gnu-hylafax-pool</artifactId>
+			<!-- Substitute appropriate version below -->
+			<version>1.0.1</version>
+			<scope>compile</scope>
+		</dependency>
+		...
+	</dependencies>
++--
+
+Sourceforge Repository
+
+	The latest builds and sources can be found on SourceForge 
+	{{{ http://sourceforge.net/project/showfiles.php?group_id=160285 } here }}.
