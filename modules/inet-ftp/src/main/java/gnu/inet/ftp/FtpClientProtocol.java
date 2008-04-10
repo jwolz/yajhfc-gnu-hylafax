@@ -95,7 +95,7 @@ public class FtpClientProtocol extends Object {
 
     protected char fileType; // transfer file type
 
-    protected int socketTimeout = 0; // Socket timeout in Milliseconds. 0 =
+    protected int socketTimeout = 10000; // Socket timeout in Milliseconds. 0 =
 
     protected String hylafaxServerHost = null;
 
