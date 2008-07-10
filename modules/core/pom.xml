@@ -1,11 +1,10 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.sf.gnu-hylafax</groupId>
 	<artifactId>gnu-hylafax-core</artifactId>
 	<packaging>jar</packaging>
-	<version>1.0.1-SNAPSHOT</version>
+	<version>1.0.1</version>
 	<name>Core Module</name>
 	<url>http://gnu-hylafax.sourceforge.net/gnu-hylafax-core</url>
 	<description>The core module contains everything necessary to interface with HylaFAX server.</description>
@@ -13,7 +12,7 @@
 	<parent>
 		<groupId>net.sf.gnu-hylafax</groupId>
 		<artifactId>gnu-hylafax</artifactId>
-		<version>1.0.1-SNAPSHOT</version>
+		<version>1.0.1</version>
 		<relativePath>../../pom.xml</relativePath>
 	</parent>
 
@@ -26,8 +25,10 @@
 	</licenses>
 
 	<scm>
-		<url>https://gnu-hylafax.svn.sourceforge.net/svnroot/gnu-hylafax/tags/${project.version}</url>
-	</scm>
+		<url>scm:svn:https://gnu-hylafax.svn.sourceforge.net/svnroot/gnu-hylafax/tags/1.0.1</url>
+	  <connection>scm:svn:https://gnu-hylafax.svn.sourceforge.net/svnroot/gnu-hylafax/tags/1.0.1/gnu-hylafax-core</connection>
+    <developerConnection>scm:svn:https://gnu-hylafax.svn.sourceforge.net/svnroot/gnu-hylafax/tags/1.0.1/gnu-hylafax-core</developerConnection>
+  </scm>
 
 	<dependencies>
 		<dependency>
