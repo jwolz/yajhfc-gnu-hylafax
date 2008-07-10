@@ -5,13 +5,13 @@
 		<author email="sjardine@users.sourceforge.net">sjardine</author>
 	</properties>
 	<body>
-		<release version="1.0.1" date="??????">
-			<action dev="sjardine" type="add">
-				Prepared poms for inclusion into the Maven 2 repository.
+		<release version="1.0.1" date="2008-07-10">
+			<action dev="sjardine" type="fix">
+				Moved setSoLinger calls to immediately following socket creation.  Set the timeout to 0.25 seconds.
+				Hopefully this will make sure the call succeeds.
 			</action>
 			<action dev="sjardine" type="add">
-				Added event driver status watcher functionality. This is an implementation similar to the
-				faxwatch program found on the hylafax server.
+				Prepared poms for inclusion into the Maven 2 repository.
 			</action>
 			<action dev="sjardine" type="update">
 				Removed logging package in favor of apache's commons logging. This is ultimately more flexible
