@@ -1,6 +1,5 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.sf.gnu-hylafax</groupId>
 	<artifactId>gnu-hylafax</artifactId>
@@ -8,14 +7,10 @@
 	<version>1.0.1-SNAPSHOT</version>
 	<name>HylaFAX Protocol for Java</name>
 	<url>http://gnu-hylafax.sourceforge.net</url>
-	<description>
-		The GNU-HylaFAX package is a pure-Java implementation of the HylaFAX (FAX server) client protocol. The
-		GNU-HylaFAX package can be used to implement a HylaFAX client that will run on any Java-supporting
-		system.
+	<description> The GNU-HylaFAX package is a pure-Java implementation of the HylaFAX (FAX server) client protocol. The
+		GNU-HylaFAX package can be used to implement a HylaFAX client that will run on any Java-supporting system. 
 	</description>
-
 	<inceptionYear>2007</inceptionYear>
-
 	<licenses>
 		<license>
 			<name>GNU Lesser General Public License</name>
@@ -23,16 +18,26 @@
 			<distribution>repo</distribution>
 		</license>
 	</licenses>
-
 	<modules>
 		<module>modules/inet-ftp</module>
 		<module>modules/core</module>
 		<module>modules/pool</module>
 		<module>modules/utils</module>
 	</modules>
-
 	<build>
 		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
 				<configuration>
@@ -58,7 +63,6 @@
 			</plugin>
 		</plugins>
 	</build>
-
 	<distributionManagement>
 		<site>
 			<id>sourceforge</id>
@@ -70,22 +74,16 @@
 			<url>scp://shell.sourceforge.net/home/groups/g/gn/gnu-hylafax/m2repo</url>
 		</repository>
 	</distributionManagement>
-
 	<scm>
 		<url>https://gnu-hylafax.svn.sourceforge.net/svnroot/gnu-hylafax/tags/${project.version}</url>
-		<connection>
-			scm:svn:https://gnu-hylafax.svn.sourceforge.net/svnroot/gnu-hylafax/tags/${project.version}
-		</connection>
-		<developerConnection>
-			scm:svn:https://gnu-hylafax.svn.sourceforge.net/svnroot/gnu-hylafax/tags/${project.version}
+		<connection> scm:svn:https://gnu-hylafax.svn.sourceforge.net/svnroot/gnu-hylafax/tags/${project.version} </connection>
+		<developerConnection> scm:svn:https://gnu-hylafax.svn.sourceforge.net/svnroot/gnu-hylafax/tags/${project.version} 
 		</developerConnection>
 	</scm>
-
 	<organization>
 		<name>Steven Jardine</name>
 		<url>mailto:steve@mjnservices.com</url>
 	</organization>
-
 	<issueManagement>
 		<system>Sourceforge Bug Tracker</system>
 		<url>
@@ -94,7 +92,6 @@
 			]]>
 		</url>
 	</issueManagement>
-
 	<reporting>
 		<plugins>
 			<plugin>
@@ -121,7 +118,6 @@
 					</reportSet>
 				</reportSets>
 			</plugin>
-
 			<plugin>
 				<artifactId>maven-javadoc-plugin</artifactId>
 			</plugin>
@@ -171,7 +167,6 @@
 			</plugin>
 		</plugins>
 	</reporting>
-
 	<developers>
 		<developer>
 			<id>sjardine</id>
@@ -195,7 +190,6 @@
 			<organization>Innovation Software Group</organization>
 		</developer>
 	</developers>
-
 	<contributors>
 		<contributor>
 			<name>Bernd Proissl</name>
@@ -242,8 +236,6 @@
 			<name>Jonas Wolz</name>
 		</contributor>
 	</contributors>
-
-
 	<mailingLists>
 		<mailingList>
 			<name>Announce</name>
@@ -267,5 +259,4 @@
 			<archive>https://sourceforge.net/mailarchive/forum.php?forum_name=gnu-hylafax-support</archive>
 		</mailingList>
 	</mailingLists>
-
 </project>
