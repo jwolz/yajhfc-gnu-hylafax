@@ -29,7 +29,6 @@ import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.SocketException;
 import java.util.zip.InflaterInputStream;
 
 import org.apache.commons.logging.Log;
@@ -57,7 +56,7 @@ public class ActiveGetter extends Getter {
      * Create a new ActiveGetter with the given OutputStream for data output.
      * 
      * @throws IOException
-     *                 an IO error occurred with the ServerSocket
+     *             an IO error occurred with the ServerSocket
      */
     public ActiveGetter(OutputStream out) throws IOException {
 	super();
@@ -99,7 +98,7 @@ public class ActiveGetter extends Getter {
      * before start()/run() for the value to take affect.
      * 
      * @param milliseconds
-     *                the socket timeout value in milliseconds
+     *            the socket timeout value in milliseconds
      */
     public void setTimeout(int milliseconds) {
 	timeout = milliseconds;
@@ -126,6 +125,7 @@ public class ActiveGetter extends Getter {
 	    // condition
 	    // here
 	    sock = server.accept();
+	    sock.setSoLinger(true, 250);
 	    signalConnectionOpened(new ConnectionEvent(sock.getInetAddress(),
 		    sock.getPort()));
 	    signalClosure = true;
@@ -178,13 +178,7 @@ public class ActiveGetter extends Getter {
 		    istream.close();
 		}
 		if (!sock.isClosed()) {
-		    try {
-			log.debug("Setting socket to 0 lingering");
-			sock.setSoLinger(true, 0);
-			sock.close();
-		    } catch (SocketException e) {
-			// Don't care.
-		    }
+		    sock.close();
 		}
 		signalTransferCompleted();
 	    }

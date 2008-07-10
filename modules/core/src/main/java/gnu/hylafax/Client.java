@@ -17,7 +17,6 @@
  ******************************************************************************/
 package gnu.hylafax;
 
-import gnu.hylafax.status.StatusEventSource;
 import gnu.inet.ftp.ConnectionEventSource;
 import gnu.inet.ftp.ServerResponseException;
 import gnu.inet.ftp.TransferEventSource;
@@ -34,7 +33,7 @@ import java.util.Vector;
  * @author Steven Jardine <steve@mjnservices.com>
  */
 public interface Client extends ClientProtocol, TransferEventSource,
-	ConnectionEventSource, StatusEventSource {
+	ConnectionEventSource {
 
     /**
      * Create a new job in the server
@@ -42,8 +41,7 @@ public interface Client extends ClientProtocol, TransferEventSource,
      * @return a new Job instance on the server
      * @exception ServerResponseException
      * @exception IOException
-     *                    an IO error occurred while communicating with the
-     *                    server
+     *                an IO error occurred while communicating with the server
      */
     public Job createJob() throws ServerResponseException, IOException;
 
@@ -51,10 +49,10 @@ public interface Client extends ClientProtocol, TransferEventSource,
      * Delete the given done or suspended job @
      * 
      * param job the (done or suspended) job to delete
+     * 
      * @exception ServerResponseException
      * @exception IOException
-     *                    an IO error occurred while communicating with the
-     *                    server
+     *                an IO error occurred while communicating with the server
      */
     public void delete(Job job) throws ServerResponseException, IOException;
 
@@ -62,16 +60,16 @@ public interface Client extends ClientProtocol, TransferEventSource,
      * GET the named file, FTP style.
      * 
      * @param path
-     *                the name of the file to GET. This can be a full or partial
-     *                path.
+     *            the name of the file to GET. This can be a full or partial
+     *            path.
      * @param out
-     *                the OutputStream to write the file data to
+     *            the OutputStream to write the file data to
      * @exception IOException
-     *                    an IO error occurred
+     *                an IO error occurred
      * @exception ServerResponseException
-     *                    the server reported an error
+     *                the server reported an error
      * @exception FileNotFoundException
-     *                    the given path does not exist
+     *                the given path does not exist
      */
     public void get(String path, OutputStream out) throws IOException,
 	    FileNotFoundException, ServerResponseException;
@@ -80,11 +78,10 @@ public interface Client extends ClientProtocol, TransferEventSource,
      * get a Job instance for the given job id
      * 
      * @param id
-     *                the id of the job to get
+     *            the id of the job to get
      * @exception ServerResponseException
      * @exception IOException
-     *                    an IO error occurred while communicating with the
-     *                    server
+     *                an IO error occurred while communicating with the server
      */
     public Job getJob(long id) throws ServerResponseException, IOException;
 
@@ -93,11 +90,11 @@ public interface Client extends ClientProtocol, TransferEventSource,
      * calls the list() method internally with the "." path.
      * 
      * @exception IOException
-     *                    an IO error occurred
+     *                an IO error occurred
      * @exception FileNotFoundException
-     *                    the "." path doesn't exist
+     *                the "." path doesn't exist
      * @exception ServerResponseException
-     *                    the server reported an error
+     *                the server reported an error
      * @return a Vector of Strings containing the list information
      */
     public Vector getList() throws IOException, FileNotFoundException,
@@ -108,13 +105,13 @@ public interface Client extends ClientProtocol, TransferEventSource,
      * calls the list() method internally.
      * 
      * @param path
-     *                the path that we're interested in finding the contents of
+     *            the path that we're interested in finding the contents of
      * @exception IOException
-     *                    an IO error occurred
+     *                an IO error occurred
      * @exception FileNotFoundException
-     *                    the given path doesn't exist
+     *                the given path doesn't exist
      * @exception ServerResponseException
-     *                    the server reported an error
+     *                the server reported an error
      * @return a Vector of Strings containing the list information
      */
     public Vector getList(String path) throws IOException,
@@ -126,11 +123,11 @@ public interface Client extends ClientProtocol, TransferEventSource,
      * information.
      * 
      * @exception IOException
-     *                    an IO error occurred
+     *                an IO error occurred
      * @exception ServerResponseException
-     *                    the server reported an error
+     *                the server reported an error
      * @exception FileNotFoundException
-     *                    the requested path does not exist
+     *                the requested path does not exist
      * @return Vector of Strings containing filenames
      */
     public Vector getNameList() throws IOException, ServerResponseException,
@@ -142,13 +139,13 @@ public interface Client extends ClientProtocol, TransferEventSource,
      * information.
      * 
      * @param path
-     *                the path of the directory that we want the name list of
+     *            the path of the directory that we want the name list of
      * @exception IOException
-     *                    an IO error occurred
+     *                an IO error occurred
      * @exception ServerResponseException
-     *                    the server reported an error
+     *                the server reported an error
      * @exception FileNotFoundException
-     *                    the requested path does not exist
+     *                the requested path does not exist
      * @return Vector of Strings containing filenames
      */
     public Vector getNameList(String path) throws IOException,
@@ -165,11 +162,10 @@ public interface Client extends ClientProtocol, TransferEventSource,
      * interrupt the given job
      * 
      * @param job
-     *                the job to interrupt
+     *            the job to interrupt
      * @exception ServerResponseException
      * @exception IOException
-     *                    an IO error occurred while communicating with the
-     *                    server
+     *                an IO error occurred while communicating with the server
      */
     public void interrupt(Job job) throws ServerResponseException, IOException;
 
@@ -177,11 +173,10 @@ public interface Client extends ClientProtocol, TransferEventSource,
      * kill the given job
      * 
      * @param job
-     *                the job to kill
+     *            the job to kill
      * @exception ServerResponseException
      * @exception IOException
-     *                    an IO error occurred while communicating with the
-     *                    server
+     *                an IO error occurred while communicating with the server
      */
     public void kill(Job job) throws ServerResponseException, IOException;
 
@@ -190,11 +185,11 @@ public interface Client extends ClientProtocol, TransferEventSource,
      * ClientProtocol class.
      * 
      * @param mode
-     *                the new mode setting
+     *            the new mode setting
      * @exception IOException
-     *                    an io error occurred talking to the server
+     *                an io error occurred talking to the server
      * @exception ServerResponseException
-     *                    the server replied with an error code
+     *                the server replied with an error code
      */
     public void mode(char mode) throws IOException, ServerResponseException;
 
@@ -202,9 +197,9 @@ public interface Client extends ClientProtocol, TransferEventSource,
      * put a file with a unique name. NOTE: this calls stou() internally.
      * 
      * @exception IOException
-     *                    a socket IO error occurred
+     *                a socket IO error occurred
      * @exception ServerResponseException
-     *                    the server responded with an error code
+     *                the server responded with an error code
      * @return the name of the file created
      */
     public String put(InputStream in) throws IOException,
@@ -214,12 +209,12 @@ public interface Client extends ClientProtocol, TransferEventSource,
      * store a file. NOTE: this calls stor() internally.
      * 
      * @param pathname
-     *                name of file to store on server (where to put the file on
-     *                the server)
+     *            name of file to store on server (where to put the file on the
+     *            server)
      * @exception IOException
-     *                    a socket IO error occurred
+     *                a socket IO error occurred
      * @exception ServerResponseException
-     *                    the server responded with an error
+     *                the server responded with an error
      */
     public void put(InputStream in, String pathname) throws IOException,
 	    ServerResponseException;
@@ -230,9 +225,9 @@ public interface Client extends ClientProtocol, TransferEventSource,
      * NOTE: this calls stot() internally.
      * 
      * @exception IOException
-     *                    io error occurred talking to the server
+     *                io error occurred talking to the server
      * @exception ServerResponseException
-     *                    server replied with error code
+     *                server replied with error code
      * @return the filename of the temp file
      */
     public String putTemporary(InputStream data) throws IOException,
@@ -242,7 +237,7 @@ public interface Client extends ClientProtocol, TransferEventSource,
      * enable or disable passive transfers
      * 
      * @param passive
-     *                indicates whether passive transfers should be used
+     *            indicates whether passive transfers should be used
      */
     public void setPassive(boolean passive);
 
@@ -250,11 +245,10 @@ public interface Client extends ClientProtocol, TransferEventSource,
      * submit the given job to the scheduler
      * 
      * @param job
-     *                the Job to submit
+     *            the Job to submit
      * @exception ServerResponseException
      * @exception IOException
-     *                    an IO error occurred while communicating with the
-     *                    server
+     *                an IO error occurred while communicating with the server
      */
     public void submit(Job job) throws ServerResponseException, IOException;
 
@@ -262,11 +256,10 @@ public interface Client extends ClientProtocol, TransferEventSource,
      * suspend the given job from the scheduler
      * 
      * @param job
-     *                the Job to suspend
+     *            the Job to suspend
      * @exception ServerResponseException
      * @exception IOException
-     *                    an IO error occurred while communicating with the
-     *                    server
+     *                an IO error occurred while communicating with the server
      */
     public void suspend(Job job) throws ServerResponseException, IOException;
 
@@ -274,7 +267,7 @@ public interface Client extends ClientProtocol, TransferEventSource,
      * Specify the type of file being sent.
      * 
      * @param type
-     *                the type of file being sent.
+     *            the type of file being sent.
      * @throws ServerResponseException
      * @throws IOException
      */
@@ -284,11 +277,10 @@ public interface Client extends ClientProtocol, TransferEventSource,
      * wait for the given job to complete
      * 
      * @param job
-     *                the job to wait for
+     *            the job to wait for
      * @exception ServerResponseException
      * @exception IOException
-     *                    an IO error occurred while communicating with the
-     *                    server
+     *                an IO error occurred while communicating with the server
      */
     public void wait(Job job) throws ServerResponseException, IOException;
 

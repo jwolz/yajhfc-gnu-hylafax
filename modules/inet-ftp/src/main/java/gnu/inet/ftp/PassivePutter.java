@@ -23,7 +23,6 @@ import java.io.InputStream;
 import java.io.InterruptedIOException;
 import java.io.OutputStream;
 import java.net.Socket;
-import java.net.SocketException;
 import java.util.zip.DeflaterOutputStream;
 
 import org.apache.commons.logging.Log;
@@ -46,9 +45,9 @@ public class PassivePutter extends Putter {
      * PssiveParameters to use to connect to the server.
      * 
      * @param in
-     *                data source
+     *            data source
      * @param connection
-     *                the passive connection to the server
+     *            the passive connection to the server
      */
     /**
      * @param in
@@ -81,6 +80,8 @@ public class PassivePutter extends Putter {
 	try {
 	    // make connection
 	    sock = connection.getSocket();
+	    sock.setSoLinger(true, 250);
+
 	    if (cancelled)
 		throw new InterruptedIOException("Transfer cancelled");
 	    signalConnectionOpened(new ConnectionEvent(parameters
@@ -133,13 +134,7 @@ public class PassivePutter extends Putter {
 		    ostream.close();
 		}
 		if (!sock.isClosed()) {
-		    try {
-			log.debug("Setting socket to 0 lingering");
-			sock.setSoLinger(true, 0);
-			sock.close();
-		    } catch (SocketException e) {
-			// Don't care.
-		    }
+		    sock.close();
 		}
 		signalTransferCompleted();
 	    }
