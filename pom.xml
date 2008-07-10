@@ -67,7 +67,7 @@
 		<repository>
 			<id>sourceforge</id>
 			<name>GNU-HylaFAX Repository</name>
-			<url></url>
+			<url>scp://shell.sourceforge.net/home/groups/g/gn/gnu-hylafax/m2repo</url>
 		</repository>
 	</distributionManagement>
 
