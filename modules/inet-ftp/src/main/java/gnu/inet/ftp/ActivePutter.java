@@ -26,6 +26,7 @@ import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.zip.DeflaterOutputStream;
 
 import org.apache.commons.logging.Log;
@@ -53,9 +54,9 @@ public class ActivePutter extends Putter {
      * Create a new ActivePutter thread given the InputStream data source.
      * 
      * @param in
-     *            data source
+     *                data source
      * @exception IOException
-     *                io error with the ServerSocket
+     *                    io error with the ServerSocket
      */
     public ActivePutter(InputStream in) throws IOException {
 	super();
@@ -113,8 +114,6 @@ public class ActivePutter extends Putter {
 	    // condition
 	    // here
 	    sock = server.accept();
-	    sock.setSoLinger(true, 250);
-
 	    signalConnectionOpened(new ConnectionEvent(sock.getInetAddress(),
 		    sock.getPort()));
 	    signalTransferStarted();
@@ -164,7 +163,13 @@ public class ActivePutter extends Putter {
 		    ostream.close();
 		}
 		if (!sock.isClosed()) {
-		    sock.close();
+		    try {
+			log.debug("Setting socket to 0 lingering");
+			sock.setSoLinger(true, 0);
+			sock.close();
+		    } catch (SocketException e) {
+			// Don't care.
+		    }
 		}
 		signalTransferCompleted();
 	    }
@@ -191,8 +196,9 @@ public class ActivePutter extends Putter {
      * start()/run()
      * 
      * @param milliseconds
-     *            the number of milliseconds the server socket should wait for a
-     *            connection before timing-out. the default timeout is 30s
+     *                the number of milliseconds the server socket should wait
+     *                for a connection before timing-out. the default timeout is
+     *                30s
      */
     public void setTimeout(int milliseconds) {
 	timeout = milliseconds;
