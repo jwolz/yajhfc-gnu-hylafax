@@ -27,6 +27,7 @@ import java.io.InputStream;
 import java.io.InterruptedIOException;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.zip.InflaterInputStream;
 
 import org.apache.commons.logging.Log;
@@ -43,8 +44,6 @@ public class PassiveGetter extends Getter {
     private Socket sock = null;
 
     private final static Log log = LogFactory.getLog(PassiveGetter.class);
-
-    //
 
     /**
      * Create a new PassiveGetter instance with the given OutpuStream for data
@@ -74,12 +73,15 @@ public class PassiveGetter extends Getter {
 	if (!cancelled) {
 	    cancelled = true;
 	    interrupt();
-	    if (sock != null)
+	    if (sock != null && !sock.isClosed()) {
 		try {
+		    log.debug("Setting socket to 0 lingering");
+		    sock.setSoLinger(true, 0);
 		    sock.close(); // Interrupt I/O
 		} catch (IOException e) {
 		    // do nothing
 		}
+	    }
 	}
     }
 
@@ -99,8 +101,6 @@ public class PassiveGetter extends Getter {
 	try {
 	    // make connection
 	    sock = connection.getSocket();
-	    sock.setSoLinger(true, 250);
-
 	    if (cancelled)
 		throw new InterruptedIOException("Transfer cancelled");
 	    signalConnectionOpened(new ConnectionEvent(parameters
@@ -155,7 +155,13 @@ public class PassiveGetter extends Getter {
 		    istream.close();
 		}
 		if (!sock.isClosed()) {
-		    sock.close();
+		    try {
+			log.debug("Setting socket to 0 lingering");
+			sock.setSoLinger(true, 0);
+			sock.close();
+		    } catch (SocketException e) {
+			// Don't care.
+		    }
 		}
 		signalTransferCompleted();
 	    }
