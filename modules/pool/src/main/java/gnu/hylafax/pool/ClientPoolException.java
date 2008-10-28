@@ -29,11 +29,11 @@ package gnu.hylafax.pool;
 public class ClientPoolException extends Exception {
 
     public ClientPoolException() {
-        super();
+	super();
     }
 
     public ClientPoolException(String message) {
-        super(message);
+	super(message);
     }
 
 }
