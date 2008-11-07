@@ -1,10 +1,9 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.sf.gnu-hylafax</groupId>
 	<artifactId>gnu-hylafax</artifactId>
 	<packaging>pom</packaging>
-	<version>1.0.2-SNAPSHOT</version>
+	<version>1.0.2</version>
 	<name>HylaFAX Protocol for Java</name>
 	<url>http://gnu-hylafax.sourceforge.net</url>
 	<description> The GNU-HylaFAX package is a pure-Java implementation of the HylaFAX (FAX server) client protocol. The
@@ -87,9 +86,9 @@
 		</repository>
 	</distributionManagement>
 	<scm>
-		<url>https://gnu-hylafax.svn.sourceforge.net/svnroot/gnu-hylafax/tags/1.0.1-SNAPSHOT</url>
-		<connection>scm:svn:https://gnu-hylafax.svn.sourceforge.net/svnroot/gnu-hylafax/tags/1.0.1-SNAPSHOT</connection>
-		<developerConnection>scm:svn:https://gnu-hylafax.svn.sourceforge.net/svnroot/gnu-hylafax/tags/1.0.1-SNAPSHOT</developerConnection>
+		<url>https://gnu-hylafax.svn.sourceforge.net/svnroot/gnu-hylafax/tags/1.0.2</url>
+		<connection>scm:svn:https://gnu-hylafax.svn.sourceforge.net/svnroot/gnu-hylafax/tags/1.0.2</connection>
+		<developerConnection>scm:svn:https://gnu-hylafax.svn.sourceforge.net/svnroot/gnu-hylafax/tags/1.0.2</developerConnection>
 	</scm>
 	<organization>
 		<name>Steven Jardine</name>
