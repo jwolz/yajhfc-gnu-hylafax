@@ -4,7 +4,7 @@
 	<groupId>net.sf.gnu-hylafax</groupId>
 	<artifactId>gnu-hylafax-pool</artifactId>
 	<packaging>jar</packaging>
-	<version>1.0.2</version>
+	<version>1.0.3-SNAPSHOT</version>
 	<name>Client Pooling Module</name>
 	<url>http://gnu-hylafax.sourceforge.net/gnu-hylafax-pool</url>
 	<description>
@@ -15,7 +15,7 @@
 	<parent>
 		<groupId>net.sf.gnu-hylafax</groupId>
 		<artifactId>gnu-hylafax</artifactId>
-		<version>1.0.2</version>
+		<version>1.0.3-SNAPSHOT</version>
 		<relativePath>../../pom.xml</relativePath>
 	</parent>
 
@@ -28,7 +28,7 @@
 	</licenses>
 
 	<scm>
-		<url>scm:svn:https://gnu-hylafax.svn.sourceforge.net/svnroot/gnu-hylafax/tags/1.0.2/gnu-hylafax-pool</url>
+		<url>scm:svn:https://gnu-hylafax.svn.sourceforge.net/svnroot/gnu-hylafax/tags/1.0.2</url>
 	  <connection>scm:svn:https://gnu-hylafax.svn.sourceforge.net/svnroot/gnu-hylafax/tags/1.0.2/gnu-hylafax-pool</connection>
     <developerConnection>scm:svn:https://gnu-hylafax.svn.sourceforge.net/svnroot/gnu-hylafax/tags/1.0.2/gnu-hylafax-pool</developerConnection>
   </scm>
