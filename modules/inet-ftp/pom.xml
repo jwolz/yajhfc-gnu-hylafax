@@ -4,7 +4,7 @@
 	<groupId>net.sf.gnu-hylafax</groupId>
 	<artifactId>gnu-hylafax-inet-ftp</artifactId>
 	<packaging>jar</packaging>
-	<version>1.0.2</version>
+	<version>1.0.2-SNAPSHOT</version>
 	<name>Inet-FTP Module</name>
 	<url>http://gnu-hylafax.sourceforge.net/gnu-hylafax-inet-ftp</url>
 	<description>
@@ -15,7 +15,7 @@
 	<parent>
 		<groupId>net.sf.gnu-hylafax</groupId>
 		<artifactId>gnu-hylafax</artifactId>
-		<version>1.0.2</version>
+		<version>1.0.2-SNAPSHOT</version>
 		<relativePath>../../pom.xml</relativePath>
 	</parent>
 
