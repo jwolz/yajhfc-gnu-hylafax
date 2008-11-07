@@ -1,0 +1,824 @@
+2008-11-07 17:38  sjardine
+
+	* src/changes/changes.xml, src/site/apt/download.apt: Updated site
+	  documentation in preparation for release.
+
+2008-11-07 17:14  sjardine
+
+	* modules/utils/.settings/org.eclipse.jdt.core.prefs,
+	  modules/utils/src/main/java/gnu/hylafax/util/JobTest.java:
+
+2008-11-07 17:14  sjardine
+
+	* modules/core/src/main/java/gnu/hylafax/HylaFAXClientProtocol.java:
+	  OK. This time the inherit functionality works.
+
+2008-11-07 17:06  sjardine
+
+	* modules/core/src/main/java/gnu/hylafax/ClientProtocol.java,
+	  modules/core/src/main/java/gnu/hylafax/HylaFAXClientProtocol.java,
+	  modules/core/src/main/java/gnu/hylafax/job/Job.java: Changed
+	  default functionality of the jnew and Job constructors to select
+	  the default job prior to creating a new job.
+
+2008-10-30 04:43  sjardine
+
+	* pom.xml:
+
+2008-10-30 04:37  sjardine
+
+	* pom.xml:
+
+2008-10-28 18:30  sjardine
+
+	* modules/utils/.settings/org.eclipse.jdt.core.prefs:
+
+2008-10-28 18:22  sjardine
+
+	* modules/inet-ftp/src/main/java/gnu/inet/ftp/ActiveGetter.java,
+	  modules/inet-ftp/src/main/java/gnu/inet/ftp/ActivePutter.java,
+	  modules/inet-ftp/src/main/java/gnu/inet/ftp/FtpClientProtocol.java,
+	  modules/inet-ftp/src/main/java/gnu/inet/ftp/PassiveGetter.java,
+	  modules/inet-ftp/src/main/java/gnu/inet/ftp/PassivePutter.java:
+	  Reverted setSoLinger to calls to just prior to close.
+
+2008-10-28 18:15  sjardine
+
+	* .classpath, .settings/org.eclipse.jdt.core.prefs,
+	  .settings/org.maven.ide.eclipse.prefs, modules/core/.classpath,
+	  modules/core/.project,
+	  modules/core/.settings/org.eclipse.jdt.core.prefs,
+	  modules/core/.settings/org.maven.ide.eclipse.prefs,
+	  modules/inet-ftp/.classpath, modules/inet-ftp/.project,
+	  modules/inet-ftp/.settings/org.eclipse.jdt.core.prefs,
+	  modules/inet-ftp/.settings/org.maven.ide.eclipse.prefs,
+	  modules/pool/.classpath, modules/pool/.project,
+	  modules/pool/.settings/org.eclipse.jdt.core.prefs,
+	  modules/pool/.settings/org.maven.ide.eclipse.prefs,
+	  modules/pool/src/main/java/gnu/hylafax/pool/ClientPoolException.java,
+	  modules/utils/.classpath, modules/utils/.project,
+	  modules/utils/.settings/org.eclipse.jdt.core.prefs,
+	  modules/utils/.settings/org.maven.ide.eclipse.prefs, pom.xml:
+	  Updated eclipse project settings for use with the m2eclipse
+	  plugin. Dropped support for jdk1.3 versions.
+
+2008-07-10 20:45  sjardine
+
+	* modules/core/pom.xml, modules/inet-ftp/pom.xml,
+	  modules/pool/pom.xml, modules/utils/pom.xml, pom.xml:
+	  [maven-release-plugin] prepare for next development iteration
+
+2008-07-10 20:45  sjardine
+
+	* modules/core/pom.xml, modules/inet-ftp/pom.xml,
+	  modules/pool/pom.xml, modules/utils/pom.xml, pom.xml:
+	  [maven-release-plugin] prepare release 1.0.1
+
+2008-07-10 20:39  sjardine
+
+	* src/changes/changes.xml: Update revision history.
+
+2008-07-10 20:39  sjardine
+
+	* pom.xml: Added source jars to maven repository.
+
+2008-07-10 20:35  sjardine
+
+	* pom.xml: Update pom.xml with deploy url.
+
+2008-07-10 20:32  sjardine
+
+	* modules/core/src/main/java/gnu/hylafax/Client.java,
+	  modules/core/src/main/java/gnu/hylafax/HylaFAXClient.java,
+	  modules/core/src/main/java/gnu/hylafax/status,
+	  modules/inet-ftp/src/main/java/gnu/inet/ftp/ActiveGetter.java,
+	  modules/inet-ftp/src/main/java/gnu/inet/ftp/ActivePutter.java,
+	  modules/inet-ftp/src/main/java/gnu/inet/ftp/FtpClientProtocol.java,
+	  modules/inet-ftp/src/main/java/gnu/inet/ftp/PassiveGetter.java,
+	  modules/inet-ftp/src/main/java/gnu/inet/ftp/PassivePutter.java:
+	  Removed status watcher code. Will integrate it into a separate
+	  module.
+
+2008-04-10 03:45  sjardine
+
+	* modules/pool/src/main/java/gnu/hylafax/pool/ClientPool.java,
+	  modules/pool/src/main/java/gnu/hylafax/pool/HylaFAXPooledClient.java:
+	  Pool now reopens connections after connection to server is lost.
+
+2008-04-10 03:44  sjardine
+
+	* modules/inet-ftp/src/main/java/gnu/inet/ftp/FtpClientProtocol.java:
+	  Changed socket timeout from indefinite to 10 seconds.
+
+2008-03-25 02:36  sjardine
+
+	* src/changes/changes.xml, src/site/apt/download.apt,
+	  src/site/site.xml: Added download documentation and updated
+	  recent changes.
+
+2008-03-12 21:38  sjardine
+
+	* modules/core/pom.xml, modules/inet-ftp/pom.xml,
+	  modules/pool/pom.xml, modules/utils/pom.xml:
+
+2008-03-11 18:06  sjardine
+
+	* .classpath, .settings/org.eclipse.jdt.core.prefs,
+	  modules/core/src/main/java/gnu/hylafax/job/TimeParser.java,
+	  modules/core/src/main/java/gnu/hylafax/status/JobStatusEvent.java,
+	  modules/core/src/main/java/gnu/hylafax/status/ReceiveStatusEvent.java,
+	  modules/core/src/main/java/gnu/hylafax/status/SendStatusEvent.java,
+	  modules/core/src/main/java/gnu/hylafax/status/StatusWatcher.java:
+	  Remove any log4j dependencies.
+
+2008-03-10 14:41  sjardine
+
+	* pom.xml: Moved repository to sourceforge to get ready for maven
+	  repo sync.
+
+2008-03-07 00:19  sjardine
+
+	* modules/core/src/main/java/gnu/hylafax/status/ReceiveStatusEvent.java:
+	  Fixed bug with parsing page time when using HylaFAX version 4.4.4
+
+2008-03-07 00:18  sjardine
+
+	* modules/core/pom.xml, modules/inet-ftp/pom.xml,
+	  modules/pool/pom.xml, modules/utils/pom.xml, pom.xml: Prepare
+	  GNU-HylaFAX for inclusion in the maven repository.
+
+2008-03-06 21:39  sjardine
+
+	* modules/core/src/main/java/gnu/hylafax/status/BaseStatusEvent.java,
+	  modules/core/src/main/java/gnu/hylafax/status/FileStatusEventListener.java,
+	  modules/core/src/main/java/gnu/hylafax/status/StatusEvent.java:
+	  Added getServerStr to the StatusEvent interface and classes.
+	  Added a few getters to the BaseStatusEvent.
+
+2008-03-06 00:10  sjardine
+
+	* modules/core/src/main/java/gnu/hylafax/status/StatusWatcher.java:
+	  Logging, setSoLinger call, setKeepAlive call.
+
+2008-03-06 00:08  sjardine
+
+	* modules/core/src/main/java/gnu/hylafax/HylaFAXClientProtocol.java:
+	  Added getServerVersion function and logging.
+
+2008-03-04 16:18  sjardine
+
+	* modules/inet-ftp/src/main/java/gnu/inet/ftp/ActiveGetter.java,
+	  modules/inet-ftp/src/main/java/gnu/inet/ftp/ActivePutter.java,
+	  modules/inet-ftp/src/main/java/gnu/inet/ftp/FtpClientProtocol.java,
+	  modules/inet-ftp/src/main/java/gnu/inet/ftp/PassiveConnection.java,
+	  modules/inet-ftp/src/main/java/gnu/inet/ftp/PassiveGetter.java,
+	  modules/inet-ftp/src/main/java/gnu/inet/ftp/PassivePutter.java:
+	  Ignored possible socket exceptions when setting setSoLinger and
+	  closing socket.
+
+2008-02-29 22:40  sjardine
+
+	* modules/inet-ftp/src/main/java/gnu/inet/ftp/ActiveGetter.java,
+	  modules/inet-ftp/src/main/java/gnu/inet/ftp/ActivePutter.java:
+	  Reverted to revision 70 and fixed logging.
+
+2008-02-29 04:51  sjardine
+
+	* .classpath,
+	  modules/core/src/main/java/gnu/hylafax/HylaFAXClient.java,
+	  modules/core/src/main/java/gnu/hylafax/status/BaseStatusEvent.java,
+	  modules/core/src/main/java/gnu/hylafax/status/JobStatusEvent.java,
+	  modules/core/src/main/java/gnu/hylafax/status/ReceiveStatusEvent.java,
+	  modules/core/src/main/java/gnu/hylafax/status/SendStatusEvent.java:
+	  More work on status watcher events.
+
+2008-02-29 00:13  sjardine
+
+	* modules/core/src/main/java/gnu/hylafax/status/BaseStatusEvent.java,
+	  modules/core/src/main/java/gnu/hylafax/status/ModemStatusEvent.java,
+	  modules/core/src/main/java/gnu/hylafax/status/ReceiveStatusEvent.java:
+	  Standardized error messages. Fixed toString methods. Moved some
+	  functions up the family tree.
+
+2008-02-28 23:58  sjardine
+
+	* modules/core/src/main/java/gnu/hylafax/status/BaseStatusEvent.java,
+	  modules/core/src/main/java/gnu/hylafax/status/ReceiveStatusEvent.java:
+	  Finished rough work on ReceiveStatusEvent class. Still needs more
+	  testing.
+
+2008-02-28 00:03  sjardine
+
+	* modules/core/src/main/java/gnu/hylafax/HylaFAXClient.java,
+	  modules/core/src/main/java/gnu/hylafax/status/BaseStatusEvent.java,
+	  modules/core/src/main/java/gnu/hylafax/status/Event.java,
+	  modules/core/src/main/java/gnu/hylafax/status/JobStatusEvent.java,
+	  modules/core/src/main/java/gnu/hylafax/status/ModemStatusEvent.java,
+	  modules/core/src/main/java/gnu/hylafax/status/ReceiveStatusEvent.java,
+	  modules/core/src/main/java/gnu/hylafax/status/SendStatusEvent.java,
+	  modules/core/src/main/java/gnu/hylafax/status/StatusEvent.java,
+	  modules/core/src/main/java/gnu/hylafax/status/StatusEventType.java,
+	  modules/core/src/main/java/gnu/hylafax/status/StatusWatcher.java:
+	  Continued work on StatusWatcher and events.
+
+2008-02-27 06:11  sjardine
+
+	* .classpath, .project, .settings/org.eclipse.jdt.core.prefs,
+	  .settings/org.eclipse.jdt.ui.prefs,
+	  modules/core/src/main/java/gnu/hylafax/Client.java,
+	  modules/core/src/main/java/gnu/hylafax/ClientProtocol.java,
+	  modules/core/src/main/java/gnu/hylafax/HylaFAXClient.java,
+	  modules/core/src/main/java/gnu/hylafax/HylaFAXClientProtocol.java,
+	  modules/core/src/main/java/gnu/hylafax/Job.java,
+	  modules/core/src/main/java/gnu/hylafax/Pagesize.java,
+	  modules/core/src/main/java/gnu/hylafax/job/BasicReceiveNotifier.java,
+	  modules/core/src/main/java/gnu/hylafax/job/BasicSendNotifier.java,
+	  modules/core/src/main/java/gnu/hylafax/job/Event.java,
+	  modules/core/src/main/java/gnu/hylafax/job/Job.java,
+	  modules/core/src/main/java/gnu/hylafax/job/ReceiveEvent.java,
+	  modules/core/src/main/java/gnu/hylafax/job/ReceiveListener.java,
+	  modules/core/src/main/java/gnu/hylafax/job/ReceiveNotifier.java,
+	  modules/core/src/main/java/gnu/hylafax/job/SendAndReceiveNotifier.java,
+	  modules/core/src/main/java/gnu/hylafax/job/SendEvent.java,
+	  modules/core/src/main/java/gnu/hylafax/job/SendListener.java,
+	  modules/core/src/main/java/gnu/hylafax/job/SendNotifier.java,
+	  modules/core/src/main/java/gnu/hylafax/job/ThreadSafeJob.java,
+	  modules/core/src/main/java/gnu/hylafax/job/TimeParser.java,
+	  modules/core/src/main/java/gnu/hylafax/status,
+	  modules/core/src/main/java/gnu/hylafax/status/BaseStatusEvent.java,
+	  modules/core/src/main/java/gnu/hylafax/status/FileStatusEventListener.java,
+	  modules/core/src/main/java/gnu/hylafax/status/JobStatusEvent.java,
+	  modules/core/src/main/java/gnu/hylafax/status/LoggingStatusEventListener.java,
+	  modules/core/src/main/java/gnu/hylafax/status/ModemStatusEvent.java,
+	  modules/core/src/main/java/gnu/hylafax/status/ReceiveStatusEvent.java,
+	  modules/core/src/main/java/gnu/hylafax/status/SendStatusEvent.java,
+	  modules/core/src/main/java/gnu/hylafax/status/StatusEvent.java,
+	  modules/core/src/main/java/gnu/hylafax/status/StatusEventException.java,
+	  modules/core/src/main/java/gnu/hylafax/status/StatusEventId.java,
+	  modules/core/src/main/java/gnu/hylafax/status/StatusEventListener.java,
+	  modules/core/src/main/java/gnu/hylafax/status/StatusEventSource.java,
+	  modules/core/src/main/java/gnu/hylafax/status/StatusEventType.java,
+	  modules/core/src/main/java/gnu/hylafax/status/StatusWatcher.java,
+	  modules/core/src/site/site.xml, modules/inet-ftp/pom.xml,
+	  modules/inet-ftp/src/main/java/gnu/inet/ftp/ActiveGetter.java,
+	  modules/inet-ftp/src/main/java/gnu/inet/ftp/ActivePutter.java,
+	  modules/inet-ftp/src/main/java/gnu/inet/ftp/ConnectionEvent.java,
+	  modules/inet-ftp/src/main/java/gnu/inet/ftp/ConnectionEventSource.java,
+	  modules/inet-ftp/src/main/java/gnu/inet/ftp/ConnectionListener.java,
+	  modules/inet-ftp/src/main/java/gnu/inet/ftp/FtpClient.java,
+	  modules/inet-ftp/src/main/java/gnu/inet/ftp/FtpClientProtocol.java,
+	  modules/inet-ftp/src/main/java/gnu/inet/ftp/GZIPOutputStream.java,
+	  modules/inet-ftp/src/main/java/gnu/inet/ftp/Getter.java,
+	  modules/inet-ftp/src/main/java/gnu/inet/ftp/PassiveConnection.java,
+	  modules/inet-ftp/src/main/java/gnu/inet/ftp/PassiveGetter.java,
+	  modules/inet-ftp/src/main/java/gnu/inet/ftp/PassiveParameters.java,
+	  modules/inet-ftp/src/main/java/gnu/inet/ftp/PassivePutter.java,
+	  modules/inet-ftp/src/main/java/gnu/inet/ftp/Putter.java,
+	  modules/inet-ftp/src/main/java/gnu/inet/ftp/ServerResponseException.java,
+	  modules/inet-ftp/src/main/java/gnu/inet/ftp/TransferEventSource.java,
+	  modules/inet-ftp/src/main/java/gnu/inet/ftp/TransferListener.java,
+	  modules/inet-ftp/src/main/java/gnu/inet/logging,
+	  modules/inet-ftp/src/site/site.xml,
+	  modules/pool/src/main/java/gnu/hylafax/pool/ClientPool.java,
+	  modules/pool/src/main/java/gnu/hylafax/pool/HylaFAXPooledClient.java,
+	  modules/pool/src/site/site.xml,
+	  modules/utils/src/main/java/gnu/hylafax/job,
+	  modules/utils/src/main/java/gnu/hylafax/job/BasicReceiveNotifier.java,
+	  modules/utils/src/main/java/gnu/hylafax/job/BasicSendNotifier.java,
+	  modules/utils/src/main/java/gnu/hylafax/job/Event.java,
+	  modules/utils/src/main/java/gnu/hylafax/job/ReceiveEvent.java,
+	  modules/utils/src/main/java/gnu/hylafax/job/ReceiveListener.java,
+	  modules/utils/src/main/java/gnu/hylafax/job/ReceiveNotifier.java,
+	  modules/utils/src/main/java/gnu/hylafax/job/SendAndReceiveNotifier.java,
+	  modules/utils/src/main/java/gnu/hylafax/job/SendEvent.java,
+	  modules/utils/src/main/java/gnu/hylafax/job/SendListener.java,
+	  modules/utils/src/main/java/gnu/hylafax/job/SendNotifier.java,
+	  modules/utils/src/main/java/gnu/hylafax/util/FaxStat.java,
+	  modules/utils/src/main/java/gnu/hylafax/util/HylaFAXClientTest.java,
+	  modules/utils/src/main/java/gnu/hylafax/util/MailListener.java,
+	  modules/utils/src/main/java/gnu/hylafax/util/Notifier.java,
+	  modules/utils/src/main/java/gnu/hylafax/util/SampleListener.java,
+	  modules/utils/src/main/java/gnu/hylafax/util/SendFax.java,
+	  modules/utils/src/main/java/gnu/hylafax/util/SendFax2.java,
+	  modules/utils/src/site/site.xml: Merge branch for StatusWatch
+	  daemon.
+
+2008-02-27 02:40  sjardine
+
+	* modules/core/pom.xml, modules/inet-ftp/pom.xml,
+	  modules/pool/pom.xml, modules/utils/pom.xml, pom.xml:
+	  [maven-release-plugin] prepare for next development iteration
+
+2008-02-27 02:39  sjardine
+
+	* modules/core/pom.xml, modules/inet-ftp/pom.xml,
+	  modules/pool/pom.xml, modules/utils/pom.xml, pom.xml:
+	  [maven-release-plugin] prepare release 1.0.0
+
+2008-02-27 02:38  sjardine
+
+	* src/changes/changes.xml: Updated changes report.
+
+2008-02-27 02:37  sjardine
+
+	* src/site/apt/index.apt: Fixed some formating issues/
+
+2008-02-27 00:04  sjardine
+
+	* modules/core/src/site/site.xml,
+	  modules/inet-ftp/src/site/site.xml,
+	  modules/pool/src/site/site.xml, modules/utils/src/site/site.xml:
+	  Fixed incorrect name.
+
+2008-02-27 00:01  sjardine
+
+	* modules/utils/src/main/java/gnu/hylafax/util/FaxStat.java,
+	  src/site/apt/client-example.apt,
+	  src/site/apt/client-pool-example.apt, src/site/apt/status.apt:
+	  Finished basic examples.
+
+2008-02-26 22:51  sjardine
+
+	* src/site/apt/client-example.apt,
+	  src/site/apt/client-pool-example.apt, src/site/apt/status.apt:
+	  Started sample documentation.
+
+2008-02-26 16:51  sjardine
+
+	* modules/core/pom.xml, modules/core/src/site,
+	  modules/core/src/site/site.xml, modules/inet-ftp/pom.xml,
+	  modules/inet-ftp/src/site, modules/inet-ftp/src/site/site.xml,
+	  modules/pool/pom.xml, modules/pool/src/site,
+	  modules/pool/src/site/site.xml, modules/utils/pom.xml,
+	  modules/utils/src/site, modules/utils/src/site/site.xml, pom.xml,
+	  src/site/site.xml: Completed most of the documentation. The only
+	  docs left are the sample documentation.
+
+2008-02-26 05:55  sjardine
+
+	* pom.xml, src/site/apt, src/site/apt/index.apt, src/site/site.xml:
+	  Work on site documentation.
+
+2008-02-26 05:54  sjardine
+
+	* modules/core/src/main/java/gnu/hylafax/HylaFAXClientProtocol.java:
+
+2008-02-25 22:33  sjardine
+
+	* pom.xml, src/changes/changes.xml: Updated contributors and
+	  changes.
+
+2008-02-25 22:32  sjardine
+
+	* modules/core/src/main/java/gnu/hylafax/HylaFAXClientProtocol.java:
+	  Added setDebug method. Thanks to Jonas Wolz!
+
+2008-02-20 15:43  sjardine
+
+	* modules/core/src/main/java/gnu/hylafax/HylaFAXClient.java,
+	  modules/inet-ftp/src/main/java/gnu/inet/ftp/ActiveGetter.java,
+	  modules/inet-ftp/src/main/java/gnu/inet/ftp/ActivePutter.java,
+	  modules/inet-ftp/src/main/java/gnu/inet/ftp/PassiveGetter.java,
+	  modules/inet-ftp/src/main/java/gnu/inet/ftp/PassivePutter.java:
+	  Fixed a number of memory leaks and socket issues. This should fix
+	  the rampant use of file descriptors and sockets. Thanks to Lieven
+	  Poelman for contributing the fixes.
+
+2008-02-15 16:16  sjardine
+
+	* pom.xml, src/LICENSE.txt:
+
+2008-02-14 20:43  sjardine
+
+	* .settings/org.eclipse.jdt.core.prefs,
+	  .settings/org.eclipse.jdt.ui.prefs:
+
+2008-02-14 20:20  sjardine
+
+	* modules/core/src/main/java/gnu/hylafax/ClientProtocol.java,
+	  modules/core/src/main/java/gnu/hylafax/HylaFAXClientProtocol.java:
+	  Added site and config methods. This allows for setting site
+	  parameters and site config parameters.
+
+2008-02-14 17:37  sjardine
+
+	* src/changes/changes.xml: Removed duplicate thank you.
+
+2008-02-14 17:33  sjardine
+
+	* modules/core/pom.xml, modules/inet-ftp/pom.xml,
+	  modules/pool/pom.xml, modules/utils/pom.xml, pom.xml:
+	  [maven-release-plugin] prepare for next development iteration
+
+2008-02-14 17:33  sjardine
+
+	* modules/core/pom.xml, modules/inet-ftp/pom.xml,
+	  modules/pool/pom.xml, modules/utils/pom.xml, pom.xml:
+	  [maven-release-plugin] prepare release 1.0.0-rc2
+
+2008-02-14 17:20  sjardine
+
+	* pom.xml, src/changes/changes.xml: Updated contributor list and
+	  added changes to the changes.xml.
+
+2008-02-14 17:20  sjardine
+
+	* modules/inet-ftp/src/main/java/gnu/inet/ftp/FtpClientProtocol.java:
+	  Added setSoLinger call to prevent CLOSE_WAIT and TIME_WAIT socket
+	  states. Thanks Lieven Poelman!
+
+2008-02-14 17:19  sjardine
+
+	* modules/core/src/main/java/gnu/hylafax/job/Job.java,
+	  modules/core/src/main/java/gnu/hylafax/job/TimeParser.java:
+	  Removed depreciated code from TimeParser. Added LGPL license to
+	  TimeParser. Removed some unnecessary else statement from
+	  TimeParser. Integrated TimeParser with the setSendTime(String)
+	  and setKillTime(String) functions.
+
+2008-02-13 19:12  sjardine
+
+	* modules/core/src/main/java/gnu/hylafax/job/TimeParser.java:
+	  Helper class for parsing SENDTIME and LASTTIME values. An
+	  examples is "now + 5 minutes". Thank you Stefan Uterhofer.
+
+2008-01-07 20:17  sjardine
+
+	* modules/core/pom.xml, modules/inet-ftp/pom.xml,
+	  modules/pool/pom.xml, modules/utils/pom.xml, pom.xml:
+	  [maven-release-plugin] prepare for next development iteration
+
+2008-01-07 20:16  sjardine
+
+	* modules/core/pom.xml, modules/inet-ftp/pom.xml,
+	  modules/pool/pom.xml, modules/utils/pom.xml, pom.xml:
+
+2008-01-07 20:13  sjardine
+
+	* .classpath, pom.xml: Updated maven pom file with WebDav deploy
+	  mechanism for private repository. Also updated classpath.
+
+2008-01-07 20:11  sjardine
+
+	* modules/core/src/main/java/gnu/hylafax/HylaFAXClient.java,
+	  modules/inet-ftp/src/main/java/gnu/inet/ftp/ActiveGetter.java,
+	  modules/inet-ftp/src/main/java/gnu/inet/ftp/ActivePutter.java,
+	  modules/inet-ftp/src/main/java/gnu/inet/ftp/FtpClient.java,
+	  modules/inet-ftp/src/main/java/gnu/inet/ftp/FtpClientProtocol.java,
+	  modules/inet-ftp/src/main/java/gnu/inet/ftp/Getter.java,
+	  modules/inet-ftp/src/main/java/gnu/inet/ftp/PassiveGetter.java,
+	  modules/inet-ftp/src/main/java/gnu/inet/ftp/PassivePutter.java,
+	  modules/pool/src/main/java/gnu/hylafax/pool/HylaFAXPooledClient.java:
+	  Removed some potential programming problems. Parameter shadowing.
+	  Local variable shadowing.
+
+2008-01-07 20:10  sjardine
+
+	* modules/pool/src/main/java/gnu/hylafax/ClientPoolTest.java,
+	  modules/pool/src/test: Removed pool test case. Will work on this
+	  later.
+
+2007-10-09 15:58  sjardine
+
+	* .classpath, .project, modules/pool/pom.xml,
+	  modules/pool/src/main/java/gnu/hylafax/ClientPoolTest.java,
+	  modules/pool/src/test, modules/pool/src/test/java,
+	  modules/pool/src/test/java/gnu,
+	  modules/pool/src/test/java/gnu/hylafax,
+	  modules/pool/src/test/java/gnu/hylafax/pool: Prepare pool module
+	  for junit test cases.
+
+2007-07-24 02:10  sjardine
+
+	* modules/core/src/main/java/gnu/hylafax/HylaFAXClient.java:
+	  Removed unnecessary else statement.
+
+2007-07-09 16:31  sjardine
+
+	* modules/core/pom.xml, modules/inet-ftp/pom.xml,
+	  modules/pool/pom.xml, modules/utils/pom.xml, pom.xml:
+	  [maven-release-plugin] prepare for next development iteration
+
+2007-07-09 16:31  sjardine
+
+	* modules/core/pom.xml, modules/inet-ftp/pom.xml,
+	  modules/pool/pom.xml, modules/utils/pom.xml, pom.xml:
+	  [maven-release-plugin] prepare release 1.0.0-b2
+
+2007-07-06 22:07  sjardine
+
+	* src/changes/changes.xml: Updated changes for next release.
+
+2007-07-06 21:52  sjardine
+
+	* modules/inet-ftp/src/main/java/gnu/inet/ftp/FtpClientProtocol.java:
+	  connect method no longer throws an exception when code 130
+	  warnings are present.
+
+2007-07-06 21:18  sjardine
+
+	* modules/core/src/main/java/gnu/hylafax/HylaFAXClient.java:
+	  Consolidated duplicate code used to get and put. Added support
+	  for line continuations in the get methods.
+
+2007-07-06 21:16  sjardine
+
+	* .classpath: Removed utils module from the Eclipse classpath.
+
+2007-05-10 22:11  sjardine
+
+	* etc/assembly.xml, pom.xml: Fixed bug in assembly and pom
+
+2007-05-09 20:40  sjardine
+
+	* modules/core/pom.xml, modules/inet-ftp/pom.xml,
+	  modules/pool/pom.xml, modules/utils/pom.xml, pom.xml:
+	  [maven-release-plugin] prepare for next development iteration
+
+2007-05-09 20:37  sjardine
+
+	* modules/core/pom.xml, modules/inet-ftp/pom.xml,
+	  modules/pool/pom.xml, modules/utils/pom.xml, pom.xml:
+	  [maven-release-plugin] prepare release 1.0.0-b1
+
+2007-05-09 20:18  sjardine
+
+	* modules/core/pom.xml, modules/inet-ftp/pom.xml,
+	  modules/pool/pom.xml, modules/utils/pom.xml, pom.xml:
+	  [maven-release-plugin] prepare for next development iteration
+
+2007-05-09 20:18  sjardine
+
+	* modules/core/pom.xml, modules/inet-ftp/pom.xml,
+	  modules/pool/pom.xml, modules/utils/pom.xml, pom.xml:
+	  [maven-release-plugin] prepare release 1.0.0-b1
+
+2007-05-09 20:14  sjardine
+
+	* modules/core/pom.xml, modules/inet-ftp/pom.xml,
+	  modules/pool/pom.xml, modules/utils/pom.xml: POMS one more time
+
+2007-05-09 20:11  sjardine
+
+	* modules/core/pom.xml, modules/inet-ftp/pom.xml,
+	  modules/pool/pom.xml, modules/utils/pom.xml, pom.xml: POMS one
+	  more time
+
+2007-05-09 20:05  sjardine
+
+	* modules/core/pom.xml, modules/inet-ftp/pom.xml,
+	  modules/pool/pom.xml, modules/utils/pom.xml, pom.xml: Fixed poms
+	  again
+
+2007-05-09 19:52  sjardine
+
+	* pom.xml: test
+
+2007-05-09 19:49  sjardine
+
+	* modules/core/pom.xml, modules/inet-ftp/pom.xml,
+	  modules/pool/pom.xml, modules/utils/pom.xml, pom.xml: Fixed POM
+	  files.
+
+2007-05-09 19:45  sjardine
+
+	* modules/core/pom.xml, modules/inet-ftp/pom.xml,
+	  modules/pool/pom.xml, modules/utils/pom.xml, pom.xml:
+	  [maven-release-plugin] prepare release 1.0.0-b1
+
+2007-05-09 19:40  sjardine
+
+	* etc/README, etc/assembly.xml, modules/core/LICENSE.txt,
+	  modules/inet-ftp/LICENSE.txt, modules/pool/LICENSE.txt,
+	  modules/utils/LICENSE.txt, pom.xml, src/changes,
+	  src/changes/changes.xml: Added sources to the assembly. Added
+	  LICENSE.txt files to modules. Updated README.
+
+2007-05-09 17:40  sjardine
+
+	* modules/pool/src/main/java/gnu/hylafax/pool/ClientPool.java:
+	  Fixed problem where clients in the pool weren't being properly
+	  removed from the pool. Fix provided by Thomas Papendieck.
+
+2007-05-09 17:25  sjardine
+
+	* pom.xml: Updated developers and contributers.
+
+2007-05-09 17:04  sjardine
+
+	* .classpath, modules/core/.classpath, modules/core/.project,
+	  modules/core/pom.xml, modules/inet, modules/inet-ftp,
+	  modules/inet-ftp/.classpath, modules/inet-ftp/.project,
+	  modules/inet-ftp/.settings, modules/inet-ftp/pom.xml,
+	  modules/inet-ftp/src, modules/pool/.classpath,
+	  modules/pool/.project, modules/pool/pom.xml,
+	  modules/utils/.classpath, modules/utils/.project,
+	  modules/utils/pom.xml, pom.xml: Renamed inet module to inet-ftp
+
+2007-05-09 16:53  sjardine
+
+	* modules/inet/src/main/java/gnu/inet/ftp/ActivePutter.java,
+	  modules/inet/src/main/java/gnu/inet/ftp/PassivePutter.java:
+	  Removed COMPRESSED mode. Not supported in Hylafax.
+
+2007-05-09 04:09  sjardine
+
+	* modules/core/src/main/java/gnu/hylafax/HylaFAXClientProtocol.java,
+	  modules/core/src/main/java/gnu/hylafax/Job.java,
+	  modules/core/src/main/java/gnu/hylafax/Pagesize.java,
+	  modules/core/src/main/java/gnu/hylafax/job/BasicReceiveNotifier.java,
+	  modules/core/src/main/java/gnu/hylafax/job/BasicSendNotifier.java,
+	  modules/core/src/main/java/gnu/hylafax/job/Job.java,
+	  modules/core/src/main/java/gnu/hylafax/job/SendAndReceiveNotifier.java,
+	  modules/core/src/main/java/gnu/hylafax/job/SendEvent.java,
+	  modules/inet/src/main/java/gnu/inet/ftp/ActiveGetter.java,
+	  modules/inet/src/main/java/gnu/inet/ftp/FtpClient.java,
+	  modules/inet/src/main/java/gnu/inet/ftp/Getter.java,
+	  modules/inet/src/main/java/gnu/inet/ftp/PassiveGetter.java,
+	  modules/inet/src/main/java/gnu/inet/ftp/Putter.java,
+	  modules/utils/src/main/java/gnu/hylafax/util/FaxStat.java,
+	  modules/utils/src/main/java/gnu/hylafax/util/HylaFAXClientTest.java,
+	  modules/utils/src/main/java/gnu/hylafax/util/MailListener.java,
+	  modules/utils/src/main/java/gnu/hylafax/util/Notifier.java,
+	  modules/utils/src/main/java/gnu/hylafax/util/SampleListener.java,
+	  modules/utils/src/main/java/gnu/hylafax/util/SendFax.java,
+	  modules/utils/src/main/java/gnu/hylafax/util/SendFax2.java:
+	  Removed some unnecessary code.
+
+2007-05-09 04:08  sjardine
+
+	* modules/inet/src/main/java/gnu/inet/ftp/GZIPOutputStream.java:
+	  Added gzip compression to the putter data streams.
+
+2007-05-09 04:07  sjardine
+
+	* modules/inet/src/main/java/gnu/inet/ftp/ActivePutter.java,
+	  modules/inet/src/main/java/gnu/inet/ftp/PassivePutter.java: Added
+	  gzip compression to the putter data streams.
+
+2007-05-08 23:01  sjardine
+
+	* .classpath, .project, .settings/org.eclipse.jdt.core.prefs,
+	  .settings/org.eclipse.jdt.ui.prefs, etc/LICENSE, etc/README,
+	  etc/assembly.xml, modules/core/pom.xml, modules/inet/pom.xml,
+	  modules/pool/pom.xml, modules/utils/pom.xml, pom.xml, src,
+	  src/site, src/site/site.xml: Beginning of work on the new
+	  documentation for the sourceforge website.
+
+2007-05-08 16:07  sjardine
+
+	* modules/core/pom.xml, modules/inet/pom.xml, modules/pool/pom.xml,
+	  modules/utils/pom.xml, pom.xml: [maven-release-plugin] prepare
+	  for next development iteration
+
+2007-05-08 16:06  sjardine
+
+	* .classpath, modules/core/pom.xml, modules/inet/pom.xml,
+	  modules/pool/pom.xml, modules/utils/pom.xml, pom.xml: Modified
+	  .classpath
+
+2007-05-08 15:36  sjardine
+
+	* modules/core/src/main/java/gnu/hylafax/Client.java: Added type
+	  function to the Client interface.
+
+2007-05-08 14:14  sjardine
+
+	* modules/core, modules/inet, modules/pool, modules/utils: Added
+	  target folder to .svnignore
+
+2007-05-08 14:05  sjardine
+
+	* .classpath, .settings/org.eclipse.jdt.core.prefs,
+	  modules/core/.classpath, modules/core/.project,
+	  modules/core/src/main/java/gnu/hylafax/Client.java,
+	  modules/core/src/main/java/gnu/hylafax/ClientProtocol.java,
+	  modules/core/src/main/java/gnu/hylafax/HylaFAXClient.java,
+	  modules/core/src/main/java/gnu/hylafax/HylaFAXClientProtocol.java,
+	  modules/core/src/main/java/gnu/hylafax/job/SendEvent.java,
+	  modules/core/src/main/java/gnu/hylafax/job/SendListener.java,
+	  modules/inet/.classpath, modules/inet/.project,
+	  modules/inet/src/main/java/gnu/inet/ftp/ActiveGetter.java,
+	  modules/inet/src/main/java/gnu/inet/ftp/ActivePutter.java,
+	  modules/inet/src/main/java/gnu/inet/ftp/FtpClient.java,
+	  modules/inet/src/main/java/gnu/inet/ftp/FtpClientProtocol.java,
+	  modules/inet/src/main/java/gnu/inet/ftp/PassivePutter.java,
+	  modules/pool/.classpath, modules/pool/.project,
+	  modules/utils/.classpath, modules/utils/.project: Add some checks
+	  for null. Fixed some javadoc references.
+
+2007-05-08 02:01  sjardine
+
+	* .settings, .settings/org.eclipse.jdt.core.prefs,
+	  .settings/org.eclipse.jdt.ui.prefs, modules/core/.classpath,
+	  modules/core/.project,
+	  modules/core/src/main/java/gnu/hylafax/Client.java,
+	  modules/core/src/main/java/gnu/hylafax/HylaFAXClient.java,
+	  modules/core/src/main/java/gnu/hylafax/Job.java,
+	  modules/inet/.classpath, modules/inet/.project,
+	  modules/inet/src/main/java/gnu/inet/ftp/FtpClientProtocol.java,
+	  modules/pool/.project,
+	  modules/pool/src/main/java/gnu/hylafax/pool/ClientPool.java,
+	  modules/pool/src/main/java/gnu/hylafax/pool/HylaFAXPooledClient.java,
+	  modules/pool/src/main/java/gnu/hylafax/pool/PooledClient.java,
+	  modules/utils/.classpath, modules/utils/.project: Fixed bugs
+	  1620001 and 1496964.
+
+2007-05-08 01:21  sjardine
+
+	* modules/pool/src/main/java/gnu/hylafax/pool/ClientPool.java:
+	  gnu.hylafax.pool.ClientPool now implements gnu.hylafax.ClientPool
+	  interface.
+
+2007-05-07 22:56  sjardine
+
+	* ., .classpath, .project, etc, modules, modules/core,
+	  modules/core/.classpath, modules/core/.project,
+	  modules/core/.settings,
+	  modules/core/.settings/org.eclipse.jdt.core.prefs,
+	  modules/core/pom.xml, modules/core/src, modules/core/src/main,
+	  modules/core/src/main/java, modules/core/src/main/java/gnu,
+	  modules/core/src/main/java/gnu/hylafax,
+	  modules/core/src/main/java/gnu/hylafax/Client.java,
+	  modules/core/src/main/java/gnu/hylafax/ClientProtocol.java,
+	  modules/core/src/main/java/gnu/hylafax/HylaFAXClient.java,
+	  modules/core/src/main/java/gnu/hylafax/HylaFAXClientProtocol.java,
+	  modules/core/src/main/java/gnu/hylafax/Job.java,
+	  modules/core/src/main/java/gnu/hylafax/Pagesize.java,
+	  modules/core/src/main/java/gnu/hylafax/job,
+	  modules/core/src/main/java/gnu/hylafax/job/BasicReceiveNotifier.java,
+	  modules/core/src/main/java/gnu/hylafax/job/BasicSendNotifier.java,
+	  modules/core/src/main/java/gnu/hylafax/job/Event.java,
+	  modules/core/src/main/java/gnu/hylafax/job/Job.java,
+	  modules/core/src/main/java/gnu/hylafax/job/ReceiveEvent.java,
+	  modules/core/src/main/java/gnu/hylafax/job/ReceiveListener.java,
+	  modules/core/src/main/java/gnu/hylafax/job/ReceiveNotifier.java,
+	  modules/core/src/main/java/gnu/hylafax/job/SendAndReceiveNotifier.java,
+	  modules/core/src/main/java/gnu/hylafax/job/SendEvent.java,
+	  modules/core/src/main/java/gnu/hylafax/job/SendListener.java,
+	  modules/core/src/main/java/gnu/hylafax/job/SendNotifier.java,
+	  modules/core/src/main/java/gnu/hylafax/job/ThreadSafeJob.java,
+	  modules/inet, modules/inet/.classpath, modules/inet/.project,
+	  modules/inet/.settings,
+	  modules/inet/.settings/org.eclipse.jdt.core.prefs,
+	  modules/inet/pom.xml, modules/inet/src, modules/inet/src/main,
+	  modules/inet/src/main/java, modules/inet/src/main/java/gnu,
+	  modules/inet/src/main/java/gnu/inet,
+	  modules/inet/src/main/java/gnu/inet/ftp,
+	  modules/inet/src/main/java/gnu/inet/ftp/ActiveGetter.java,
+	  modules/inet/src/main/java/gnu/inet/ftp/ActivePutter.java,
+	  modules/inet/src/main/java/gnu/inet/ftp/AsciiInputStream.java,
+	  modules/inet/src/main/java/gnu/inet/ftp/AsciiOutputStream.java,
+	  modules/inet/src/main/java/gnu/inet/ftp/ConnectionEvent.java,
+	  modules/inet/src/main/java/gnu/inet/ftp/ConnectionEventSource.java,
+	  modules/inet/src/main/java/gnu/inet/ftp/ConnectionListener.java,
+	  modules/inet/src/main/java/gnu/inet/ftp/FtpClient.java,
+	  modules/inet/src/main/java/gnu/inet/ftp/FtpClientProtocol.java,
+	  modules/inet/src/main/java/gnu/inet/ftp/Getter.java,
+	  modules/inet/src/main/java/gnu/inet/ftp/PassiveConnection.java,
+	  modules/inet/src/main/java/gnu/inet/ftp/PassiveGetter.java,
+	  modules/inet/src/main/java/gnu/inet/ftp/PassiveParameters.java,
+	  modules/inet/src/main/java/gnu/inet/ftp/PassivePutter.java,
+	  modules/inet/src/main/java/gnu/inet/ftp/Putter.java,
+	  modules/inet/src/main/java/gnu/inet/ftp/ServerResponseException.java,
+	  modules/inet/src/main/java/gnu/inet/ftp/TransferEventSource.java,
+	  modules/inet/src/main/java/gnu/inet/ftp/TransferListener.java,
+	  modules/inet/src/main/java/gnu/inet/logging,
+	  modules/inet/src/main/java/gnu/inet/logging/ConsoleLogger.java,
+	  modules/inet/src/main/java/gnu/inet/logging/Log4jLogger.java,
+	  modules/inet/src/main/java/gnu/inet/logging/Logger.java,
+	  modules/inet/src/main/java/gnu/inet/logging/LoggingFactory.java,
+	  modules/pool, modules/pool/.classpath, modules/pool/.project,
+	  modules/pool/.settings,
+	  modules/pool/.settings/org.eclipse.jdt.core.prefs,
+	  modules/pool/pom.xml, modules/pool/src, modules/pool/src/main,
+	  modules/pool/src/main/java, modules/pool/src/main/java/gnu,
+	  modules/pool/src/main/java/gnu/hylafax,
+	  modules/pool/src/main/java/gnu/hylafax/ClientPool.java,
+	  modules/pool/src/main/java/gnu/hylafax/pool,
+	  modules/pool/src/main/java/gnu/hylafax/pool/ClientPool.java,
+	  modules/pool/src/main/java/gnu/hylafax/pool/ClientPoolConfiguration.java,
+	  modules/pool/src/main/java/gnu/hylafax/pool/ClientPoolException.java,
+	  modules/pool/src/main/java/gnu/hylafax/pool/HylaFAXPooledClient.java,
+	  modules/pool/src/main/java/gnu/hylafax/pool/PooledClient.java,
+	  modules/utils, modules/utils/.classpath, modules/utils/.project,
+	  modules/utils/.settings,
+	  modules/utils/.settings/org.eclipse.jdt.core.prefs,
+	  modules/utils/pom.xml, modules/utils/src, modules/utils/src/main,
+	  modules/utils/src/main/java, modules/utils/src/main/java/gnu,
+	  modules/utils/src/main/java/gnu/hylafax,
+	  modules/utils/src/main/java/gnu/hylafax/util,
+	  modules/utils/src/main/java/gnu/hylafax/util/FaxStat.java,
+	  modules/utils/src/main/java/gnu/hylafax/util/HylaFAXClientTest.java,
+	  modules/utils/src/main/java/gnu/hylafax/util/MailListener.java,
+	  modules/utils/src/main/java/gnu/hylafax/util/Notifier.java,
+	  modules/utils/src/main/java/gnu/hylafax/util/SampleListener.java,
+	  modules/utils/src/main/java/gnu/hylafax/util/SendFax.java,
+	  modules/utils/src/main/java/gnu/hylafax/util/SendFax2.java,
+	  pom.xml: Initial conversion from cvs to subversion and from ant
+	  to maven2.
+
+2007-05-07 19:39  sjardine
+
+	* .:
+
