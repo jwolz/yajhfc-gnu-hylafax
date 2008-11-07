@@ -5,6 +5,18 @@
 		<author email="sjardine@users.sourceforge.net">sjardine</author>
 	</properties>
 	<body>
+		<release version="1.0.2" date="2008-11-07">
+			<action dev="sjardine" type="fix">
+				Moved the setSoLinger back to immediately prior to close.  I don't like this but it seems to work better.
+			</action>
+			<action dev="sjardine" type="add">
+				Updated the jnew and Job comstructors to select the default job prior to creating a new job.
+				This way the new job will always inherit from the default unless the user decides otherwise.
+			</action>
+			<action dev="sjardine" type="update">
+				Dropped support for JDK1.3.  JDK1.3 should still work but the jar will be built using JDK1.4 by default.
+			</action>
+		</release>
 		<release version="1.0.1" date="2008-07-10">
 			<action dev="sjardine" type="fix">
 				Moved setSoLinger calls to immediately following socket creation.  Set the timeout to 0.25 seconds.

@@ -19,7 +19,7 @@ Maven 2
 			<groupId>net.sf.gnu-hylafax</groupId>
 			<artifactId>gnu-hylafax-core</artifactId>
 			<!-- Substitute appropriate version below -->
-			<version>1.0.1</version>
+			<version>1.0.2</version>
 			<scope>compile</scope>
 		</dependency>
 		...
@@ -35,7 +35,7 @@ Maven 2
 			<groupId>net.sf.gnu-hylafax</groupId>
 			<artifactId>gnu-hylafax-pool</artifactId>
 			<!-- Substitute appropriate version below -->
-			<version>1.0.1</version>
+			<version>1.0.2</version>
 			<scope>compile</scope>
 		</dependency>
 		...
