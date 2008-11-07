@@ -372,7 +372,7 @@ public class HylaFAXClientProtocol extends FtpClientProtocol implements
      */
     public synchronized void jnew(boolean inheritDefault) throws IOException,
 	    ServerResponseException {
-	if (inheritDefault && job() > 0) {
+	if (inheritDefault) {
 	    job(0);
 	}
 	// send command string
