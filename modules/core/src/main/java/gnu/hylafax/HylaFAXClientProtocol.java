@@ -365,11 +365,16 @@ public class HylaFAXClientProtocol extends FtpClientProtocol implements
 	jnew(true);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see gnu.hylafax.ClientProtocol#jnew(boolean)
      */
-    public synchronized void jnew(boolean useDefaultJob) throws IOException,
+    public synchronized void jnew(boolean inheritDefault) throws IOException,
 	    ServerResponseException {
+	if (inheritDefault && job() > 0) {
+	    job(0);
+	}
 	// send command string
 	ostream.write("jnew\r\n"); // no options
 	ostream.flush();
@@ -433,7 +438,7 @@ public class HylaFAXClientProtocol extends FtpClientProtocol implements
     public synchronized void job(long val) throws IOException,
 	    ServerResponseException {
 	// send job command to the server
-	String value = val <= 0 ? String.valueOf(val) : "default";
+	String value = val <= 0 ? "default" : String.valueOf(val);
 	ostream.write("job " + value + "\r\n");
 	ostream.flush();
 	log.debug("-> job " + value);
