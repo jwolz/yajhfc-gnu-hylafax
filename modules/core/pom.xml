@@ -4,7 +4,7 @@
 	<groupId>net.sf.gnu-hylafax</groupId>
 	<artifactId>gnu-hylafax-core</artifactId>
 	<packaging>jar</packaging>
-	<version>1.0.2-SNAPSHOT</version>
+	<version>1.0.2</version>
 	<name>Core Module</name>
 	<url>http://gnu-hylafax.sourceforge.net/gnu-hylafax-core</url>
 	<description>The core module contains everything necessary to interface with HylaFAX server.</description>
@@ -12,7 +12,7 @@
 	<parent>
 		<groupId>net.sf.gnu-hylafax</groupId>
 		<artifactId>gnu-hylafax</artifactId>
-		<version>1.0.2-SNAPSHOT</version>
+		<version>1.0.2</version>
 		<relativePath>../../pom.xml</relativePath>
 	</parent>
 
@@ -25,7 +25,7 @@
 	</licenses>
 
 	<scm>
-		<url>scm:svn:https://gnu-hylafax.svn.sourceforge.net/svnroot/gnu-hylafax/tags/1.0.2</url>
+		<url>scm:svn:https://gnu-hylafax.svn.sourceforge.net/svnroot/gnu-hylafax/tags/1.0.2/gnu-hylafax-core</url>
 	  <connection>scm:svn:https://gnu-hylafax.svn.sourceforge.net/svnroot/gnu-hylafax/tags/1.0.2/gnu-hylafax-core</connection>
     <developerConnection>scm:svn:https://gnu-hylafax.svn.sourceforge.net/svnroot/gnu-hylafax/tags/1.0.2/gnu-hylafax-core</developerConnection>
   </scm>

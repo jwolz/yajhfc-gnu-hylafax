@@ -3,7 +3,7 @@
 	<groupId>net.sf.gnu-hylafax</groupId>
 	<artifactId>gnu-hylafax</artifactId>
 	<packaging>pom</packaging>
-	<version>1.0.2-SNAPSHOT</version>
+	<version>1.0.2</version>
 	<name>HylaFAX Protocol for Java</name>
 	<url>http://gnu-hylafax.sourceforge.net</url>
 	<description> The GNU-HylaFAX package is a pure-Java implementation of the HylaFAX (FAX server) client protocol. The
