@@ -136,7 +136,7 @@ public class HylaFAXClientProtocol extends FtpClientProtocol implements
      * (non-Javadoc)
      * 
      * @see gnu.hylafax.ClientProtocol#config(java.lang.String,
-     *      java.lang.Object)
+     * java.lang.Object)
      */
     public synchronized void config(String parm, Object value)
 	    throws IOException, ServerResponseException {
@@ -147,7 +147,7 @@ public class HylaFAXClientProtocol extends FtpClientProtocol implements
      * (non-Javadoc)
      * 
      * @see gnu.hylafax.ClientProtocol#config(java.lang.String,
-     *      java.lang.String)
+     * java.lang.String)
      */
     public synchronized void config(String parm, String value)
 	    throws IOException, ServerResponseException {
@@ -362,6 +362,14 @@ public class HylaFAXClientProtocol extends FtpClientProtocol implements
      * @see gnu.hylafax.ClientProtocol#jnew()
      */
     public synchronized void jnew() throws IOException, ServerResponseException {
+	jnew(true);
+    }
+
+    /* (non-Javadoc)
+     * @see gnu.hylafax.ClientProtocol#jnew(boolean)
+     */
+    public synchronized void jnew(boolean useDefaultJob) throws IOException,
+	    ServerResponseException {
 	// send command string
 	ostream.write("jnew\r\n"); // no options
 	ostream.flush();
@@ -422,9 +430,10 @@ public class HylaFAXClientProtocol extends FtpClientProtocol implements
      * 
      * @see gnu.hylafax.ClientProtocol#job(long)
      */
-    public synchronized void job(long value) throws IOException,
+    public synchronized void job(long val) throws IOException,
 	    ServerResponseException {
 	// send job command to the server
+	String value = val <= 0 ? String.valueOf(val) : "default";
 	ostream.write("job " + value + "\r\n");
 	ostream.flush();
 	log.debug("-> job " + value);
