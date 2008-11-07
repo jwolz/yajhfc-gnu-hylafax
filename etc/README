@@ -39,7 +39,7 @@ Here is an example:
 	<dependency>
 		<groupId>gnu-hylafax</groupId>
 		<artifactId>gnu-hylafax-core</artifactId>
-		<version>1.0.0-b1</version>
+		<version>1.0.2</version>
 		<scope>compile</scope>
 	</dependency>
 </dependencies>
