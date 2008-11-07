@@ -65,14 +65,48 @@ public class Job implements gnu.hylafax.Job {
 
     private long Id;
 
+    /**
+     * Creates a new job. All job parameters are inherited from the default job.
+     * 
+     * @param c
+     *            the client to use to create the new job.
+     * @throws ServerResponseException
+     * @throws IOException
+     */
     public Job(Client c) throws ServerResponseException, IOException {
+	this(c, true);
+    }
+
+    /**
+     * Creates a new job.
+     * 
+     * @param c
+     *            the client to use to create the new job.
+     * @param inheritDefault
+     *            inherit job parameters from the default job on the hylafax
+     *            server.
+     * @throws ServerResponseException
+     * @throws IOException
+     */
+    public Job(Client c, boolean inheritDefault)
+	    throws ServerResponseException, IOException {
 	synchronized (c) {
 	    client = c;
-	    client.jnew();
+	    client.jnew(inheritDefault);
 	    Id = client.job();
 	}
     }
 
+    /**
+     * Gets a job from the hylafax server.
+     * 
+     * @param c
+     *            the client to use to create the new job.
+     * @param id
+     *            the job id to retrieve from the hylafax server.
+     * @throws ServerResponseException
+     * @throws IOException
+     */
     public Job(Client c, long id) throws ServerResponseException, IOException {
 	synchronized (c) {
 	    client = c;
@@ -173,10 +207,10 @@ public class Job implements gnu.hylafax.Job {
      * returned.
      * 
      * @exception ServerResponseException
-     *                    the server responded with an error. This is likely due
-     *                    to a protocol error.
+     *                the server responded with an error. This is likely due to
+     *                a protocol error.
      * @exception IOException
-     *                    an i/o error occured
+     *                an i/o error occured
      * @return a String value for the given property key
      */
     public String getProperty(String key) throws ServerResponseException,
@@ -264,13 +298,12 @@ public class Job implements gnu.hylafax.Job {
      * of this class.
      * 
      * @param value
-     *                the new notification type
+     *            the new notification type
      * @exception ServerResponseException
-     *                    the server responded with an error. This is likely a
-     *                    protocol violation.
+     *                the server responded with an error. This is likely a
+     *                protocol violation.
      * @exception IOException
-     *                    an IO error occurred while communicating with the
-     *                    server
+     *                an IO error occurred while communicating with the server
      */
     public void setNotifyType(String value) throws ServerResponseException,
 	    IOException {
@@ -309,10 +342,10 @@ public class Job implements gnu.hylafax.Job {
      * protocol.
      * 
      * @exception ServerResponseException
-     *                    the server responded with an error code. This is
-     *                    likely a protocol violation.
+     *                the server responded with an error code. This is likely a
+     *                protocol violation.
      * @exception IOException
-     *                    an i/o error occured
+     *                an i/o error occured
      */
     public void setProperty(String property, int value)
 	    throws ServerResponseException, IOException {
@@ -324,10 +357,10 @@ public class Job implements gnu.hylafax.Job {
      * developers should be familiar with the HylaFAX client protocol.
      * 
      * @exception ServerResponseException
-     *                    the server responded with an error code. This is
-     *                    likely a protocol violation.
+     *                the server responded with an error code. This is likely a
+     *                protocol violation.
      * @exception IOException
-     *                    an i/o error occured
+     *                an i/o error occured
      */
     public void setProperty(String parameter, String value)
 	    throws ServerResponseException, IOException {
