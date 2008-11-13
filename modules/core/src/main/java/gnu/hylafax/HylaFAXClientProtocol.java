@@ -212,6 +212,27 @@ public class HylaFAXClientProtocol extends FtpClientProtocol implements
 	}
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see gnu.hylafax.ClientProtocol#tzone(java.lang.String)
+     */
+    public synchronized void form(String value) throws IOException,
+	    ServerResponseException {
+	ostream.write("form \"" + value + "\"\r\n");
+	ostream.flush();
+	log.debug("-> form " + value);
+
+	String response = istream.readLine();
+	log.debug(response);
+
+	StringTokenizer st = new StringTokenizer(response);
+	if (!st.nextToken().equals("200")) {
+	    // problem
+	    throw (new ServerResponseException(response));
+	}
+    }
+
     /**
      * @return the hylafax server version.
      */

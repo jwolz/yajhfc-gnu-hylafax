@@ -550,6 +550,18 @@ public interface ClientProtocol {
 	    ServerResponseException;
 
     /**
+     * specify data transfer format
+     * 
+     * @param value
+     *            the data transfer format.
+     * @exception IOException
+     *                a socket IO error occurred
+     * @exception ServerResponseException
+     *                the server responded with an error code
+     */
+    public void form(String value) throws IOException, ServerResponseException;
+
+    /**
      * set site parameters on the current client.
      * 
      * @param parm
