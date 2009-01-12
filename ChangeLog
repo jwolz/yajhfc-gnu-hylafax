@@ -1,3 +1,55 @@
+2008-11-13 15:33  sjardine
+
+	* modules/core/.settings/org.eclipse.jdt.core.prefs,
+	  modules/core/.settings/org.eclipse.jdt.ui.prefs:
+
+2008-11-13 15:31  sjardine
+
+	* modules/core/src/main/java/gnu/hylafax/ClientProtocol.java,
+	  modules/core/src/main/java/gnu/hylafax/HylaFAXClientProtocol.java:
+	  Added form command to specify data transfer format.
+
+2008-11-07 19:13  sjardine
+
+	* pom.xml: Fixed inception year.
+
+2008-11-07 18:33  sjardine
+
+	* modules/core/pom.xml, modules/inet-ftp/pom.xml,
+	  modules/pool/pom.xml, modules/utils/pom.xml, pom.xml:
+	  [maven-release-plugin] prepare for next development iteration
+
+2008-11-07 18:33  sjardine
+
+	* modules/core/pom.xml, modules/inet-ftp/pom.xml,
+	  modules/pool/pom.xml, modules/utils/pom.xml, pom.xml:
+	  [maven-release-plugin] prepare release 1.0.2
+
+2008-11-07 18:26  sjardine
+
+	* modules/core/pom.xml, modules/inet-ftp/pom.xml,
+	  modules/pool/pom.xml, modules/utils/pom.xml, pom.xml: Reverted
+	  changes to pom version.
+
+2008-11-07 18:19  sjardine
+
+	* modules/core/src/main/java/gnu/hylafax/HylaFAXClientProtocol.java:
+	  Fixed a manditory trip to the server. Thanks Jonas!!!!
+
+2008-11-07 18:17  sjardine
+
+	* etc/README: Updated README
+
+2008-11-07 17:52  sjardine
+
+	* modules/core/pom.xml, modules/inet-ftp/pom.xml,
+	  modules/pool/pom.xml, modules/utils/pom.xml, pom.xml:
+	  [maven-release-plugin] prepare release 1.0.2
+
+2008-11-07 17:50  sjardine
+
+	* ChangeLog: Added ChangeLog
+
 2008-11-07 17:38  sjardine
 
 	* src/changes/changes.xml, src/site/apt/download.apt: Updated site
