@@ -78,6 +78,17 @@ public interface ClientProtocol {
 	    ServerResponseException;
 
     /**
+     * Asks the HylaFAX server to answer the call to the specified modem. <br>
+     * Works only with established administrator priviledges.
+     * 
+     * @param modem
+     * @throws IOException
+     * @throws ServerResponseException
+     */
+    public void answer(String modem) throws IOException,
+	    ServerResponseException;
+
+    /**
      * get site config parameters of the current client.
      * 
      * @param parm
@@ -165,6 +176,18 @@ public interface ClientProtocol {
      */
     public void filefmt(String value) throws IOException,
 	    ServerResponseException;
+
+    /**
+     * specify data transfer format
+     * 
+     * @param value
+     *            the data transfer format.
+     * @exception IOException
+     *                a socket IO error occurred
+     * @exception ServerResponseException
+     *                the server responded with an error code
+     */
+    public void form(String value) throws IOException, ServerResponseException;
 
     /**
      * get the current idle timeout in seconds
@@ -548,18 +571,6 @@ public interface ClientProtocol {
      */
     public void rcvfmt(String value) throws IOException,
 	    ServerResponseException;
-
-    /**
-     * specify data transfer format
-     * 
-     * @param value
-     *            the data transfer format.
-     * @exception IOException
-     *                a socket IO error occurred
-     * @exception ServerResponseException
-     *                the server responded with an error code
-     */
-    public void form(String value) throws IOException, ServerResponseException;
 
     /**
      * set site parameters on the current client.
