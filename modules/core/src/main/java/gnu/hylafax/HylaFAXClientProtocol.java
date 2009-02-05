@@ -112,6 +112,21 @@ public class HylaFAXClientProtocol extends FtpClientProtocol implements
 	}
     }
 
+    public synchronized void answer(String modem) throws IOException,
+	    ServerResponseException {
+	ostream.write("answer " + modem + "\r\n");
+	ostream.flush();
+	log.debug("-> answer " + modem);
+
+	String response = new String(istream.readLine());
+	log.debug(response);
+
+	StringTokenizer st = new StringTokenizer(response);
+	if (!st.nextToken().equals("200")) {
+	    throw (new ServerResponseException(response));
+	}
+    }
+
     /*
      * (non-Javadoc)
      * 
