@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<project name="GNU-HylaFAX">
+<project name="gnu-hylafax-utils">
 	<bannerLeft>
-		<name>GNU-HylaFAX</name>
+		<src>../images/logo.png</src>
+		<href>../index.html</href>
 	</bannerLeft>
+	<bannerRight>
+		<src>../images/support.png</src>
+		<href>http://sourceforge.net/donate/index.php?group_id=160285</href>
+	</bannerRight>
 	<poweredBy>
 		<logo name="SourceForge" href="http://sourceforge.net/projects/gnu-hylafax" img="http://sflogo.sourceforge.net/sflogo.php?group_id=160285&amp;type=11" />
 	</poweredBy>

@@ -5,7 +5,7 @@
  ------
   February 25, 2008
 
-Welcome to GNU-Hylafax
+Welcome to GNU-HylaFAX
 
 	The GNU-HylaFAX package is a pure Java API designed to implement the client protocol portion of the 
 	hfaxd client-server protocol server.
