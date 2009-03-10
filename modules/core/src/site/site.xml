@@ -3,6 +3,9 @@
 	<bannerLeft>
 		<name>GNU-HylaFAX</name>
 	</bannerLeft>
+	<poweredBy>
+		<logo name="SourceForge" href="http://sourceforge.net/projects/gnu-hylafax" img="http://sflogo.sourceforge.net/sflogo.php?group_id=160285&amp;type=11" />
+	</poweredBy>
 	<body>
 		<links>
 			<item name="HylaFAX" href="http://www.hylafax.org/" />
