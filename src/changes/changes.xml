@@ -7,7 +7,7 @@
 	<body>
 		<release version="1.0.3" date="2009-03-10">
 			<action dev="sjardine" type="add" due-to="Jonas Wolz" due-to-email="jonas.wolz@freenet.de">
-				Added setDebug method to HylaFAXClientProtocol.
+				Added answer command.
 			</action>
 			<action dev="sjardine" type="add" due-to="Jonas Wolz" due-to-email="jonas.wolz@freenet.de">
 				Added form command to specify data transfer format.
