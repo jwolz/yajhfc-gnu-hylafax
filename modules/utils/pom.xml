@@ -3,7 +3,7 @@
 	<groupId>net.sf.gnu-hylafax</groupId>
 	<artifactId>gnu-hylafax-utils</artifactId>
 	<packaging>jar</packaging>
-	<version>1.0.3</version>
+	<version>1.0.4-SNAPSHOT</version>
 	<name>Utilities Module</name>
 	<url>http://gnu-hylafax.sourceforge.net/gnu-hylafax-utils</url>
 	<description>
@@ -13,7 +13,7 @@
 	<parent>
 		<groupId>net.sf.gnu-hylafax</groupId>
 		<artifactId>gnu-hylafax</artifactId>
-		<version>1.0.3</version>
+		<version>1.0.4-SNAPSHOT</version>
 		<relativePath>../../pom.xml</relativePath>
 	</parent>
 	<licenses>
@@ -24,9 +24,9 @@
 		</license>
 	</licenses>
 	<scm>
-		<url>scm:svn:https://gnu-hylafax.svn.sourceforge.net/svnroot/gnu-hylafax/tags/1.0.3/gnu-hylafax-utils</url>
-		<connection>scm:svn:https://gnu-hylafax.svn.sourceforge.net/svnroot/gnu-hylafax/tags/1.0.3/gnu-hylafax-utils</connection>
-		<developerConnection>scm:svn:https://gnu-hylafax.svn.sourceforge.net/svnroot/gnu-hylafax/tags/1.0.3/gnu-hylafax-utils</developerConnection>
+		<url>scm:svn:https://gnu-hylafax.svn.sourceforge.net/svnroot/gnu-hylafax/tags/1.0.2</url>
+		<connection>scm:svn:https://gnu-hylafax.svn.sourceforge.net/svnroot/gnu-hylafax/tags/1.0.2/gnu-hylafax-utils</connection>
+		<developerConnection>scm:svn:https://gnu-hylafax.svn.sourceforge.net/svnroot/gnu-hylafax/tags/1.0.2/gnu-hylafax-utils</developerConnection>
 	</scm>
 	<dependencies>
 		<dependency>
