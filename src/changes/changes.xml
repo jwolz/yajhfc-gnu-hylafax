@@ -5,6 +5,14 @@
 		<author email="sjardine@users.sourceforge.net">sjardine</author>
 	</properties>
 	<body>
+		<release version="1.0.3" date="2009-03-10">
+			<action dev="sjardine" type="add" due-to="Jonas Wolz" due-to-email="jonas.wolz@freenet.de">
+				Added setDebug method to HylaFAXClientProtocol.
+			</action>
+			<action dev="sjardine" type="add" due-to="Jonas Wolz" due-to-email="jonas.wolz@freenet.de">
+				Added form command to specify data transfer format.
+			</action>
+		</release>
 		<release version="1.0.2" date="2008-11-07">
 			<action dev="sjardine" type="fix">
 				Moved the setSoLinger back to immediately prior to close.  I don't like this but it seems to work better.
