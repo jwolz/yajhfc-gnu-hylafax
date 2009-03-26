@@ -1,5 +1,5 @@
 // BasicReceiveNotifier.java - a HylaFAX Job representation
-// $Id: BasicReceiveNotifier.java,v 1.2 2006/02/20 04:52:10 sjardine Exp $
+// $Id$
 //
 // Copyright 2003, Innovation Software Group, LLC - http://www.innovationsw.com
 //                Joe Phillips <joe.phillips@innovationsw.com>
@@ -31,7 +31,7 @@ import java.util.List;
  * This interface defines what a class should implement in order to notify
  * others of job related events.
  * 
- * @author $Author: sjardine $
+ * @author $Author$
  * @version $Id: BasicReceiveNotifier.java,v 1.2 2006/02/20 04:52:10 sjardine
  *          Exp $
  * @see gnu.hylafax.job.ReceiveListener

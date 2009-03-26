@@ -1,5 +1,5 @@
 // SendAndReceiveNotifier.java - a HylaFAX Job representation
-// $Id: SendAndReceiveNotifier.java,v 1.3 2006/02/20 04:52:10 sjardine Exp $
+// $Id$
 //
 // Copyright 2003, Innovation Software Group, LLC - http://www.innovationsw.com
 //                Joe Phillips <joe.phillips@innovationsw.com>
@@ -27,7 +27,7 @@ package gnu.hylafax.job;
  * This class is a convenience class implementing both a SendNotifier and
  * ReceiveNotifier.
  * 
- * @author $Author: sjardine $
+ * @author $Author$
  * @version $Id: SendAndReceiveNotifier.java,v 1.3 2006/02/20 04:52:10 sjardine
  *          Exp $
  * @see gnu.hylafax.job.SendListener

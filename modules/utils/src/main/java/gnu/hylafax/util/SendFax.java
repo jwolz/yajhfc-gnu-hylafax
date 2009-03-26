@@ -1,5 +1,5 @@
 // SendFax.java - gnu.hylafax implementation of the sendfax utility
-// $Id: SendFax.java,v 1.8 2007/02/21 00:07:49 sjardine Exp $
+// $Id$
 //
 // - basically gives an example for queuing a FAX job
 //

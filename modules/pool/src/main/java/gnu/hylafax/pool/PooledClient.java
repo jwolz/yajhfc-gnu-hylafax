@@ -1,4 +1,4 @@
-//$Id: PooledClient.java,v 1.4 2006/02/20 05:00:25 sjardine Exp $
+//$Id$
 //
 //Copyright 2005 Steven Jardine <steve@mjnservices.com>
 //Copyright 2005 MJN Services, Inc - http://www.mjnservices.com

@@ -1,5 +1,5 @@
 // AsciiOutputStream.java
-// $Id: AsciiOutputStream.java,v 1.2 2006/02/20 04:52:11 sjardine Exp $
+// $Id$
 //
 // Copyright 2002 Innovation Software Group, LLC - http://www.innovationsw.com
 //
