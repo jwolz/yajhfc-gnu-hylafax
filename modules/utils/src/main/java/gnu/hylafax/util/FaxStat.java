@@ -1,5 +1,5 @@
 // FaxStat.java - gnu.hylafax implementation of the faxstat utility
-// $Id: FaxStat.java,v 1.5 2007/05/07 18:26:53 sjardine Exp $
+// $Id$
 //
 // - basically gives an example for getting the status a FAX job
 //

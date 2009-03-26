@@ -1,5 +1,5 @@
 // PassiveGetter.java
-// $Id: PassiveGetter.java,v 1.6 2007/02/21 00:07:50 sjardine Exp $
+// $Id$
 //
 // Copyright 2000, Joe Phillips <jaiger@innovationsw.com>
 // Copyright 2001, 2002 Innovation Software Group, LLC - http://www.innovationsw.com

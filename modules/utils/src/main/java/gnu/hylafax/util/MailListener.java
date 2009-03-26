@@ -1,5 +1,5 @@
 // MailListener.java - emails job status updates to a user
-// $Id: MailListener.java,v 1.5 2007/05/07 18:26:53 sjardine Exp $
+// $Id$
 //
 // - basically gives an example for getting the status callbacks on a FAX job
 //
@@ -56,8 +56,8 @@ import org.apache.commons.logging.LogFactory;
  * This class implements an example fax job listener. It emails the status
  * updates to a given mailbox.
  * 
- * @author $Author: sjardine $
- * @version $Id: MailListener.java,v 1.5 2007/05/07 18:26:53 sjardine Exp $
+ * @author $Author$
+ * @version $Id$
  * @see gnu.hylafax.job.SendNotifier
  * @see gnu.hylafax.job.SendEvent
  * @see gnu.hylafax.job.ReceiveNotifier
@@ -137,7 +137,7 @@ public class MailListener implements SendListener, ReceiveListener {
 	    msg.addHeader("Date", rfc822df.format(now));
 	    msg
 		    .addHeader("X-MailListener",
-			    "$Id: MailListener.java,v 1.5 2007/05/07 18:26:53 sjardine Exp $");
+			    "$Id$");
 
 	    // first body part
 	    MimeBodyPart part0 = new MimeBodyPart();

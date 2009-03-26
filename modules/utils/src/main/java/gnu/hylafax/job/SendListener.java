@@ -1,5 +1,5 @@
 // SendListener.java - a HylaFAX Job representation
-// $Id: SendListener.java,v 1.2 2006/02/20 04:52:10 sjardine Exp $
+// $Id$
 //
 // Copyright 2003 Innovation Software Group, LLC - http://www.innovationsw.com
 //                Joe Phillips <joe.phillips@innovationsw.com>
@@ -26,8 +26,8 @@ package gnu.hylafax.job;
 /**
  * This interface defines what a class interested in receiving send Job related events should implement. A
  * Listener should register for events from a Notifier.
- * @author $Author: sjardine $
- * @version $Id: SendListener.java,v 1.2 2006/02/20 04:52:10 sjardine Exp $
+ * @author $Author$
+ * @version $Id$
  * @see gnu.hylafax.job.Event
  */
 public interface SendListener {

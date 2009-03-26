@@ -1,5 +1,5 @@
 // SampleListener.java - gnu.hylafax implementation of the faxstat utility
-// $Id: SampleListener.java,v 1.4 2007/02/21 00:07:49 sjardine Exp $
+// $Id$
 //
 // - basically gives an example for getting the status callbacks on a FAX job
 //
@@ -45,8 +45,8 @@ import org.apache.commons.logging.LogFactory;
 /**
  * This class implements an example fax job listener.
  * 
- * @author $Author: sjardine $
- * @version $Id: SampleListener.java,v 1.4 2007/02/21 00:07:49 sjardine Exp $
+ * @author $Author$
+ * @version $Id$
  * @see gnu.hylafax.job.SendNotifier
  * @see gnu.hylafax.job.SendEvent
  * @see gnu.hylafax.job.ReceiveNotifier

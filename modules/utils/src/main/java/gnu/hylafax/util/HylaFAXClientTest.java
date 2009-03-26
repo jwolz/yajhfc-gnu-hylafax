@@ -1,5 +1,5 @@
 // HylaFAXClientTest.java - gnu.hylafax test application for the client
-// $Id: HylaFAXClientTest.java,v 1.3 2007/05/07 18:26:53 sjardine Exp $
+// $Id$
 //
 // Copyright 1999, 2000 Joe Phillips <jaiger@net-foundry.com>
 // Copyright 2001, Innovation Software Group, LLC - http://www.innovationsw.com
