@@ -23,6 +23,10 @@
 package gnu.hylafax.pool;
 
 import gnu.hylafax.Client;
+import gnu.hylafax.pool.ClientPoolConfiguration;
+import gnu.hylafax.pool.ClientPoolException;
+import gnu.hylafax.pool.HylaFAXPooledClient;
+import gnu.hylafax.pool.PooledClient;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -253,11 +257,13 @@ public class ClientPool implements gnu.hylafax.ClientPool {
 	    else
 		client.poolOpen();
 
-	    if (config.getUserName() != null)
-		client.poolUser(config.getUserName());
-
-	    if (config.getPassword() != null)
-		client.poolPass(config.getPassword());
+	    if (config.getUserName() != null) {
+		if (client.poolUser(config.getUserName())) {
+		    if (config.getPassword() != null) {
+			client.poolPass(config.getPassword());
+		    }
+		}
+	    }
 
 	    if (config.getAdminPassword() != null)
 		client.poolAdmin(config.getAdminPassword());
@@ -284,8 +290,7 @@ public class ClientPool implements gnu.hylafax.ClientPool {
 	    ((HylaFAXPooledClient) client).setWorking(false);
 
 	    /* stop the client so that GC can destroy the object. (Thomas) */
-	    //((HylaFAXPooledClient) client).stop();
-
+	    // ((HylaFAXPooledClient) client).stop();
 	    if (blocked)
 		log.warn("Will Be Unblocked");
 
