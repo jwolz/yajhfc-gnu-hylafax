@@ -1535,7 +1535,7 @@ public class FtpClientProtocol extends Object {
 	// try and bypass a potential dns bug.
 	InetAddress inetAddress = parseIPv4Address(host);
 	if (inetAddress == null) {
-	    InetAddress.getByName(host);
+	    inetAddress = InetAddress.getByName(host);
 	}
 	// create and configure the socket.
 	sock = new Socket(inetAddress, portnumber);
