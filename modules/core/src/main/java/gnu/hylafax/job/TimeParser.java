@@ -63,6 +63,11 @@ public class TimeParser {
      * Exception class for parse errors
      */
     public class ParseException extends Exception {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3886678821888642397L;
+
 	ParseException() {
 	    super();
 	}
