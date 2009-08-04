@@ -28,12 +28,7 @@ package gnu.hylafax.pool;
  */
 public class ClientPoolException extends Exception {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 3651843658786047579L;
-
-	public ClientPoolException() {
+    public ClientPoolException() {
 	super();
     }
 

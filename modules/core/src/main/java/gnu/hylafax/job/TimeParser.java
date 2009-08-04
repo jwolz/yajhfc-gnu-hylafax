@@ -63,10 +63,6 @@ public class TimeParser {
      * Exception class for parse errors
      */
     public class ParseException extends Exception {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 3886678821888642397L;
 
 	ParseException() {
 	    super();
@@ -179,9 +175,9 @@ public class TimeParser {
      * Initializes the parser with a custom timezone and locale
      * 
      * @param locale
-     *                Custom locale
+     *            Custom locale
      * @param timeZone
-     *                Custom timezone
+     *            Custom timezone
      */
     public TimeParser(Locale locale, TimeZone timeZone) {
 	this.locale = locale;
@@ -194,10 +190,10 @@ public class TimeParser {
      * minutes from now.
      * 
      * @param time
-     *                Time String in the hylafax config file format
+     *            Time String in the hylafax config file format
      * @return Time String used by the hylafax client protocol
      * @throws ParseException
-     *                 if the supplied time string isn't valid
+     *             if the supplied time string isn't valid
      */
     public String getKillTime(String time) throws ParseException {
 	if (time.toLowerCase().trim().equals("now")) {
@@ -244,10 +240,10 @@ public class TimeParser {
      * for the SENDTIME parameter, which is YYYYMMDDhhmmss
      * 
      * @param time
-     *                Time String in the hylafax config file format
+     *            Time String in the hylafax config file format
      * @return Time String used by the hylafax client protocol
      * @throws ParseException
-     *                 if the supplied time string isn't valid
+     *             if the supplied time string isn't valid
      */
     public String getSendTime(String time) throws ParseException {
 	if (time.trim().toLowerCase().equals("now")) {
@@ -263,10 +259,10 @@ public class TimeParser {
      * Calendar
      * 
      * @param string
-     *                Hylafax datetime String (e.g. now + 10 minutes)
+     *            Hylafax datetime String (e.g. now + 10 minutes)
      * @return java.util.Date object containing the parsed date
      * @throws ParseException
-     *                 if the entered String is not valid
+     *             if the entered String is not valid
      */
     private Date parse(String str) throws ParseException {
 	try {

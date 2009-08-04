@@ -21,11 +21,7 @@
 package gnu.inet.ftp;
 
 public class ServerResponseException extends Exception {
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 4613816571619556301L;
-	private long code;
+    private long code;
     private String message;
 
     /**
@@ -35,7 +31,7 @@ public class ServerResponseException extends Exception {
      * responses.
      * 
      * @param str
-     *                the server error message in the form
+     *            the server error message in the form
      */
     public ServerResponseException(java.lang.String str) {
 	code = -1; // not set yet
@@ -46,8 +42,8 @@ public class ServerResponseException extends Exception {
      * get the server response code.
      * 
      * @exception NumberFormatException
-     *                    the first 3 characters of the message are <i>not</i>
-     *                    a number as they should be in a normal server response
+     *                the first 3 characters of the message are <i>not</i> a
+     *                number as they should be in a normal server response
      * @return server response code as long value
      */
     public long getCode() throws NumberFormatException {

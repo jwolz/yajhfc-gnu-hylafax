@@ -32,11 +32,6 @@ import java.util.HashMap;
  */
 public class Pagesize extends Dimension {
 
-    /**
-     * 
-     */
-    private static final long serialVersionUID = 6922672780582078619L;
-
     private static HashMap sizes = new HashMap();
 
     /** a US Letter size page */
