@@ -21,7 +21,11 @@
 package gnu.inet.ftp;
 
 public class ServerResponseException extends Exception {
-    private long code;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 4613816571619556301L;
+	private long code;
     private String message;
 
     /**
