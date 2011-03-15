@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.sf.gnu-hylafax</groupId>
 	<artifactId>gnu-hylafax</artifactId>
@@ -6,8 +7,7 @@
 	<version>1.0.4-SNAPSHOT</version>
 	<name>HylaFAX Protocol for Java</name>
 	<url>http://gnu-hylafax.sourceforge.net</url>
-	<description> The GNU-HylaFAX package is a pure-Java implementation of the HylaFAX (FAX server) client protocol. The
-		GNU-HylaFAX package can be used to implement a HylaFAX client that will run on any Java-supporting system. 
+	<description> The GNU-HylaFAX package is a pure-Java implementation of the HylaFAX (FAX server) client protocol. The GNU-HylaFAX package can be used to implement a HylaFAX client that will run on any Java-supporting system. 
 	</description>
 	<inceptionYear>2000</inceptionYear>
 	<licenses>
@@ -23,34 +23,19 @@
 		<module>modules/pool</module>
 		<module>modules/utils</module>
 	</modules>
+	<properties>
+		<!-- Encoding -->
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<!-- Target JDK -->
+		<maven.compiler.source>1.4</maven.compiler.source>
+		<maven.compiler.target>1.4</maven.compiler.target>
+	</properties>
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-source-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>attach-sources</id>
-						<goals>
-							<goal>jar</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>attach-javadocs</id>
-						<goals>
-							<goal>jar</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
+				<version>2.2</version>
 				<configuration>
 					<descriptors>
 						<descriptor>etc/assembly.xml</descriptor>
@@ -59,16 +44,10 @@
 				</configuration>
 			</plugin>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>1.4</source>
-					<target>1.4</target>
-				</configuration>
-			</plugin>
-			<plugin>
 				<artifactId>maven-release-plugin</artifactId>
+				<version>2.1</version>
 				<configuration>
+					<remoteTagging>false</remoteTagging>
 					<tagBase>https://gnu-hylafax.svn.sourceforge.net/svnroot/gnu-hylafax/tags</tagBase>
 				</configuration>
 			</plugin>
@@ -96,11 +75,7 @@
 	</organization>
 	<issueManagement>
 		<system>Sourceforge Bug Tracker</system>
-		<url>
-			<![CDATA[
-				https://sourceforge.net/tracker/?group_id=160285&atid=815234
-			]]>
-		</url>
+		<url><![CDATA[https://sourceforge.net/tracker/?group_id=160285&atid=815234]]></url>
 	</issueManagement>
 	<reporting>
 		<plugins>
