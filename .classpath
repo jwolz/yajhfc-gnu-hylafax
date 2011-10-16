@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" output="modules/inet-ftp/target/classes" path="modules/inet-ftp/src/main/java"/>
+	<classpathentry kind="src" output="modules/core/target/classes" path="modules/core/src/main/java"/>
+	<classpathentry kind="src" output="modules/pool/target/classes" path="modules/pool/src/main/java"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER"/>
+	<classpathentry kind="lib" path="/data2/apps/commons-logging-1.1.1/commons-logging-1.1.1.jar"/>
+	<classpathentry kind="lib" path="/data1/build/gnu-hylafax-1.0.1/lib/concurrent-1.3.4.jar"/>
+	<classpathentry kind="output" path="target/classes"/>
+</classpath>

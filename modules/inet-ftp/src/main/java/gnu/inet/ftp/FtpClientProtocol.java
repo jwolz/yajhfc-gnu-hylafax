@@ -101,6 +101,8 @@ public class FtpClientProtocol extends Object {
 
     protected String hylafaxServerUsername = null;
 
+    protected String characterEncoding = System.getProperty("file.encoding");
+    
     // infinite.
 
     /**
@@ -1467,6 +1469,24 @@ public class FtpClientProtocol extends Object {
 	return response;
     }
 
+    /**
+     * Returns the the character encoding to use to send and receive Strings from the server
+     * @return the currently used character encoding
+     */
+    public String getCharacterEncoding() {
+	return characterEncoding;
+    }
+    
+    /**
+     * Sets the character encoding to use to send and receive Strings from the server.
+     * 
+     * NOTE: If you wish to change the character encoding, this should be done before connecting to the server (i.e. before calling open()).
+     * @param characterEncoding the name of the encoding to use
+     */
+    public void setCharacterEncoding(String characterEncoding) {
+	this.characterEncoding = characterEncoding;
+    }
+    
     // ***** private methods *****
 
     /**
@@ -1543,12 +1563,12 @@ public class FtpClientProtocol extends Object {
 
 	// open streams for input and output to server
 	istream = new BufferedReader(new InputStreamReader(sock
-		.getInputStream()));
+		.getInputStream(), getCharacterEncoding()));
 
 	// for international users, the following MAY need to be changed
 	// to specify the "US-ASCII" encoding as the second parameter.
 	// someone will need to test this, hint hint
-	ostream = new OutputStreamWriter(sock.getOutputStream());
+	ostream = new OutputStreamWriter(sock.getOutputStream(), getCharacterEncoding());
 
 	// get greeting line(s) of text from server
 	greeting = readResponse(istream);
