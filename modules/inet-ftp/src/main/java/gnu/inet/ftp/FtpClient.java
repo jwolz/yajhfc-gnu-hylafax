@@ -426,7 +426,7 @@ public class FtpClient extends FtpClientProtocol implements
 
 	// make list of filenames
 	BufferedReader data = new BufferedReader(new InputStreamReader(
-		new ByteArrayInputStream(buffer.toByteArray())));
+		new ByteArrayInputStream(buffer.toByteArray()), getCharacterEncoding()));
 	boolean done = false;
 	while (!done) {
 	    String line = data.readLine();
@@ -523,7 +523,7 @@ public class FtpClient extends FtpClientProtocol implements
 
 	// build file list
 	BufferedReader data = new BufferedReader(new InputStreamReader(
-		new ByteArrayInputStream(buffer.toByteArray())));
+		new ByteArrayInputStream(buffer.toByteArray()), getCharacterEncoding()));
 	boolean done = false;
 	while (!done) {
 	    String line = data.readLine();

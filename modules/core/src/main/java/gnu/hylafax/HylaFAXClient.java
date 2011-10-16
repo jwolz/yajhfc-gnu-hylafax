@@ -316,7 +316,7 @@ public class HylaFAXClient extends HylaFAXClientProtocol implements Client {
 
 	Vector result = new Vector();
 	BufferedReader data = new BufferedReader(new InputStreamReader(
-		new ByteArrayInputStream(buffer.toByteArray())));
+		new ByteArrayInputStream(buffer.toByteArray()), getCharacterEncoding()));
 	try {
 	    String line = null;
 	    String next = null;
