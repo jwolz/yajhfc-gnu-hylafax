@@ -37,6 +37,12 @@ public class ServerResponseException extends Exception {
 	code = -1; // not set yet
 	message = str;
     }
+    
+    public ServerResponseException(String str, Throwable cause) {
+	super(str, cause);
+	code = -1; // not set yet
+	message = str;
+    }
 
     /**
      * get the server response code.

@@ -29,6 +29,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
 
@@ -544,6 +546,42 @@ public class HylaFAXClientProtocol extends FtpClientProtocol implements
 	}
     }
 
+    
+    /*
+     * (non-Javadoc)
+     * 
+     * @see gnu.hylafax.ClientProtocol#jparm(java.lang.String)
+     */
+    public synchronized List jparm() throws IOException,
+	    ServerResponseException {
+	String response;
+
+	if (log.isDebugEnabled())
+	    log.debug("jparm");
+	ostream.write("jparm\r\n");
+	ostream.flush();
+
+	response = istream.readLine();
+	log.debug(response);
+	
+	if (response.startsWith("217")) {
+	    List res = new ArrayList();
+	    while (true) {
+		response = istream.readLine();
+		log.debug(response);
+		if (response.startsWith("    ")) { // The lines with the job state start with 4 blanks
+		    res.add(response.substring(4));
+		} else {
+		    break;
+		}
+	    }
+	    if (response.startsWith("217")) {
+		return res;
+	    }
+	}
+	throw (new ServerResponseException(response));
+    }
+    
     /*
      * (non-Javadoc)
      * 

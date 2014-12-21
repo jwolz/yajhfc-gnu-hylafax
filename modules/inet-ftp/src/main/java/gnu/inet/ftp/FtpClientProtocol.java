@@ -43,9 +43,12 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
 import java.util.TimeZone;
 import java.util.Vector;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -911,26 +914,30 @@ public class FtpClientProtocol extends Object {
 
 	// check response
 	StringTokenizer st = new StringTokenizer(response);
-	String result_code = new String(st.nextToken());
-	if (!result_code.equals("150")) {
-	    if (result_code.equals("550")) {
-		// "No such file or directory"
-		throw (new FileNotFoundException(response));
+	String result_code;
+	try {
+	    result_code = st.nextToken();
+	    if (!result_code.equals("150")) {
+		if (result_code.equals("550")) {
+		    // "No such file or directory"
+		    throw (new FileNotFoundException(response));
+		}
+		throw (new ServerResponseException(response));
 	    }
-	    throw (new ServerResponseException(response));
+
+	    // transferring ...
+
+	    // next line of response
+	    response = readResponse(istream);
+	    log.debug(response);
+
+	    st = new StringTokenizer(response);
+	    if (!st.nextToken().equals("226")) {
+		throw (new ServerResponseException(response));
+	    }
+	} catch (NoSuchElementException e) {
+	    throw new ServerResponseException("No code found in response: \"" + response + "\"", e);
 	}
-
-	// transferring ...
-
-	// next line of response
-	response = readResponse(istream);
-	log.debug(response);
-
-	st = new StringTokenizer(response);
-	if (!st.nextToken().equals("226")) {
-	    throw (new ServerResponseException(response));
-	}
-
     }
 
     /**
@@ -1240,6 +1247,8 @@ public class FtpClientProtocol extends Object {
 	return;
     }
 
+    static final Pattern responsePattern = Pattern.compile("(\\d{3})(.)\\s*(.*)");
+    
     /**
      * Returns the status of the named file or directory.
      * 
@@ -1289,11 +1298,13 @@ public class FtpClientProtocol extends Object {
 		    } else {
 			log.debug(response);
 			remainder = remainder + "\n" + response;
-			st = new StringTokenizer(response, " ");
-			first_token = st.nextToken();
-			if (return_code.equals(first_token)) {
-			    // last line, we're done
-			    done = true;
+			Matcher m = responsePattern.matcher(response);
+			if (m.matches()) {
+			    first_token = m.group(1);
+			    if (return_code.equals(first_token)) {
+				// last line, we're done
+				done = true;
+			    }
 			}
 		    }
 		}
@@ -1314,14 +1325,19 @@ public class FtpClientProtocol extends Object {
 		    done = true;
 		} else {
 		    log.debug(response);
-		    st = new StringTokenizer(response, " ");
-		    first_token = st.nextToken();
-		    if (return_code.equals(first_token)) {
-			// last line, we're done
-			done = true;
+
+		    Matcher m = responsePattern.matcher(response);
+		    if (m.matches()) {
+			first_token = m.group(1);
+			if (return_code.equals(first_token)) {
+			    // last line, we're done
+			    done = true;
+			} else {
+			    status.addElement(response);
+			}
 		    } else {
 			status.addElement(response);
-		    }
+		    } 
 		}
 	    }
 	}
