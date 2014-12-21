@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.List;
 
 /**
  * Interface for the HylaFAX client protocol.
@@ -323,6 +324,18 @@ public interface ClientProtocol {
     public void jobfmt(String value) throws IOException,
 	    ServerResponseException;
 
+    /**
+     * get job parameters of the current job
+     * 
+     * @exception IOException
+     *                io error occurred
+     * @exception ServerResponseException
+     *                server replied with an error code
+     * @return list of job parameters
+    */
+    public List jparm() throws IOException,
+    		ServerResponseException;
+    
     /**
      * get job parameters of the current job
      * 
