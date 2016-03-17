@@ -1462,24 +1462,26 @@ public class FtpClientProtocol extends Object {
 
 	String tmp = null;
 	while (!done && (tmp = input.readLine()) != null) {
-	    response += tmp + '\n';
-	    if (tmp.length() >= 4) {
-		if (first == true) {
-		    // first time through
-		    rc = response.substring(0, 3);
-		    first = false;
+	    if (tmp.length() > 0) { // Ignore empty lines
+		response += tmp + '\n';
+		if (tmp.length() >= 4) {
+		    if (first == true) {
+			// first time through
+			rc = response.substring(0, 3);
+			first = false;
+		    }
+		    // from rfc0959, a multiline response has '-' characters
+		    // in the third position for all response lines other than
+		    // the last which has a ' ' character after the response
+		    // code number.
+		    if ((rc.equals(tmp.substring(0, 3))) && (tmp.charAt(3) == ' ')) {
+			done = true;
+		    }
+		} else {
+		    // length is < 4
+		    // not sure if this is a valid condition
+		    // I assume this is ok and continue...
 		}
-		// from rfc0959, a multiline response has '-' characters
-		// in the third position for all response lines other than
-		// the last which has a ' ' character after the response
-		// code number.
-		if ((rc.equals(tmp.substring(0, 3))) && (tmp.charAt(3) == ' ')) {
-		    done = true;
-		}
-	    } else {
-		// length is < 4
-		// not sure if this is a valid condition
-		// I assume this is ok and continue...
 	    }
 	}
 	return response;
